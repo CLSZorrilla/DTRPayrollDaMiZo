@@ -1,0 +1,206 @@
+* {
+	padding:0px;
+	margin:0px;
+}
+
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.form-horizontal .form-group {
+    margin-right: -15px;
+}
+
+html {
+	position:relative;
+	min-height:100%;
+}
+
+body {
+    background-color:#f5f5f5;
+    width:100%;
+    min-height:100%;
+	margin-bottom:40px;
+}
+
+div#Login {
+	height:100%;
+    width: 375px;
+	margin:0px auto;
+    margin-top:75px;
+}
+div#LoginTitle {
+	text-align:center;
+}
+div#Bar {
+	height:5px;
+	background-color:#2e6da4;
+}
+div#Logo img {
+	height:117px;
+	width:125px;
+	margin: 25px auto 25px auto;
+	display:block;
+}
+div#LoginForm {
+	background:white;
+	height:375px;
+	margin:0px auto;
+}
+div#Form {
+    width:100%;
+	margin:0px auto;
+	text-align:center;
+}
+div#Form input {
+	background: url('images/user.png') no-repeat scroll 7px 7px;
+	padding-left:30px;
+	border-radius:4px;
+	width:250px;
+	height:34px;
+	margin:5px auto 5px auto;
+}
+div#Form button {
+	width:125px;
+	margin:25px 0px 25px
+}
+div#LoginFooter p {
+	margin-top:10px;
+	text-align:center;
+}
+
+div.TitleBar {
+	Height:65px;
+	background-color:white;
+	padding-left:15px;
+}
+div.TitleBar img {
+	height:59px;
+	width:63px;
+	display:block;
+	margin:3px;
+}
+div.TitleBar ul {
+	padding:5px;
+}
+div.TitleBar li {
+	display:inline;
+	padding:5px;
+	border-right:1px solid black;
+}
+div.TitleBar li:last-of-type {
+	border-right:none;
+}
+div.TitleBar li a {
+	color:black;
+    text-decoration:none;
+}
+div.MenuBar {
+	Background-color:#337ab7;
+	border-top:1px solid white;
+	border-bottom:1px solid white;
+}
+div.MenuBar nav {
+	margin:0px;
+}
+div.MenuBar ul {
+	margin:0px;
+	padding-left: 15px;
+}
+div.MenuBar li {
+	color:white;
+	display:inline-block;
+	text-align:center;
+	padding:15px;
+	margin:0px auto;
+	width:125px;
+	border-left:2px solid white;
+}
+div.MenuBar li:hover {
+	text-decoration:none;
+}
+div.MenuBar li a {
+	color:white;
+    text-decoration:none;
+}
+ol.breadcrumb {
+    margin:0px;
+    list-style: none;
+    border-radius: 4px;
+}
+ol.breadcrumb li{
+    font-style:italic;
+}
+ol.breadcrumb li a {
+	color:black;
+    text-decoration:none;
+}
+div.BodyContainer {
+	Background-color:white;
+}
+div.BodyContent {
+    margin:0px 115px;
+	padding:15px 25px;
+    min-height:100%;
+}
+div.BodyContent panel {
+	padding:25px;
+}
+div.Footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height:40px;
+	background:#f5f5f5;
+}
+div.Footer p {
+	padding:10px;
+	margin:0px;
+}
+
+.panel-title {
+	color:#337ab7;
+}
+div#WelcomePanel h3 {
+	margin:10px 0px;
+	color:#337ab7;
+}
+
+div.Pills {
+	margin-bottom:20px;
+}
+
+table#HolidayTable tbody {
+    display: block;
+	overflow: auto;
+	height: 100px;
+}
+
+table#HolidayTable thead {
+    display: block;
+}
+
+#AttendanceStat tr td {
+	text-align:center;
+	vertical-align:middle;
+}
+
+/* Maintenance */
+table.MaintenanceTable {
+	white-space:nowrap;
+	margin:0px;
+}
+
+table.MaintenanceTable thead{
+	text-align:center;
+	vertical-align:middle;
+}
+
+.CreateNew{
+    padding:8px 0px 8px;
+}
+/* Maintenance */
