@@ -12,7 +12,7 @@ class Main extends CI_Controller{
 	}
 
 	public function home_view(){
-		$data['common_view'] = "Home";
+		$data['common_view'] = "home";
 
 		$this->load->view('suview', $data);
 	}
@@ -28,6 +28,8 @@ class Main extends CI_Controller{
 				);
 
 			echo $this->session->set_flashdata($data);
+
+			redirect('main');
 		}
 		else{
 			$username = $this->input->post('username');
@@ -55,6 +57,14 @@ class Main extends CI_Controller{
 				redirect('main');
 			}
 		}
+	}
+
+	public function logout(){
+
+		$this->session->sess_destroy();
+
+		redirect('main');
+
 	}
 }
 
