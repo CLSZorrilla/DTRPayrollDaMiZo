@@ -1,7 +1,5 @@
 	<?php
-
 		$base_url = base_url();
-
 	?>
 
 	<div>
@@ -56,10 +54,14 @@
 											<td>".$info->sex."</td>
 											<td>".$info->picture."</td>
 											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
-											<span>|</span>
-											<a href='UpdateUser.php' id='updateBtn'>Delete</a></td></tr>
-											</tr>
-										";
+											<span>|</span>";
+										if($acctStatus == 'TRUE'){
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a>";
+										}
+										else{
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Activate</a>
+											</td></tr>";
+										}
 									}	
 								?>
 						</tbody>
@@ -83,12 +85,18 @@
 				"aaSorting": [[0, 'desc']],
 				responsive: true
 			});
-
-			$("button").click(function(e){
-        		e.preventDefault();
-        		alert("haha");
-        });
 		});
+
+		/*$('#deleteBtn').click(function(e){
+			e.preventDefault();
+
+			jConfirm('Are you sure you want to delete this?', 'Confirmation Dialog', function(r) {
+			    if(r==true){
+			    	window.location.href =$base_url + "employee/deleteUserAcct/" + $info->empID;
+			    }
+
+			});
+		});*/
 
         
         /*function check(){

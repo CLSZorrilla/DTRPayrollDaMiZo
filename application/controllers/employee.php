@@ -6,22 +6,41 @@ class Employee extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('Emp_model');
-
+		$config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']     = '100';
+		$config['max_width'] = '1024';
+		$config['max_height'] = '768';
+		$this->load->library('upload', $config);
 	}
 
 	public function check_if_exist(){
 
-		return $this->Emp_model->check_data();
+
+		return $this->Emp_model->check_data();;
 
 	}
+
 	public function manageUserAcct(){
-		$data['uinfo'] = $this->Emp_model->get_user();
-		
-		$data['mUser'] = "hr/ManageUser";
+		$data['uinfo'] = $this->Emp_model->get_user()->result();
+		$query = $this->Emp_model->get_user();
+
+		$row = $query->row();
+
+		$data['acctStatus'] = $row->deactivated;
+
+		$data['mUser'] = "hr/Manageuser";
 
 		$this->load->view('Suview', $data);
 	}
 
+	public function deleteUserAcct(){
+		$empID = $this->uri->segment(3);
+
+		$this->Emp_model->del_user($empID);
+
+		redirect('Employee/manageUserAcct');
+	}
 	public function editUserAcct(){
 		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]');
 		//$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
@@ -42,7 +61,7 @@ class Employee extends CI_Controller{
 		$this->form_validation->set_rules('gsisNo', 'GSISNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('phNo', 'PhilHealthNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('tin', 'TIN','required|alpha_dash|exact_length[14]');
-			$this->form_validation->set_rules('leaveCredits', 'Leave Credits','required|numeric|min_length[1]|max_length[2]');
+		$this->form_validation->set_rules('leaveCredits', 'Leave Credits','required|numeric|min_length[1]|max_length[2]');
 
 			if($this->form_validation->run() == FALSE){
 				$data = array(
@@ -56,17 +75,20 @@ class Employee extends CI_Controller{
 
 			}
 			else{
-				if($this->Emp_model->edit_user()){
-
-					$this->session->set_flashdata('user_registered', 'User has been registered');
+				$this->Emp_model->edit_user();
+				
+				$this->load->view('smsapi.php');
+					$cNo = $this->input->post('cNo', TRUE);
+					$msg = 'Your profile has been registered. Login to your account using these credentials username = '.$this->input->post('empID').' default password is 12345678 you can change the password later on.';
+					sendMsg($cNo, $msg);
 					
-					redirect('employee/ManageUserAcct');
-				}
+				redirect('employee/manageUserAcct');
 			}
 		}
 
 	public function createUserAcct(){
 		if($this->input->server('REQUEST_METHOD') == 'POST'){
+
 
 			$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]|is_unique[employee.empID]',array(
                 'is_unique'     => 'This %s already exists.'
@@ -95,11 +117,11 @@ class Employee extends CI_Controller{
                 'is_unique'     => 'This %s already exists.'));
 			$this->form_validation->set_rules('leaveCredits', 'Leave Credits','required|numeric|min_length[1]|max_length[2]');
 
-			if($this->form_validation->run() == FALSE){
+			if($this->form_validation->run() == FALSE || !$this->upload->do_upload('pic')){
 				$data = array(
 
-				'error' => validation_errors()
-
+				'error' => validation_errors(),
+				
 				);
 
 				//$data['userData'] = $this->Emp_model->edit_user($this->uri->segment(3));
@@ -108,17 +130,24 @@ class Employee extends CI_Controller{
 				$data['positions'] = $this->Emp_model->load_pos();
 
 				$data['department'] = $this->Emp_model->load_dept();
+				$data['pictureError'] = $this->upload->display_errors();
 				$this->load->view('Suview', $data);
 
 			}
 			else{
-				//echo $this->input->post('positions');
-				if($this->Emp_model->insert_user()){
+
+                $file_data = $this->upload->data();
+
+                $imgPath = base_url().'/uploads/'.$file_data['file_name'];
+               
+				if($this->Emp_model->insert_user($imgPath)){
 
 					$this->session->set_flashdata('user_registered', 'User has been registered')
 					;
-					redirect('employee/ManageUserAcct');
-				}
+
+
+						redirect('employee/ManageUserAcct');
+					}
 			}
 		}
 		else if($this->uri->segment(3)){

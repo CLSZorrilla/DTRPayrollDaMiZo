@@ -4,17 +4,26 @@
 class Main extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('emp_model');
+		$this->load->model('Emp_model');
 	}
 
 	public function index(){
-		$this->load->view('login');
+		if($this->session->userdata('username')){
+			redirect('main/home_view');
+		}
+		else{
+			$this->load->view('Login');
+		}
 	}
 
 	public function home_view(){
 		$data['common_view'] = "home";
+		$eid = $this->session->userdata('username');
+		$cAttendance = $this->Emp_model->get_current_attendance($eid);
+		
+		$data['cAttend'] = $cAttendance;
 
-		$this->load->view('suview', $data);
+		$this->load->view('Suview', $data);
 	}
 	public function login_check(){
 		$this->form_validation->set_rules('username', 'EmployeeID','required|exact_length[10]');
@@ -35,13 +44,14 @@ class Main extends CI_Controller{
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 
-			$user_id = $this->emp_model->login_user($username,$password);
-
+			$user_id = $this->Emp_model->login_user($username,$password);
+			
 			if($user_id){
 				$user_data = array(
 
-						'user_id' => $user_id,
+						'user_id' => $user_id[0],
 						'username' => $username,
+						'aType' => $user_id[1],
 						'logged_in' => true
 
 					);
@@ -49,6 +59,7 @@ class Main extends CI_Controller{
 
 				$this->session->set_flashdata('login_success', 'You are now logged in');
 
+				
 				redirect('main/home_view');
 			}
 			else{

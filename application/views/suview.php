@@ -30,6 +30,14 @@ else if(isSet($common_view)){
 		redirect('main');
 	}
 }
+else if(isSet($dList)){
+	if($this->session->userdata('user_id')){
+		$this->load->view($dList);
+	}
+	else{
+		redirect('main');
+	}
+}
 ?>
 </div>
 

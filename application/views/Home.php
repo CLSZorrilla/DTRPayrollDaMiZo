@@ -1,4 +1,3 @@
-
 	<div>
 		<ol class="breadcrumb">
 			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
@@ -15,7 +14,7 @@
 						<div class="panel-body">
 							<h3><?php if($this->session->userdata('username')): ?>
 								<p>
-								<?php echo "You are logged in as " . $this->session->userdata('user_id') ?>
+								<?php echo "Welcome " . $this->session->userdata('user_id') ?>
 								</p>
 								<?php endif; ?>
 							</h3>
@@ -28,17 +27,23 @@
 						<div class="panel-body">
 							<table id="AttendanceStat" class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
 								<tr>
-									<td><span>AM Time In</span></td>
-									<td><span>AM Time Out</span></td>
-									<td><span>PM Time In</span></td>
-									<td><span>PM Time Out</span></td>
+									<th><span>AM Time In</span></th>
+									<th><span>AM Time Out</span></th>
+									<th><span>PM Time In</span></th>
+									<th><span>PM Time Out</span></th>
 								</tr>
-								<tr>
-									<td><span>-</span></td>
-									<td><span>-</span></td>
-									<td><span>-</span></td>
-									<td><span>-</span></td>
-								</tr>
+								<?php
+									foreach($cAttend as $cAtt){
+										echo "
+											<tr>
+												<td>".$cAtt->am_IN."</td>
+												<td>".$cAtt->pm_Out."</td>
+												<td>".$cAtt->pm_In."</td>
+												<td>".$cAtt->pm_Out."</td>
+											</tr>
+										";
+									}
+								?>
 							</table>
 						</div>
 					</div>

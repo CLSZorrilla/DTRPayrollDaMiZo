@@ -1,7 +1,7 @@
 <?php
 	$attributes=array('id'=>'create_user_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Employee ID','Password','Confirm Password','Position','Department','Last Name','First Name', 'Middle Name','Profile Picture','Address', 'Marital Status', 'Email Address', 'Birthday', 'Contact No.', 'Sex', 'Employee Type' ,'Date Hired','GSISNo', 'PhilHealthNo', 'TIN', 'Leave Credits');
+	$labels=array('Employee ID:','Password:','Confirm Password:','Position:','Department:','Last Name:','First Name:', 'Middle Name:','Profile Picture:','Address:', 'Marital Status:', 'Email Address:', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Leave Credits:');
 	$dName=array('empID','pword','cpword','positionCode','deptCode','lName', 'fName', 'mName', 'pPicture','address', 'maritalStatus', 'emailAdd', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'leaveCredits');
 	$dType=array('text','password','password','dropdown','dropdown', 'text', 'text', 'text', 'image','text', 'dropdown', 'email', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'number');
 	if(!empty($id)){
@@ -19,7 +19,6 @@
 		<?php  else:?>
 			<li class="active">Create Users</li>
 		<?php endif; ?>
-
 	</ol>
 </div>
 <div class="BodyContainer">
@@ -44,11 +43,11 @@
 				case 'dropdown':
 		?>
 		<div class="form-group">
-			<?php echo form_label($label); ?>
-
+			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
+			<div class="col-md-10">
 			<?php
 				if($dName[$key]=='positionCode'){?>
-					<select name="positions">
+					<select name="positions" class="form-control">
 			                <?php
 			                	if(!empty($id)){
 			                		if($posName == "0"){?>
@@ -80,7 +79,7 @@
 				<?php
 				}
 				else if ($dName[$key]=='deptCode'){?>
-					<select name="department">
+					<select name="department" class="form-control">
 			                <?php
 			                	if(!empty($id)){
 			                		if($deptCode == "0"){?>
@@ -101,7 +100,6 @@
 			               		}
 			                ?>
 			        </select>
-				
 				<?php
 				}
 				else if ($dName[$key]=='maritalStatus'){
@@ -113,10 +111,10 @@
 						'single'  	=> 'Single'
 					);
 
-					echo form_dropdown('maritalStatus', $options, 'married');
+					echo form_dropdown('maritalStatus', $options, 'married','class="form-control"');
 				}
 				?>
-			
+			</div>
 		</div>
 		<?php
 				break;
@@ -124,7 +122,7 @@
 		?>
 		<div class="form-group">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-
+			<div class="col-md-10">
 				<?php
 					if($dName[$key] == 'sex'){
 						if(!empty($id)){
@@ -149,14 +147,15 @@
 	  							<input type='radio' name=<?php echo $dName[$key];  ?> value='Contractual'> Contractual
 							<?php } else { ?>
 								<input type='radio' name=<?php echo $dName[$key]; ?> value='Regular'>Regular
-	  							<input type='radio' name=<?php echo $dName[$key];  ?> value='Parttime' checked> Parttime
+	  							<input type='radio' name=<?php echo $dName[$key];  ?> value='Contractual' checked> Contractual
 							<?php } ?>
 						<?php } else { ?>
 							<input type='radio' name=<?php echo $dName[$key]; ?> value='Regular' checked>Regular
-	  						<input type='radio' name=<?php echo $dName[$key];  ?> value='Parttime'> Parttime
+	  						<input type='radio' name=<?php echo $dName[$key];  ?> value='Contractual'> Contractual
 						<?php }
 					}
 				?>
+			</div>
 		</div>
 		<?php
 				break;
@@ -164,10 +163,14 @@
 		?>
 		<div class="form-group">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-
+			<div class="col-md-10">
 			<?php
 				echo form_upload('pic','Profile Picture');
 			?>
+			<?php 
+				form_error($dName[$key]);
+			?>
+			</div>
 		</div>
 		<?php
 				break;
@@ -209,7 +212,7 @@
 			}
 			?>
 		<div class="form-group">
-			<div class="">
+			<div class="col-md-offset-2 col-md-10">
 				<?php
 				echo form_submit(array(
 					'class' =>'btn btn-primary',
@@ -228,21 +231,17 @@
 </div>
 <script type="text/javascript">
 
-$('#empID').mask("99-999-999", {completed: function(){
-   	$.ajax({
-    	url: "<?php echo base_url();?>employee/check_if_exist?empID="+$("#empID").val(),
-    	cache: false,
-    	success: function(res){  
-		    var result = $.parseJSON(res);
-			if( result.res == "true"){
-				alert("Already Existing")
-			}
-			else if(result.res == "false"){
-				alert("Not Existing")
-			}
-      	},
+$('#empID').mask("99-999-999",{completed:function(){
+	$.ajax({
+	  type: "POST",
+	  url: 'employee/check_if_exist',    
+	  data: {$eid: $("#empID").val()},
+	  success: function(res) {
+	    if(res == TRUE){
+	    	alert("EXISTING");
+	    }
+	  }
 	});
-
 }});
 $('#cNo').mask("0999-999-9999", {placeholder:" "});
 $('#gsisNo').mask("999999999-9999");
