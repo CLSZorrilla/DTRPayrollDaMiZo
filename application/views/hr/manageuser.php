@@ -1,3 +1,7 @@
+	<?php
+		$base_url = base_url();
+	?>
+
 	<div>
 		<ol class="breadcrumb">
 			<li><a href="<?php echo base_url(); ?>main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
@@ -13,120 +17,53 @@
 			<div class="table-responsive">
 				<div class="col-sm-6 CreateNew">
 					<p class="pull-left" style="margin: 0px;">
-						<a href="createUserAcct">Create New <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+						<a href="<?php echo base_url(); ?>employee/createUserAcct">Create New <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
 					</p>
 				</div>
 					<table class="table table-striped MaintenanceTable">
 						<thead>
 							<tr>
-								<th>
-									Employee ID
-								</th>
-								<th>
-									Position Code
-								</th>
-								<th>
-									Department Code
-								</th>
-								<th>
-									Full Name
-								</th>
-								<th>
-									Address
-								</th>
-								<th>
-									Marital Status
-								</th>
-								<th>
-									Date Hired
-								</th>
-								<th>
-									GSIS No.
-								</th>
-								<th>
-									PhilHealth No.
-								</th>
-								<th>
-									TIN
-								</th>
-								<th>
-									Leave Credits
-								</th>
-								<th>
-									Email Address
-								</th>
-								<th>
-									Birthdate
-								</th>
-								<th>
-									Contact No.
-								</th>
-								<th>
-									Sex
-								</th>
-								<th>
-									Picture
-								</th>
-								<th>
-								</th>
+								<?php
+								$tHeader=array('Employee ID', 'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Leave Credits', 'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
+									foreach($tHeader as $tHead){
+										echo '<th>'.$tHead.'</th>';
+									};
+
+								?>
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>
-									13-037-064
-								</td>
-								<td>
-									1
-								</td>
-								<td>
-									1
-								</td>
-								<td>
-									ZORRILLA, CHRISTIAN LORENZ
-								</td>
-								<td>
-									CUBAO, QUEZON CITY
-								</td>
-								<td>
-									MARRIED (LOL)
-								</td>
-								<td>
-									04/15/2017
-								</td>
-								<td>
-									1
-								</td>
-								<td>
-									13-037-064
-								</td>
-								<td>
-									2016-11-10
-								</td>
-								<td>
-									5
-								</td>
-								<td>
-									clzorilla@yahoo.com
-								</td>
-								<td>
-									12/28/1995
-								</td>
-								<td>
-									09123456789
-								</td>
-								<td>
-									Male
-								</td>
-								<td>
-									-
-								</td>
-								<td>
-									<a href="#">View More Info</a>
-									<span>|</span>
-									<a href="UpdateUser.php">Update</a>
-								</td>
-							</tr>
+								<?php 
+									foreach($uinfo as $info){
+										echo "
+											<tr>
+											<td>".$info->empID."</td>
+											<td>".$info->positionName."</td>
+											<td>".$info->deptName."</td>
+											<td>".$info->name."</td>
+											<td>".$info->address."</td>
+											<td>".$info->maritalStatus."</td>
+											<td>".$info->dateHired."</td>
+											<td>".$info->GSISNo."</td>
+											<td>".$info->PhilHealthNo."</td>
+											<td>".$info->TIN."</td>
+											<td>".$info->leaveCredits."</td>
+											<td>".$info->emailAddress."</td>
+											<td>".$info->birthDate."</td>
+											<td>".$info->contactNo."</td>
+											<td>".$info->sex."</td>
+											<td>".$info->picture."</td>
+											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
+											<span>|</span>";
+										if($acctStatus == 'TRUE'){
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a>";
+										}
+										else{
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Activate</a>
+											</td></tr>";
+										}
+									}	
+								?>
 						</tbody>
 					</table>
 				</div>
@@ -149,4 +86,27 @@
 				responsive: true
 			});
 		});
+
+		/*$('#deleteBtn').click(function(e){
+			e.preventDefault();
+
+			jConfirm('Are you sure you want to delete this?', 'Confirmation Dialog', function(r) {
+			    if(r==true){
+			    	window.location.href =$base_url + "employee/deleteUserAcct/" + $info->empID;
+			    }
+
+			});
+		});*/
+
+        
+        /*function check(){
+	        $.ajax({
+				url: '<?php echo base_url();?>/employee/autoref',
+				type:'POST',
+				dataType: 'json',
+				success: function(output_string){
+						$('.MaintenanceTable').append(output_string);
+					} // End of success function of ajax form
+				}); // End of ajax call	
+    	}*/
 	</script>

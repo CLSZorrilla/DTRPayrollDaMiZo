@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 
 <html lang = "en">
@@ -14,11 +16,9 @@
     <div class = "m-error1">
             <img src = "<?php echo base_url();?>assets/images/error.png">
             <div id = "m-error">
-                <?php if($this->session->flashdata('error')): ?>
-                <?php echo $this->session->flashdata('error'); ?>
-                <?php endif; ?>
+                
             </div>
-        </div>
+    </div>
 </div>
 
 
@@ -38,6 +38,9 @@
         </div>
 
         <!-- LOGIN FORM -->
+        <?php if($this->session->flashdata('login_failed')): ?>
+        <?php echo $this->session->flashdata('login_failed'); ?>
+        <?php endif; ?>
         <div class = "form">
             <br>
             <?php 

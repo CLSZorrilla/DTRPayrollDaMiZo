@@ -3,12 +3,60 @@
 	margin:0px;
 }
 
+html,
+body{
+width:100%;
+overflow-x:hidden;
+}
+
+.navbar {
+	margin:0px;
+	border:none;
+}
+
+.navbar-brand {
+	padding: 0px;
+	margin-right:6px;
+	width:475px;
+}
+
+/* Pang Usog dahil sa Menu Bar */
+div.PangUsog{
+    height:126px;
+}
+/* Pang Usog dahil sa Menu Bar */
+
+.navbar-toggle{
+	float:left;
+	margin-right: 0px;
+}
+
+@media only screen and (max-width: 768px) {
+	.navbar-header{
+		padding:0px 10px;
+	}
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
 select,
 textarea {
     max-width: 280px;
+}
+
+div.radio-control {
+	max-width: 280px;
+}
+
+.row {
+	margin:0px;
+	padding:0px;
+}
+
+.form-group .control-label {
+	padding-top: 7px;
+	margin-bottom: 0px;
+	text-align: right;
 }
 
 .form-horizontal .form-group {
@@ -22,7 +70,6 @@ html {
 
 body {
     background-color:#f5f5f5;
-    width:100%;
     min-height:100%;
 	margin-bottom:40px;
 }
@@ -74,24 +121,58 @@ div#LoginFooter p {
 }
 
 div.TitleBar {
-	Height:65px;
 	background-color:white;
-	padding-left:15px;
+}
+div.TitleBar p{
+	color:gray;
+	font-size:20px;
+	margin:0px;
+	padding:17px;
+}
+@media only screen and (max-width: 768px) {
+	div.TitleBar p{
+		font-size:12px;
+	}
+}
+@media only screen and (max-width: 480px) {
+	div.TitleBar p{
+		font-size:8px;
+	}
 }
 div.TitleBar img {
-	height:59px;
-	width:63px;
+	height:50px;
+	width:50px;
 	display:block;
-	margin:3px;
+	margin:3px 9px 3px 3px;
+	float: left;
 }
 div.TitleBar ul {
-	padding:5px;
+	padding:12px;
+	margin:0px;
 }
 div.TitleBar li {
 	display:inline;
-	padding:5px;
-	border-right:1px solid black;
+	padding:6px;
 }
+div.TitleBar li a {
+	color:#DADADA;
+}
+i.circle {
+    padding: 5px 8px;
+    display: inline-block;
+    -moz-border-radius: 100px;
+    -webkit-border-radius: 100px;
+    border-radius: 100px;
+    -moz-box-shadow: 0px 0px 2px #888;
+    -webkit-box-shadow: 0px 0px 2px #888;
+    box-shadow: 0px 0px 2px #888;
+}
+@media only screen and (max-width: 480px) {
+	div.LogoName{
+		padding-left:9px;
+	}
+}
+/*
 div.TitleBar li:last-of-type {
 	border-right:none;
 }
@@ -99,6 +180,7 @@ div.TitleBar li a {
 	color:black;
     text-decoration:none;
 }
+*/
 div.MenuBar {
 	Background-color:#337ab7;
 	border-top:1px solid white;
@@ -117,8 +199,13 @@ div.MenuBar li {
 	text-align:center;
 	padding:15px;
 	margin:0px auto;
-	width:125px;
 	border-left:2px solid white;
+}
+@media only screen and (max-width: 480px) {
+	div.MenuBar li {
+		padding:15px 10px;
+		font-size: 9px;
+	}
 }
 div.MenuBar li:hover {
 	text-decoration:none;
@@ -146,6 +233,16 @@ div.BodyContent {
     margin:0px 115px;
 	padding:15px 25px;
     min-height:100%;
+}
+@media only screen and (max-width: 768px) {
+	div.BodyContent {
+	    margin:0px 60px;
+	}
+}
+@media only screen and (max-width: 480px) {
+	div.BodyContent {
+	    margin:0px 10px;
+	}
 }
 div.BodyContent panel {
 	padding:25px;
