@@ -24,7 +24,7 @@
 						<thead>
 							<tr>
 								<?php
-								$tHeader=array('Employee ID', 'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Leave Credits', 'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
+								$tHeader=array('Employee ID', 'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Vacation Leave', 'Sick Leave' ,'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
 									foreach($tHeader as $tHead){
 										echo '<th>'.$tHead.'</th>';
 									};
@@ -53,7 +53,8 @@
 											<td>".$info->GSISNo."</td>
 											<td>".$info->PhilHealthNo."</td>
 											<td>".$info->TIN."</td>
-											<td>".$info->leaveCredits."</td>
+											<td>".$info->VL."</td>
+											<td>".$info->SL."</td>
 											<td>".$info->emailAddress."</td>
 											<td>".$info->birthDate."</td>
 											<td>".$info->contactNo."</td>

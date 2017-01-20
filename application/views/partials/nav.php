@@ -34,7 +34,7 @@
 						<span class="glyphicon glyphicon-time"></span><br/>Attendance
 					</li>
 				</a>
-				<?php if($this->session->userdata('aType') == 2){?>
+				<?php if($this->session->userdata('aType') == 'Payroll Clerk'){?>
 				<a href="Payroll.php">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 						<span class="glyphicon glyphicon-calendar"></span><br/>Payroll
@@ -53,13 +53,18 @@
 					</li>
 				</a>
 				-->
-				<?php if($this->session->userdata('aType') == 1){?>
+				<?php if($this->session->userdata('aType') == 'HR'){?>
 				<a href="<?php echo base_url(); ?>employee/manageUserAcct">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
 						<span class="glyphicon glyphicon-wrench"></span><br/>Maintenance
 					</li>
 				</a>
 				<?php } ?>
+				<a href="<?php echo base_url(); ?>leave">
+					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<span class="glyphicon glyphicon-minus-sign"></span><br/>Leave Management
+					</li>
+				</a>
 			</ul>
 	</div>
 </nav>

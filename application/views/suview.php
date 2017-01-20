@@ -38,6 +38,14 @@ else if(isSet($dList)){
 		redirect('main');
 	}
 }
+else if(isSet($leaveReq)){
+	if($this->session->userdata('user_id')){
+		$this->load->view($leaveReq);
+	}
+	else{
+		redirect('main');
+	}
+}
 ?>
 </div>
 

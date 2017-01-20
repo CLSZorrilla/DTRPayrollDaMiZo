@@ -17,6 +17,7 @@ class Emp_model extends CI_Model{
 		$data=array(
 			'empID'=>$this->input->post('empID',TRUE),
 			'password'=>$encrypted_pass,
+			'acctType'=>$this->input->post('userType', TRUE),
 			'positionCode'=>$this->input->post('positions',TRUE),
 			'deptCode'=>$this->input->post('department',TRUE),
 			'lname'=>$this->input->post('lName',TRUE),
@@ -33,7 +34,8 @@ class Emp_model extends CI_Model{
 			'GSISNo'=>$this->input->post('gsisNo',TRUE),
 			'PhilHealthNo'=>$this->input->post('phNo',TRUE),
 			'TIN'=>$this->input->post('tin',TRUE),
-			'leaveCredits'=>$this->input->post('leaveCredits',TRUE),
+			'VL'=>$this->input->post('vLeave',TRUE),
+			'SL'=>$this->input->post('sLeave',TRUE),
 			'picture'=>$img,
 			'activated' => 'TRUE'
 		);
@@ -127,7 +129,7 @@ class Emp_model extends CI_Model{
 	}
 
 	public function get_user(){
-		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.leaveCredits, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated', FALSE);
+		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated', FALSE);
 		$this->db->from('employee');
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
 		$this->db->join('department', 'employee.deptCode=department.deptCode');

@@ -1,9 +1,9 @@
 <?php
 	$attributes=array('id'=>'create_user_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Employee ID:','Password:','Confirm Password:','Position:','Department:','Last Name:','First Name:', 'Middle Name:','Profile Picture:','Address:', 'Marital Status:', 'Email Address:', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Leave Credits:');
-	$dName=array('empID','pword','cpword','positionCode','deptCode','lName', 'fName', 'mName', 'pPicture','address', 'maritalStatus', 'emailAdd', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'leaveCredits');
-	$dType=array('text','password','password','dropdown','dropdown', 'text', 'text', 'text', 'image','text', 'dropdown', 'email', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'number');
+	$labels=array('Employee ID:','Password:','Confirm Password:','User Type:','Position:','Department:','Last Name:','First Name:', 'Middle Name:','Profile Picture:','Address:', 'Marital Status:', 'Email Address:', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Vacation Leave:', 'Sick Leave');
+	$dName=array('empID','pword','cpword','uType','positionCode','deptCode','lName', 'fName', 'mName', 'pPicture','address', 'maritalStatus', 'emailAdd', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'vLeave', 'sLeave');
+	$dType=array('text','password','password','dropdown','dropdown','dropdown', 'text', 'text', 'text', 'image','text', 'dropdown', 'email', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'text', 'text');
 	if(!empty($id)){
 		$EForm=array($empID, $password, $password, $posName, $deptCode, $lName, $fname, $mname, ' ', $address, $maritalStatus, $emailAddress, $birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $leaveCredits);
 	}
@@ -104,14 +104,24 @@
 				}
 				else if ($dName[$key]=='maritalStatus'){
 					$options = array(
-						'married'   => 'Married',
-						'widowed'   => 'Widowed',
-						'separated' => 'Separated',
-						'divorced'  => 'Divorced',
-						'single'  	=> 'Single'
+						'Married'   => 'Married',
+						'Widowed'   => 'Widowed',
+						'Separated' => 'Separated',
+						'Divorced'  => 'Divorced',
+						'Single'  	=> 'Single'
 					);
 
 					echo form_dropdown('maritalStatus', $options, 'married','class="form-control"');
+				}
+				else if ($dName[$key]=='uType') {
+					$options = array(
+						'Employee' => 'Employee',
+						'HR'   => 'Human Relations',
+						'Payroll Clerk'   => 'Payroll Clerk'
+						
+					);
+
+					echo form_dropdown('userType', $options, 'Employee','class="form-control"');
 				}
 				?>
 			</div>
@@ -232,6 +242,7 @@
 <script type="text/javascript">
 
 $('#empID').mask("99-999-999",{completed:function(){
+
 	$.ajax({
 	  type: "POST",
 	  url: 'employee/check_if_exist',    
@@ -243,6 +254,7 @@ $('#empID').mask("99-999-999",{completed:function(){
 	  }
 	});
 }});
+
 $('#cNo').mask("0999-999-9999", {placeholder:" "});
 $('#gsisNo').mask("999999999-9999");
 $('#phNo').mask("999999999-9999");
