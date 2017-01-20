@@ -35,7 +35,7 @@ class Emp_model extends CI_Model{
 			'TIN'=>$this->input->post('tin',TRUE),
 			'leaveCredits'=>$this->input->post('leaveCredits',TRUE),
 			'picture'=>$img,
-			'deactivated' => 'TRUE'
+			'activated' => 'TRUE'
 		);
 
 		$insert_data = $this->db->insert('employee', $data);
@@ -121,26 +121,24 @@ class Emp_model extends CI_Model{
 
 		
 
-		$this->db->set('deactivated', 'FALSE');
+		$this->db->set('activated', 'FALSE');
 		$this->db->where('empID', $eid);
 		$this->db->update('employee'); 
 	}
 
 	public function get_user(){
-		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.leaveCredits, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.deactivated', FALSE);
+		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.leaveCredits, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated', FALSE);
 		$this->db->from('employee');
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
-		$this->db->where('deactivated', 'TRUE');
 
 		$query = $this->db->get();
 
 		return $query;
 	}
 	public function login_user($eid, $pword){
-		$this->db->where('empID', $eid);
 
-		$result = $this->db->get('employee');
+		$result = $this->db->get_where('employee', array('empID' => $eid, 'activated' => 'TRUE'));
 		$this->encryption->initialize(
 			array(
 				'cipher' => 'blowfish',

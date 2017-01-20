@@ -27,7 +27,7 @@ class Employee extends CI_Controller{
 
 		$row = $query->row();
 
-		$data['acctStatus'] = $row->deactivated;
+		$data['acctStatus'] = $row->activated;
 
 		$data['mUser'] = "hr/Manageuser";
 
