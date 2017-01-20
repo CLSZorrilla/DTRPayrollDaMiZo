@@ -58,7 +58,8 @@ $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
         title: 'January 9, 2016',
         start: new Date(2017, 0, 9, 7, 45),
         end: new Date(2017, 0, 9, 17, 30),
-        allDay: false
+        allDay: false,
+        url: 'http://google.com/'
       },
       {
         title: 'January 10, 2016',
@@ -80,7 +81,7 @@ $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
       },
       {
         title: 'January 13, 2016',
-        start: new Date(2017, 0, 13, 8, 15),
+        start: new Date(2017, 0, 13, 16 , 15),
         end: new Date(2017, 0, 13, 16, 45),
         allDay: false
       }
