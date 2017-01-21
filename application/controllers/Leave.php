@@ -52,9 +52,10 @@ class Leave extends CI_Controller{
 				
 				);
 
-				$data["leaveReq"]="hr/Leaveform";
 
-				$this->load->view('Suview', $data);
+				$this->session->set_flashdata('in',1)
+
+				redirect('Leave');
 
 		}
 	}
