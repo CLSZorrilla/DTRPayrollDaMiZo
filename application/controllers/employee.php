@@ -43,10 +43,11 @@ class Employee extends CI_Controller{
 	}
 	public function editUserAcct(){
 		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]');
-		//$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
+		$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
 		//$this->form_validation->set_rules('cpword', 'Confirm Password','required|min_length[8]|max_length[15]|matches[pword]');
-		/*$this->form_validation->set_rules('positions', 'Position','required');
-		$this->form_validation->set_rules('department', 'Department','required');*/
+		$this->form_validation->set_rules('userType', 'User Type','required');
+		$this->form_validation->set_rules('positions', 'Position','required');
+		$this->form_validation->set_rules('department', 'Department','required');
 		$this->form_validation->set_rules('lName', 'Last Name','required|alpha_numeric_spaces|min_length[2]');
 		$this->form_validation->set_rules('fName', 'First Name','required|alpha_numeric_spaces|min_length[3]');
 		$this->form_validation->set_rules('mName', 'Middle Name','required|alpha_numeric_spaces|min_length[1]');
@@ -61,7 +62,9 @@ class Employee extends CI_Controller{
 		$this->form_validation->set_rules('gsisNo', 'GSISNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('phNo', 'PhilHealthNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('tin', 'TIN','required|alpha_dash|exact_length[14]');
-		$this->form_validation->set_rules('leaveCredits', 'Leave Credits','required|numeric|min_length[1]|max_length[2]');
+		$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
+		$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
+
 
 			if($this->form_validation->run() == FALSE){
 				$data = array(
@@ -115,7 +118,8 @@ class Employee extends CI_Controller{
                 'is_unique'     => 'This %s already exists.'));
 			$this->form_validation->set_rules('tin', 'TIN','required|alpha_dash|exact_length[14]|is_unique[employee.TIN]',array(
                 'is_unique'     => 'This %s already exists.'));
-			$this->form_validation->set_rules('leaveCredits', 'Leave Credits','required|numeric|min_length[1]|max_length[2]');
+			$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
+			$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
 
 			if($this->form_validation->run() == FALSE || !$this->upload->do_upload('pic')){
 				$data = array(
