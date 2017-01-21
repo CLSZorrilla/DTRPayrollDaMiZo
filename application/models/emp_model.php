@@ -17,6 +17,7 @@ class Emp_model extends CI_Model{
 		$data=array(
 			'empID'=>$this->input->post('empID',TRUE),
 			'password'=>$encrypted_pass,
+			'acctType'=>$this->input->post('userType', TRUE),
 			'positionCode'=>$this->input->post('positions',TRUE),
 			'deptCode'=>$this->input->post('department',TRUE),
 			'lname'=>$this->input->post('lName',TRUE),
@@ -33,9 +34,10 @@ class Emp_model extends CI_Model{
 			'GSISNo'=>$this->input->post('gsisNo',TRUE),
 			'PhilHealthNo'=>$this->input->post('phNo',TRUE),
 			'TIN'=>$this->input->post('tin',TRUE),
-			'leaveCredits'=>$this->input->post('leaveCredits',TRUE),
+			'VL'=>$this->input->post('vLeave',TRUE),
+			'SL'=>$this->input->post('sLeave',TRUE),
 			'picture'=>$img,
-			'deactivated' => 'TRUE'
+			'activated' => 'TRUE'
 		);
 
 		$insert_data = $this->db->insert('employee', $data);
@@ -121,26 +123,24 @@ class Emp_model extends CI_Model{
 
 		
 
-		$this->db->set('deactivated', 'FALSE');
+		$this->db->set('activated', 'FALSE');
 		$this->db->where('empID', $eid);
 		$this->db->update('employee'); 
 	}
 
 	public function get_user(){
-		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.leaveCredits, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.deactivated', FALSE);
+		$this->db->select('employee.empID, employee.password, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated', FALSE);
 		$this->db->from('employee');
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
-		$this->db->where('deactivated', 'TRUE');
 
 		$query = $this->db->get();
 
 		return $query;
 	}
 	public function login_user($eid, $pword){
-		$this->db->where('empID', $eid);
 
-		$result = $this->db->get('employee');
+		$result = $this->db->get_where('employee', array('empID' => $eid, 'activated' => 'TRUE'));
 		$this->encryption->initialize(
 			array(
 				'cipher' => 'blowfish',

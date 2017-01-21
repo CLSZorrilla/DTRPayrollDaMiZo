@@ -4,7 +4,7 @@
 
 	<div>
 		<ol class="breadcrumb">
-			<li><a href="<?php echo base_url(); ?>main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			<li><a href="<?php echo $base_url; ?>main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 			<li><a href="#">Maintenance</a></li>
 			<li class="active">Manage Users</li>
 		</ol>
@@ -24,7 +24,7 @@
 						<thead>
 							<tr>
 								<?php
-								$tHeader=array('Employee ID', 'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Leave Credits', 'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
+								$tHeader=array('Employee ID', 'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Vacation Leave', 'Sick Leave' ,'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
 									foreach($tHeader as $tHead){
 										echo '<th>'.$tHead.'</th>';
 									};
@@ -35,8 +35,14 @@
 						<tbody>
 								<?php 
 									foreach($uinfo as $info){
+										
+										if($info->activated == 'TRUE'){
+											echo "<tr>";
+										}	
+										else{
+											echo "<tr style='color:red'>";
+										}
 										echo "
-											<tr>
 											<td>".$info->empID."</td>
 											<td>".$info->positionName."</td>
 											<td>".$info->deptName."</td>
@@ -47,16 +53,17 @@
 											<td>".$info->GSISNo."</td>
 											<td>".$info->PhilHealthNo."</td>
 											<td>".$info->TIN."</td>
-											<td>".$info->leaveCredits."</td>
+											<td>".$info->VL."</td>
+											<td>".$info->SL."</td>
 											<td>".$info->emailAddress."</td>
 											<td>".$info->birthDate."</td>
 											<td>".$info->contactNo."</td>
 											<td>".$info->sex."</td>
-											<td>".$info->picture."</td>
+											<td><img src='".$info->picture."' width='20' height='25'/></td>
 											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
 											<span>|</span>";
-										if($acctStatus == 'TRUE'){
-										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a>";
+										if($info->activated == 'TRUE'){
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a></td></tr>";
 										}
 										else{
 										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Activate</a>
