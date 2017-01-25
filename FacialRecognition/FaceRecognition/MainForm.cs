@@ -16,8 +16,8 @@ namespace FaceRecognition
 
     public partial class FaceDetect : Form
     {
-        public string SQL, fileNameimg, comportno, numberOfFaceDetected, empStat, countInOut;
-        public int on_time;
+        public string query, fileNameimg, comportno, numberOfFaceDetected, empStat, activated, countInOut, count, what_column;
+        public int on_time_AM, on_time_PM;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
        
         //Declararation of all variables, vectors and haarcascades
@@ -62,6 +62,35 @@ namespace FaceRecognition
                 MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
+        }
+
+        public string conn;
+        public MySqlConnection connect;
+        public MySqlDataAdapter dataAdapter;
+        public MySqlDataReader dataReader;
+        public MySqlCommand cmd = new MySqlCommand();
+        public MySqlCommand cmd1 = new MySqlCommand();
+        public MySqlCommand cmd2 = new MySqlCommand();
+
+        void db_connection()
+        {
+            try
+            {
+                conn = "Server=localhost;Database=payrolldb;Uid=root;Pwd=;";
+                connect = new MySqlConnection(conn);
+                connect.Open();
+            }
+            catch (MySqlException e)
+            {
+                MessageBox.Show("Database not connected!");
+                throw e;
+            }
+        }
+
+        private void FrmPrincipal_Load(object sender, EventArgs e)
+        {
+            timer1.Start();
+            StartCapturing();
         }
 
 
@@ -137,56 +166,6 @@ namespace FaceRecognition
 
         }
 
-        public string conn;
-        public MySqlConnection connect;
-        public MySqlDataAdapter dataAdapter;
-        public MySqlDataReader dataReader;
-        public MySqlCommand cmd = new MySqlCommand();
-        public MySqlCommand cmd1 = new MySqlCommand();
-
-
-        void db_connection()
-        {
-            try
-            {
-                conn = "Server=localhost;Database=payrolldb;Uid=root;Pwd=;";
-                connect = new MySqlConnection(conn);
-                connect.Open();
-            }
-            catch (MySqlException e)
-            {
-                MessageBox.Show("Database not connected!");
-                throw e;
-            }
-        }
-
-        private void FrmPrincipal_Load(object sender, EventArgs e)
-        {
-            timer1.Start();
-            dateTimePicker7.Value = DateTime.Now;
-            StartCapturing();
-            LoadDG();
-        }
-
-
-        void LoadDG()
-        {
-            db_connection();
-            listView1.Items.Clear();
-            cmd = new MySqlCommand("SELECT *,CONCAT(lname, ',',' ',fname,' ',LEFT(mname,1))as fullname FROM timelog a INNER JOIN employee b ON a.empID=b.empID WHERE logdate=@dt ORDER by b.empID DESC", connect);
-            cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text); 
-            dataReader = cmd.ExecuteReader();
-            while (dataReader.Read())
-            {
-                ListViewItem lv = new ListViewItem(dataReader["fullname"].ToString());
-                    lv.SubItems.Add(dataReader["am_In"].ToString());
-                    lv.SubItems.Add(dataReader["am_Out"].ToString());
-                    lv.SubItems.Add(dataReader["pm_In"].ToString());
-                    lv.SubItems.Add(dataReader["pm_Out"].ToString());
-                    listView1.Items.Add(lv);
-            }
-            dataReader.Close();
-        }
 
         void SaveImage()
         {
@@ -220,7 +199,6 @@ namespace FaceRecognition
             lblyear.Text = DateTime.Now.ToString("yyyy");
             lblday.Text = DateTime.Now.ToString("dddd");
             lblhour.Text = DateTime.Now.ToString("hh:mm:ss tt");
-            dateTimePicker7.Value  = DateTime.Now;
         }
 
 
@@ -239,28 +217,29 @@ namespace FaceRecognition
         }
 
 
+        //get values from employee tbl
         private void searchEmployee()
         {
             Timer3.Stop();
 
             db_connection();
-            cmd = new MySqlCommand("SELECT * FROM employee WHERE empID=@fd1", connect);
-            cmd.Parameters.AddWithValue("@fd1", txtEmpID.Text);
+            cmd = new MySqlCommand("SELECT * FROM employee WHERE empID='" + txtEmpID.Text + "'", connect);
             dataReader = cmd.ExecuteReader();
-            if ((dataReader.Read()))
+            if (dataReader.Read())
             {
                 lblEmpID.Text = (dataReader["empID"]).ToString();
                 lblname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
+                activated = (dataReader["activated"]).ToString();
                 empStat = (dataReader["status"]).ToString();
                 pic2.ImageLocation = dataReader["picture"].ToString();
 
-                //Employee Inactive
-                if ((empStat == "Inactive"))
+                //checks if account is not activated
+                if (activated == "FALSE")
                 {
                     MessageBox.Show("Inactive Account.");
                     return;
                 }
-                empINOUT();
+                //empINOUT();
                 cmd.Dispose();
                 return;
             }
@@ -271,241 +250,145 @@ namespace FaceRecognition
         }
 
 
-        
-
-        
-
-        #region Insert to timelog
-
-        private void CheckBox1_CheckedChanged(System.Object sender, System.EventArgs e)
+        private void btnCapture_Click(object sender, EventArgs e)
         {
+            //earliest can timeIn is 6:00; latest is 10:00?
+            //latest can timeOut is 7:00
+            DateTime currentDate = DateTime.Now;
+            string time_only = currentDate.ToString("hh:mm:ss tt");
+            string date_only = currentDate.ToString("yyyy-MM-dd");
+            //AM shift
+            DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 00, 0); //6AM
+            DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 0); //12AM
+            //PM shift
+            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
+            DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 0); //7PM
 
-            if (amCheckBox.Checked == true) //A.M.
+            DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 0); //8AM
+            DateTime dt1000 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 00, 0); //10AM
+
+
+            if (currentDate < dt600 || currentDate > dt1900)
             {
-                DateTime systemDate = DateTime.Now;
-                DTPicker1.Value = DateTime.Now;
-                DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 0);
-                DateTime dt815 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 15, 0);
-
-                DateTime dt1000 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 00, 0);
-                DateTime dt1015 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 15, 0);
-
-
-                switch (empStat)
-                {
-                    case "Regular":
-                        if (DateTime.Now <= dt1015 | DateTime.Now <= dt1000) //'til 10:15 a.m.
-                        {
-                            MessageBox.Show("Time In: " + DTPicker1.Text);
-                            on_time = 1;
-                        }
-                        else
-                        {
-                            MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + DTPicker1.Text);
-                            on_time = 0;
-                        }
-                        break;
-
-                    case "Contractual":
-                        if (DateTime.Now <= dt815 | DateTime.Now <= dt800) //'til 8:15 a.m.
-                        {
-                            MessageBox.Show("Time In: " + DTPicker1.Text);
-                            on_time = 1;
-                        }
-                        else
-                        {
-                            MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + DTPicker1.Text);
-                            on_time = 0;
-                        }
-                        break;
-                    
-                    default:
-                        MessageBox.Show("INVALID EMPLOYEE STATUS");
-                        break;
-                }
-
-              
-              txtTimeIn.Text = DTPicker1.Text;
-
+                MessageBox.Show("out of office hours!");
             }
             else
             {
-                txtTimeIn.Clear();
-            }
-        }
-
-
-        private void CheckBox2_CheckedChanged(System.Object sender, System.EventArgs e)
-        {
-            if (pmCheckBox.Checked == true)//P.M.
-            {
-                txtTimeOut.Text = DTPicker2.Text;
-            }
-            else
-            {
-                txtTimeOut.Clear();
-                txthrs.Clear();
-                txtmins.Clear();
-            }
-        }
-
-        #endregion
-
-
-
-        #region TimeInOut Using Facerecognition
-          
-        private void empINOUT()
-        {
-            db_connection();
-            cmd = new MySqlCommand("SELECT * from timelog WHERE empID=@fd1 AND logdate=@fd3", connect);
-            cmd.Parameters.AddWithValue("@fd1", lblEmpID.Text);
-            cmd.Parameters.AddWithValue("@fd3", dateTimePicker7.Text);
-            dataReader = cmd.ExecuteReader();
-            if ((dataReader.Read()))
-            {
-              //  
-                countInOut = dataReader["countINOUT"].ToString();
-                if (countInOut == "1")
+                //checks if current empID with current date already exist
+                db_connection();
+                cmd1 = new MySqlCommand("SELECT COUNT(*) FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "' ", connect);
+                string AlreadyExist = cmd1.ExecuteScalar().ToString();
+                MessageBox.Show(AlreadyExist);
+                if (AlreadyExist == "0")//amIn
                 {
-                    DateTime dt05 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 17, 00, 0);
-
-                    if (DateTime.Now < dt05)
+                    if (currentDate > dt600 && currentDate < dt1200)
                     {
-                        pmCheckBox.Checked = true;
-                        db_connection();
-                        SQL = "UPDATE timeLog SET pm_In=@timeout,countINOUT='2' WHERE empID=@empID AND logdate=@dt";
-                        cmd = new MySql.Data.MySqlClient.MySqlCommand(SQL, connect);
+                        switch (empStat)
                         {
-                            cmd.Parameters.AddWithValue("@empID", lblEmpID.Text);
-                            cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text);
-                            cmd.Parameters.AddWithValue("@timeout", lblhour .Text );
+                            case "Regular":
+                                if (currentDate <= dt1000)
+                                {
+                                    MessageBox.Show("AM In: " + time_only);
+                                    on_time_AM = 1;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("You're Late" + Environment.NewLine + "AM In: " + time_only);
+                                    on_time_AM = 0;
+                                }
+                                break;
+
+                            case "Contractual":
+                                if (currentDate <= dt800)
+                                {
+                                    MessageBox.Show("AM In: " + time_only);
+                                    on_time_AM = 1;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("You're Late" + Environment.NewLine + "AM In: " + time_only);
+                                    on_time_AM = 0;
+                                }
+                                break;
+
+                            default:
+                                MessageBox.Show("INVALID EMPLOYEE STATUS");
+                                break;
                         }
+
+                        //insert to db
+                        db_connection();
+                        query = "INSERT INTO timelog(empID, logdate, amIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + time_only + "', 1,'" + on_time_AM + "');";
+                        cmd = new MySqlCommand(query, connect);
 
                         cmd.ExecuteNonQuery();
                         cmd.Dispose();
 
                         SaveImage();
-                        MessageBox.Show(lblhour .Text );
-                        pmCheckBox.Checked = false;
-                        clr();
-                        return;
-                    }
-                    else
-                    {
-                        MessageBox.Show("Not 05:00");
                     }
                 }
-                if (countInOut == "2")
+                else //amOut onwards
                 {
 
-                    empOUT();
-                    return;
-                }
-                if (countInOut == "0")
-                {
-                    DateTime dt12 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 0);
-
-                    if (DateTime.Now >= dt12)
+                    //get countInOut value from db
+                    db_connection();
+                    cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
+                    dataReader = cmd.ExecuteReader();
+                    if ((dataReader.Read()))
                     {
-                        pmCheckBox.Checked = true;
-                        db_connection();
-                        SQL = "UPDATE timeLog SET am_out=@timeout,countINOUT='1' WHERE empID=@empID AND logdate=@dt";
-                        cmd = new MySql.Data.MySqlClient.MySqlCommand(SQL, connect);
+                        countInOut = dataReader["countInOut"].ToString();
+
+                        switch (countInOut)
                         {
-                            cmd.Parameters.AddWithValue("@empID", lblEmpID.Text);
-                            cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text);
-                            cmd.Parameters.AddWithValue("@timeout",  lblhour .Text );
+                            case "1"://amOut
+                                MessageBox.Show("AM Out: " + time_only);
+                                what_column = "amOut";
+                                count = "2";
+                                break;
+
+                            case "2"://pmIn
+                                what_column = "pmIn";
+                                count = "3";
+                                if (currentDate <= dt1300)
+                                {
+                                    MessageBox.Show("PM In: " + time_only);
+                                    on_time_PM = 1;
+                                }
+                                else
+                                {
+                                    MessageBox.Show("You're Late" + Environment.NewLine + "PM In: " + time_only);
+                                    on_time_PM = 0;
+                                }
+                                break;
+
+                            case "3"://pmOut
+                                MessageBox.Show("PM Out: " + time_only);
+                                what_column = "pmOut";
+                                count = "4";
+                                break;
+
+                            default:
+                                MessageBox.Show("You're already done for the day.");
+                                break;
                         }
 
-                        cmd.ExecuteNonQuery();
-                        cmd.Dispose();
-                        
+                        //update db
+                        db_connection();
+                        query = "UPDATE timeLog SET "+ what_column +"='" + time_only + "', countInOut='" + count + "', onTime_PM = '"+on_time_PM+"' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+                        cmd2 = new MySqlCommand(query, connect);
+
+                        cmd2.ExecuteNonQuery();
+                        cmd2.Dispose();
+
                         SaveImage();
-                        MessageBox.Show(lblhour .Text );
-                        pmCheckBox.Checked = false;
-                        clr();
-                        return;
                     }
-                    else
-                    {
-                        MessageBox.Show("Not 12:00");
-                    }
-
                 }
             }
-            else
-            {
-
-                empIN();
-                cmd.Dispose();
-                return;
-            }
-        }
-        
-
-        private void empIN()
-        {
-            amCheckBox.Checked = true;
-            db_connection();
-            SQL = "INSERT INTO timelog (`empID`, `logdate`, `AM_IN`, `onTime`) VALUES(@empID,@dt,@timein,@stat)";
-            cmd = new MySql.Data.MySqlClient.MySqlCommand(SQL, connect);
-            {
-                cmd.Parameters.AddWithValue("@empID", lblEmpID.Text);
-                cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text);
-                cmd.Parameters.AddWithValue("@timein", txtTimeIn.Text);
-                cmd.Parameters.AddWithValue("@stat", on_time);
-            }
-            cmd.ExecuteNonQuery();
-            cmd.Dispose();
-            
-            SaveImage();
-            amCheckBox.Checked = false;
-            lblEmpID.Text = "ID";
-            clr();
         }
 
-
-        private void empOUT()
-        {
-            db_connection();
-            cmd = new MySqlCommand("SELECT * FROM timeLog WHERE empID=@empID AND logdate=@dt", connect);
-            cmd.Parameters.AddWithValue("@empID", lblEmpID.Text);
-            cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text);
-            dataReader = cmd.ExecuteReader();
-            if ((dataReader.Read()))
-            {
-
-                DateTime dt = Convert.ToDateTime(dataReader["am_IN"]);
-                DateTime dt1 = Convert.ToDateTime(dataReader["pm_In"]);
-                DTPicker1.Value = dt;
-                DTP3.Value = dt1;
-
-                pmCheckBox.Checked = true;
-
-                db_connection();//,countINOUT='3' FINISH PM_OUT
-                SQL = "UPDATE timeLog SET pm_out=@timeout,countINOUT='3' WHERE empID=@empID AND logdate=@dt";
-                cmd = new MySql.Data.MySqlClient.MySqlCommand(SQL, connect);
-                {
-                    cmd.Parameters.AddWithValue("@empID", lblEmpID.Text);
-                    cmd.Parameters.AddWithValue("@dt", dateTimePicker7.Text);
-                    cmd.Parameters.AddWithValue("@timeout", lblhour.Text);
-                }
-                cmd.ExecuteNonQuery();
-                cmd.Dispose();
-
-                MessageBox.Show("Successfully Out", "System", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                pmCheckBox.Checked = false;
-                clr();
-            }
-        }
-
-        #endregion
-     
 
         void clr()
         {
-            dateTimePicker7.Value = DateTime.Now;
             lblname.Text = "INFORMATION";
             lblEmpID.Text = "ID";
             txtEmpID.Text = "";
@@ -523,11 +406,14 @@ namespace FaceRecognition
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void btnRegisterFace_Click(object sender, EventArgs e)
         {
             this.Hide();
             RegisterFace d = new RegisterFace();
-            d.ShowDialog();
+            d.Show();
+            d.Focus();
         }
+
+
    }
 }

@@ -17,7 +17,6 @@ namespace FaceRecognition
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new RegisterFace());
             Application.Run(new FaceDetect());
-            //Application.Run(new Form1());
         }
 
     }

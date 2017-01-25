@@ -30,18 +30,18 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FaceDetect));
-            DevComponents.DotNetBar.Controls.ClockStyleData clockStyleData2 = new DevComponents.DotNetBar.Controls.ClockStyleData();
-            DevComponents.DotNetBar.Controls.ColorData colorData9 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ColorData colorData10 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ColorData colorData11 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData4 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
-            DevComponents.DotNetBar.Controls.ColorData colorData12 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ColorData colorData13 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData5 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
-            DevComponents.DotNetBar.Controls.ColorData colorData14 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData6 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
-            DevComponents.DotNetBar.Controls.ColorData colorData15 = new DevComponents.DotNetBar.Controls.ColorData();
-            DevComponents.DotNetBar.Controls.ColorData colorData16 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ClockStyleData clockStyleData1 = new DevComponents.DotNetBar.Controls.ClockStyleData();
+            DevComponents.DotNetBar.Controls.ColorData colorData1 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ColorData colorData2 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ColorData colorData3 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData1 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
+            DevComponents.DotNetBar.Controls.ColorData colorData4 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ColorData colorData5 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData2 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
+            DevComponents.DotNetBar.Controls.ColorData colorData6 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ClockHandStyleData clockHandStyleData3 = new DevComponents.DotNetBar.Controls.ClockHandStyleData();
+            DevComponents.DotNetBar.Controls.ColorData colorData7 = new DevComponents.DotNetBar.Controls.ColorData();
+            DevComponents.DotNetBar.Controls.ColorData colorData8 = new DevComponents.DotNetBar.Controls.ColorData();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.grp1 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.lblname = new System.Windows.Forms.Label();
@@ -52,24 +52,9 @@
             this.lblday = new System.Windows.Forms.Label();
             this.lblhour = new System.Windows.Forms.Label();
             this.PictureBox2 = new System.Windows.Forms.PictureBox();
-            this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.Label2 = new System.Windows.Forms.Label();
             this.txtEmpID = new System.Windows.Forms.TextBox();
-            this.GroupBox1 = new System.Windows.Forms.GroupBox();
-            this.DTP4 = new System.Windows.Forms.DateTimePicker();
-            this.DTP3 = new System.Windows.Forms.DateTimePicker();
-            this.dateTimePicker7 = new System.Windows.Forms.DateTimePicker();
-            this.DTPicker1 = new System.Windows.Forms.DateTimePicker();
-            this.txthrs = new System.Windows.Forms.TextBox();
-            this.txtmins = new System.Windows.Forms.TextBox();
-            this.DTPicker2 = new System.Windows.Forms.DateTimePicker();
-            this.txtTimeIn = new System.Windows.Forms.TextBox();
-            this.pmCheckBox = new System.Windows.Forms.CheckBox();
-            this.DateTimePicker6 = new System.Windows.Forms.DateTimePicker();
-            this.txtTimeOut = new System.Windows.Forms.TextBox();
-            this.DateTimePicker3 = new System.Windows.Forms.DateTimePicker();
-            this.amCheckBox = new System.Windows.Forms.CheckBox();
-            this.DateTimePicker2 = new System.Windows.Forms.DateTimePicker();
+            this.PictureBox1 = new System.Windows.Forms.PictureBox();
             this.lblEmpID = new System.Windows.Forms.Label();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.clockControl9 = new DevComponents.DotNetBar.Controls.AnalogClockControl();
@@ -86,12 +71,12 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnRegisterFace = new System.Windows.Forms.Button();
+            this.btnCapture = new System.Windows.Forms.Button();
             this.grp1.SuspendLayout();
             this.PanelEx1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).BeginInit();
-            this.GroupBox1.SuspendLayout();
             this.groupPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic2)).BeginInit();
@@ -252,18 +237,6 @@
             this.PictureBox2.TabIndex = 1123;
             this.PictureBox2.TabStop = false;
             // 
-            // PictureBox1
-            // 
-            this.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.PictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox1.Image")));
-            this.PictureBox1.Location = new System.Drawing.Point(907, 587);
-            this.PictureBox1.Name = "PictureBox1";
-            this.PictureBox1.Size = new System.Drawing.Size(63, 50);
-            this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.PictureBox1.TabIndex = 1122;
-            this.PictureBox1.TabStop = false;
-            // 
             // Label2
             // 
             this.Label2.Anchor = System.Windows.Forms.AnchorStyles.Right;
@@ -288,164 +261,17 @@
             this.txtEmpID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtEmpID.TextChanged += new System.EventHandler(this.txtEmpID_TextChanged);
             // 
-            // GroupBox1
+            // PictureBox1
             // 
-            this.GroupBox1.Controls.Add(this.DTP4);
-            this.GroupBox1.Controls.Add(this.DTP3);
-            this.GroupBox1.Controls.Add(this.dateTimePicker7);
-            this.GroupBox1.Controls.Add(this.DTPicker1);
-            this.GroupBox1.Controls.Add(this.txthrs);
-            this.GroupBox1.Controls.Add(this.txtmins);
-            this.GroupBox1.Controls.Add(this.DTPicker2);
-            this.GroupBox1.Controls.Add(this.txtTimeIn);
-            this.GroupBox1.Controls.Add(this.pmCheckBox);
-            this.GroupBox1.Controls.Add(this.DateTimePicker6);
-            this.GroupBox1.Controls.Add(this.txtTimeOut);
-            this.GroupBox1.Controls.Add(this.DateTimePicker3);
-            this.GroupBox1.Controls.Add(this.amCheckBox);
-            this.GroupBox1.Controls.Add(this.DateTimePicker2);
-            this.GroupBox1.Location = new System.Drawing.Point(12, 204);
-            this.GroupBox1.Name = "GroupBox1";
-            this.GroupBox1.Size = new System.Drawing.Size(222, 161);
-            this.GroupBox1.TabIndex = 1116;
-            this.GroupBox1.TabStop = false;
-            // 
-            // DTP4
-            // 
-            this.DTP4.CustomFormat = "h:mm:ss tt";
-            this.DTP4.Font = new System.Drawing.Font("Calibri", 10F);
-            this.DTP4.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP4.Location = new System.Drawing.Point(102, 131);
-            this.DTP4.Name = "DTP4";
-            this.DTP4.Size = new System.Drawing.Size(88, 24);
-            this.DTP4.TabIndex = 1133;
-            this.DTP4.Value = new System.DateTime(2013, 4, 28, 13, 0, 0, 0);
-            // 
-            // DTP3
-            // 
-            this.DTP3.CustomFormat = "h:mm:ss tt";
-            this.DTP3.Font = new System.Drawing.Font("Calibri", 10F);
-            this.DTP3.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTP3.Location = new System.Drawing.Point(102, 111);
-            this.DTP3.Name = "DTP3";
-            this.DTP3.Size = new System.Drawing.Size(88, 24);
-            this.DTP3.TabIndex = 1132;
-            this.DTP3.Value = new System.DateTime(2013, 4, 28, 13, 0, 0, 0);
-            // 
-            // dateTimePicker7
-            // 
-            this.dateTimePicker7.CustomFormat = "yyyy-MM-dd";
-            this.dateTimePicker7.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateTimePicker7.Location = new System.Drawing.Point(0, 134);
-            this.dateTimePicker7.Name = "dateTimePicker7";
-            this.dateTimePicker7.Size = new System.Drawing.Size(91, 20);
-            this.dateTimePicker7.TabIndex = 762;
-            this.dateTimePicker7.Value = new System.DateTime(2015, 4, 13, 15, 5, 0, 0);
-            // 
-            // DTPicker1
-            // 
-            this.DTPicker1.CustomFormat = "h:mm:ss tt";
-            this.DTPicker1.Font = new System.Drawing.Font("Calibri", 10F);
-            this.DTPicker1.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTPicker1.Location = new System.Drawing.Point(83, 3);
-            this.DTPicker1.Name = "DTPicker1";
-            this.DTPicker1.Size = new System.Drawing.Size(88, 24);
-            this.DTPicker1.TabIndex = 749;
-            this.DTPicker1.Value = new System.DateTime(2013, 4, 28, 8, 0, 0, 0);
-            // 
-            // txthrs
-            // 
-            this.txthrs.Font = new System.Drawing.Font("Calibri", 10F);
-            this.txthrs.Location = new System.Drawing.Point(97, 58);
-            this.txthrs.Name = "txthrs";
-            this.txthrs.Size = new System.Drawing.Size(75, 24);
-            this.txthrs.TabIndex = 741;
-            // 
-            // txtmins
-            // 
-            this.txtmins.Font = new System.Drawing.Font("Calibri", 10F);
-            this.txtmins.Location = new System.Drawing.Point(97, 86);
-            this.txtmins.Name = "txtmins";
-            this.txtmins.Size = new System.Drawing.Size(75, 24);
-            this.txtmins.TabIndex = 742;
-            // 
-            // DTPicker2
-            // 
-            this.DTPicker2.CustomFormat = "h:mm:ss tt";
-            this.DTPicker2.Font = new System.Drawing.Font("Calibri", 10F);
-            this.DTPicker2.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.DTPicker2.Location = new System.Drawing.Point(83, 28);
-            this.DTPicker2.Name = "DTPicker2";
-            this.DTPicker2.Size = new System.Drawing.Size(88, 24);
-            this.DTPicker2.TabIndex = 748;
-            this.DTPicker2.Value = new System.DateTime(2013, 4, 28, 17, 0, 0, 0);
-            // 
-            // txtTimeIn
-            // 
-            this.txtTimeIn.Font = new System.Drawing.Font("Calibri", 10F);
-            this.txtTimeIn.Location = new System.Drawing.Point(-6, 3);
-            this.txtTimeIn.Name = "txtTimeIn";
-            this.txtTimeIn.Size = new System.Drawing.Size(88, 24);
-            this.txtTimeIn.TabIndex = 746;
-            // 
-            // pmCheckBox
-            // 
-            this.pmCheckBox.AutoSize = true;
-            this.pmCheckBox.BackColor = System.Drawing.Color.Transparent;
-            this.pmCheckBox.Font = new System.Drawing.Font("Cambria", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.pmCheckBox.ForeColor = System.Drawing.Color.Black;
-            this.pmCheckBox.Location = new System.Drawing.Point(173, 30);
-            this.pmCheckBox.Name = "pmCheckBox";
-            this.pmCheckBox.Size = new System.Drawing.Size(15, 14);
-            this.pmCheckBox.TabIndex = 745;
-            this.pmCheckBox.UseVisualStyleBackColor = false;
-            this.pmCheckBox.CheckedChanged += new System.EventHandler(this.CheckBox2_CheckedChanged);
-            // 
-            // DateTimePicker6
-            // 
-            this.DateTimePicker6.Font = new System.Drawing.Font("Calibri", 12F);
-            this.DateTimePicker6.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.DateTimePicker6.Location = new System.Drawing.Point(-4, 111);
-            this.DateTimePicker6.Name = "DateTimePicker6";
-            this.DateTimePicker6.Size = new System.Drawing.Size(100, 27);
-            this.DateTimePicker6.TabIndex = 738;
-            this.DateTimePicker6.Value = new System.DateTime(2013, 4, 28, 17, 0, 0, 0);
-            // 
-            // txtTimeOut
-            // 
-            this.txtTimeOut.Font = new System.Drawing.Font("Calibri", 10F);
-            this.txtTimeOut.Location = new System.Drawing.Point(-6, 28);
-            this.txtTimeOut.Name = "txtTimeOut";
-            this.txtTimeOut.Size = new System.Drawing.Size(88, 24);
-            this.txtTimeOut.TabIndex = 747;
-            // 
-            // DateTimePicker3
-            // 
-            this.DateTimePicker3.Font = new System.Drawing.Font("Calibri", 12F);
-            this.DateTimePicker3.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.DateTimePicker3.Location = new System.Drawing.Point(-4, 86);
-            this.DateTimePicker3.Name = "DateTimePicker3";
-            this.DateTimePicker3.Size = new System.Drawing.Size(100, 27);
-            this.DateTimePicker3.TabIndex = 737;
-            this.DateTimePicker3.Value = new System.DateTime(2013, 4, 28, 13, 0, 0, 0);
-            // 
-            // amCheckBox
-            // 
-            this.amCheckBox.Location = new System.Drawing.Point(173, 7);
-            this.amCheckBox.Name = "amCheckBox";
-            this.amCheckBox.Size = new System.Drawing.Size(104, 24);
-            this.amCheckBox.TabIndex = 1131;
-            this.amCheckBox.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
-            // 
-            // DateTimePicker2
-            // 
-            this.DateTimePicker2.Font = new System.Drawing.Font("Calibri", 12F);
-            this.DateTimePicker2.Format = System.Windows.Forms.DateTimePickerFormat.Time;
-            this.DateTimePicker2.Location = new System.Drawing.Point(-4, 58);
-            this.DateTimePicker2.Name = "DateTimePicker2";
-            this.DateTimePicker2.Size = new System.Drawing.Size(100, 27);
-            this.DateTimePicker2.TabIndex = 736;
-            this.DateTimePicker2.Value = new System.DateTime(2013, 4, 28, 12, 0, 0, 0);
+            this.PictureBox1.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.PictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("PictureBox1.Image")));
+            this.PictureBox1.Location = new System.Drawing.Point(907, 587);
+            this.PictureBox1.Name = "PictureBox1";
+            this.PictureBox1.Size = new System.Drawing.Size(63, 50);
+            this.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.PictureBox1.TabIndex = 1122;
+            this.PictureBox1.TabStop = false;
             // 
             // lblEmpID
             // 
@@ -511,73 +337,73 @@
             this.clockControl9.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.clockControl9.BackColor = System.Drawing.Color.Transparent;
             this.clockControl9.ClockStyle = DevComponents.DotNetBar.Controls.eClockStyles.Custom;
-            colorData9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
-            colorData9.BorderWidth = 0.01F;
-            colorData9.BrushSBSScale = 1F;
-            colorData9.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
-            colorData9.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            colorData9.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(152)))), ((int)(((byte)(152)))));
-            clockStyleData2.BezelColor = colorData9;
-            colorData10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData10.BorderWidth = 0.01F;
-            colorData10.BrushSBSScale = 1F;
-            colorData10.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData10.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            clockStyleData2.CapColor = colorData10;
-            colorData11.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(145)))), ((int)(((byte)(161)))));
-            colorData11.BorderWidth = 0.01F;
-            colorData11.BrushAngle = 45F;
-            colorData11.BrushSBSScale = 1F;
-            colorData11.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
-            colorData11.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(204)))), ((int)(((byte)(213)))));
-            colorData11.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            clockStyleData2.FaceColor = colorData11;
-            clockStyleData2.GlassAngle = -20;
-            colorData12.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData12.BorderWidth = 0.01F;
-            colorData12.BrushSBSScale = 1F;
-            colorData12.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData12.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            clockHandStyleData4.HandColor = colorData12;
-            clockHandStyleData4.Length = 0.55F;
-            clockHandStyleData4.Width = 0.015F;
-            clockStyleData2.HourHandStyle = clockHandStyleData4;
-            colorData13.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            colorData13.BorderWidth = 0.01F;
-            colorData13.BrushSBSScale = 1F;
-            colorData13.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
-            colorData13.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
-            colorData13.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
-            clockStyleData2.LargeTickColor = colorData13;
-            colorData14.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData14.BorderWidth = 0.01F;
-            colorData14.BrushSBSScale = 1F;
-            colorData14.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData14.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            clockHandStyleData5.HandColor = colorData14;
-            clockHandStyleData5.Length = 0.8F;
-            clockHandStyleData5.Width = 0.01F;
-            clockStyleData2.MinuteHandStyle = clockHandStyleData5;
-            clockStyleData2.NumberFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
-            colorData15.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData15.BorderWidth = 0.01F;
-            colorData15.BrushSBSScale = 1F;
-            colorData15.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            colorData15.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
-            clockHandStyleData6.HandColor = colorData15;
-            clockHandStyleData6.HandStyle = DevComponents.DotNetBar.Controls.eHandStyles.Style2;
-            clockHandStyleData6.Length = 0.8F;
-            clockHandStyleData6.Width = 0.005F;
-            clockStyleData2.SecondHandStyle = clockHandStyleData6;
-            colorData16.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            colorData16.BorderWidth = 0.01F;
-            colorData16.BrushSBSScale = 1F;
-            colorData16.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
-            colorData16.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
-            colorData16.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
-            clockStyleData2.SmallTickColor = colorData16;
-            clockStyleData2.Style = DevComponents.DotNetBar.Controls.eClockStyles.Custom;
-            this.clockControl9.ClockStyleData = clockStyleData2;
+            colorData1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(120)))), ((int)(((byte)(120)))));
+            colorData1.BorderWidth = 0.01F;
+            colorData1.BrushSBSScale = 1F;
+            colorData1.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
+            colorData1.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            colorData1.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(152)))), ((int)(((byte)(152)))));
+            clockStyleData1.BezelColor = colorData1;
+            colorData2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData2.BorderWidth = 0.01F;
+            colorData2.BrushSBSScale = 1F;
+            colorData2.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData2.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            clockStyleData1.CapColor = colorData2;
+            colorData3.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(135)))), ((int)(((byte)(145)))), ((int)(((byte)(161)))));
+            colorData3.BorderWidth = 0.01F;
+            colorData3.BrushAngle = 45F;
+            colorData3.BrushSBSScale = 1F;
+            colorData3.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
+            colorData3.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(191)))), ((int)(((byte)(204)))), ((int)(((byte)(213)))));
+            colorData3.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            clockStyleData1.FaceColor = colorData3;
+            clockStyleData1.GlassAngle = -20;
+            colorData4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData4.BorderWidth = 0.01F;
+            colorData4.BrushSBSScale = 1F;
+            colorData4.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData4.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            clockHandStyleData1.HandColor = colorData4;
+            clockHandStyleData1.Length = 0.55F;
+            clockHandStyleData1.Width = 0.015F;
+            clockStyleData1.HourHandStyle = clockHandStyleData1;
+            colorData5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            colorData5.BorderWidth = 0.01F;
+            colorData5.BrushSBSScale = 1F;
+            colorData5.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
+            colorData5.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
+            colorData5.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
+            clockStyleData1.LargeTickColor = colorData5;
+            colorData6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData6.BorderWidth = 0.01F;
+            colorData6.BrushSBSScale = 1F;
+            colorData6.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData6.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            clockHandStyleData2.HandColor = colorData6;
+            clockHandStyleData2.Length = 0.8F;
+            clockHandStyleData2.Width = 0.01F;
+            clockStyleData1.MinuteHandStyle = clockHandStyleData2;
+            clockStyleData1.NumberFont = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel);
+            colorData7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData7.BorderWidth = 0.01F;
+            colorData7.BrushSBSScale = 1F;
+            colorData7.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            colorData7.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(109)))), ((int)(((byte)(127)))), ((int)(((byte)(138)))));
+            clockHandStyleData3.HandColor = colorData7;
+            clockHandStyleData3.HandStyle = DevComponents.DotNetBar.Controls.eHandStyles.Style2;
+            clockHandStyleData3.Length = 0.8F;
+            clockHandStyleData3.Width = 0.005F;
+            clockStyleData1.SecondHandStyle = clockHandStyleData3;
+            colorData8.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            colorData8.BorderWidth = 0.01F;
+            colorData8.BrushSBSScale = 1F;
+            colorData8.BrushType = DevComponents.DotNetBar.Controls.eBrushTypes.Linear;
+            colorData8.Color1 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
+            colorData8.Color2 = System.Drawing.Color.FromArgb(((int)(((byte)(122)))), ((int)(((byte)(142)))), ((int)(((byte)(154)))));
+            clockStyleData1.SmallTickColor = colorData8;
+            clockStyleData1.Style = DevComponents.DotNetBar.Controls.eClockStyles.Custom;
+            this.clockControl9.ClockStyleData = clockStyleData1;
             this.clockControl9.IndicatorStyle = DevComponents.DotNetBar.Controls.eClockIndicatorStyles.Numbers;
             this.clockControl9.IsEditable = true;
             this.clockControl9.Location = new System.Drawing.Point(425, 64);
@@ -712,23 +538,33 @@
             // 
             this.columnHeader5.Text = "PM_Out";
             // 
-            // button1
+            // btnRegisterFace
             // 
-            this.button1.Location = new System.Drawing.Point(898, 73);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(101, 23);
-            this.button1.TabIndex = 1131;
-            this.button1.Text = "Show Register";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnRegisterFace.Location = new System.Drawing.Point(898, 73);
+            this.btnRegisterFace.Name = "btnRegisterFace";
+            this.btnRegisterFace.Size = new System.Drawing.Size(101, 23);
+            this.btnRegisterFace.TabIndex = 1131;
+            this.btnRegisterFace.Text = "Register Face";
+            this.btnRegisterFace.UseVisualStyleBackColor = true;
+            this.btnRegisterFace.Click += new System.EventHandler(this.btnRegisterFace_Click);
+            // 
+            // btnCapture
+            // 
+            this.btnCapture.Location = new System.Drawing.Point(745, 445);
+            this.btnCapture.Name = "btnCapture";
+            this.btnCapture.Size = new System.Drawing.Size(181, 21);
+            this.btnCapture.TabIndex = 1132;
+            this.btnCapture.Text = "Capture!";
+            this.btnCapture.UseVisualStyleBackColor = true;
+            this.btnCapture.Click += new System.EventHandler(this.btnCapture_Click);
             // 
             // FaceDetect
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1075, 733);
-            this.Controls.Add(this.GroupBox1);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.btnCapture);
+            this.Controls.Add(this.btnRegisterFace);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.PictureBox1);
             this.Controls.Add(this.imageBox1);
@@ -744,8 +580,6 @@
             this.PanelEx1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBox1)).EndInit();
-            this.GroupBox1.ResumeLayout(false);
-            this.GroupBox1.PerformLayout();
             this.groupPanel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pic2)).EndInit();
@@ -761,17 +595,6 @@
         private Emgu.CV.UI.ImageBox imageBoxFrameGrabber;
         private System.Windows.Forms.Timer timer1;
         internal System.Windows.Forms.Panel Panel3;
-        internal System.Windows.Forms.GroupBox GroupBox1;
-        internal System.Windows.Forms.DateTimePicker DTPicker1;
-        internal System.Windows.Forms.TextBox txthrs;
-        internal System.Windows.Forms.TextBox txtmins;
-        internal System.Windows.Forms.DateTimePicker DTPicker2;
-        internal System.Windows.Forms.TextBox txtTimeIn;
-        internal System.Windows.Forms.CheckBox pmCheckBox;
-        internal System.Windows.Forms.DateTimePicker DateTimePicker6;
-        internal System.Windows.Forms.TextBox txtTimeOut;
-        internal System.Windows.Forms.DateTimePicker DateTimePicker3;
-        internal System.Windows.Forms.DateTimePicker DateTimePicker2;
         internal System.Windows.Forms.PictureBox PictureBox2;
         internal System.Windows.Forms.PictureBox PictureBox1;
         internal System.Windows.Forms.Label Label2;
@@ -791,8 +614,6 @@
         private DevComponents.DotNetBar.Controls.GroupPanel groupPanel1;
         private DevComponents.DotNetBar.LabelX LabelX1;
         private DevComponents.DotNetBar.PanelEx PanelEx1;
-        private System.Windows.Forms.DateTimePicker dateTimePicker7;
-        internal System.Windows.Forms.CheckBox amCheckBox;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader columnHeader1;
@@ -800,9 +621,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
-        private System.Windows.Forms.Button button1;
-        internal System.Windows.Forms.DateTimePicker DTP3;
-        internal System.Windows.Forms.DateTimePicker DTP4;
+        private System.Windows.Forms.Button btnRegisterFace;
+        private System.Windows.Forms.Button btnCapture;
     }
 }
 

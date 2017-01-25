@@ -18,8 +18,12 @@ using Microsoft.VisualBasic;
 namespace FaceRecognition
 {
     public partial class RegisterFace : Form
-    {  
-           //Declararation of all variables, vectors and haarcascades
+    {
+        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc;
+        public int fileNameimg;
+
+
+        //Declararation of all variables, vectors and haarcascades
         Image<Bgr, Byte> currentFrame;
         Capture grabber;
         HaarCascade face;
@@ -63,8 +67,30 @@ namespace FaceRecognition
             }
 
         }
-     
-       private void button1_Click(object sender, EventArgs e)
+
+
+        public string conn;
+        public MySqlConnection connect;
+        public MySqlDataAdapter dataAdapter;
+        public MySqlDataReader dataReader;
+        public MySqlCommand cmd = new MySqlCommand();
+
+        void db_connection()
+        {
+            try
+            {
+                conn = "Server=localhost;Database=payrolldb;Uid=root;Pwd=;";
+                connect = new MySqlConnection(conn);
+                connect.Open();
+            }
+            catch (MySqlException e)
+            {
+                MessageBox.Show("Database not connected!");
+                throw e;
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             //Initialize the capture device
             grabber = new Capture();
@@ -73,6 +99,7 @@ namespace FaceRecognition
             Application.Idle += new EventHandler(FrameGrabber);
           //  button1.Enabled = false;
         }
+
         void FrameGrabber(object sender, EventArgs e)
         {
             //label4.Text = "";
@@ -82,105 +109,73 @@ namespace FaceRecognition
             //Get the current frame form capture device
             currentFrame = grabber.QueryFrame().Resize(320, 240, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
 
-                    //Convert it to Grayscale
-                    gray = currentFrame.Convert<Gray, Byte>();
+            //Convert it to Grayscale
+            gray = currentFrame.Convert<Gray, Byte>();
 
-                    //Face Detector
-                    MCvAvgComp[][] facesDetected = gray.DetectHaarCascade(
-                  face,
-                  1.2,
-                  10,
-                  Emgu.CV.CvEnum.HAAR_DETECTION_TYPE.DO_CANNY_PRUNING,
-                  new Size(20, 20));
+            //Face Detector
+            MCvAvgComp[][] facesDetected = gray.DetectHaarCascade(
+            face,
+            1.2,
+            10,
+            Emgu.CV.CvEnum.HAAR_DETECTION_TYPE.DO_CANNY_PRUNING,
+            new Size(20, 20));
 
-                    //Action for each element detected
-                    foreach (MCvAvgComp f in facesDetected[0])
-                    {
-                        t = t + 1;
-                        result = currentFrame.Copy(f.rect).Convert<Gray, byte>().Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
-                        //draw the face detected in the 0th (gray) channel with blue color
-                        currentFrame.Draw(f.rect, new Bgr(Color.Red), 2);
-
-
-                        if (trainingImages.ToArray().Length != 0)
-                        {
-                            MCvTermCriteria termCrit = new MCvTermCriteria(ContTrain, 0.001);
-
-                            //Eigen face recognizer
-                            EigenObjectRecognizer recognizer = new EigenObjectRecognizer(
-                               trainingImages.ToArray(),
-                               labels.ToArray(),
-                               3000,
-                               ref termCrit);
-
-                            name = recognizer.Recognize(result);
-                        }
-                            //Draw the label for each face detected and recognized
-                        //currentFrame.Draw(name, ref font, new Point(f.rect.X - 2, f.rect.Y - 2), new Bgr(Color.LightGreen));
-
-                        //}
-
-                        //    NamePersons[t-1] = name;
-                        //    NamePersons.Add("");
+            //Action for each element detected
+            foreach (MCvAvgComp f in facesDetected[0])
+            {
+                t = t + 1;
+                result = currentFrame.Copy(f.rect).Convert<Gray, byte>().Resize(100, 100, Emgu.CV.CvEnum.INTER.CV_INTER_CUBIC);
+                //draw the face detected in the 0th (gray) channel with blue color
+                currentFrame.Draw(f.rect, new Bgr(Color.Red), 2);
 
 
-                        //Set the number of faces detected on the scene
-                      //  label3.Text = facesDetected[0].Length.ToString();
+                if (trainingImages.ToArray().Length != 0)
+                {
+                    MCvTermCriteria termCrit = new MCvTermCriteria(ContTrain, 0.001);
 
-                    }
-                        t = 0;
+                    //Eigen face recognizer
+                    EigenObjectRecognizer recognizer = new EigenObjectRecognizer(
+                        trainingImages.ToArray(),
+                        labels.ToArray(),
+                        3000,
+                        ref termCrit);
 
-                        //Names concatenation of persons recognized
-                    for (int nnn = 0; nnn < facesDetected[0].Length; nnn++)
-                    {
-                        names = names + NamePersons[nnn];// +", ";
-                    }
-                    //Show the faces procesed and recognized
-                    imageBoxFrameGrabber.Image = currentFrame;
-                  
-                   // lblIDNumber.Text = names;
-                    names = "";
-                    //Clear the list(vector) of names
-                    NamePersons.Clear();
-
+                    name = recognizer.Recognize(result);
                 }
+                    //Draw the label for each face detected and recognized
+                //currentFrame.Draw(name, ref font, new Point(f.rect.X - 2, f.rect.Y - 2), new Bgr(Color.LightGreen));
 
-        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc;
-        public int fileNameimg;
-        #region Connection And Setting up connection
-        public MySqlDataAdapter da;
-        public MySqlDataReader dr;
-        public MySqlCommand cmd;
-        public string comportno;
+                //}
 
-        public static string constring = "Server=localhost;" + "Database=payrolldb;" + "Uid=root;" + "Password=;";
-        public static MySqlConnection con = new MySqlConnection(constring);
-        void connect()
-        {
-            if (con.State == ConnectionState.Open)
-            {
-                con.Close();
-                con.Open();
+                //    NamePersons[t-1] = name;
+                //    NamePersons.Add("");
+
+
+                //Set the number of faces detected on the scene
+                //  label3.Text = facesDetected[0].Length.ToString();
+
             }
-            else if (con.State == ConnectionState.Closed)
+                t = 0;
+
+            //Names concatenation of persons recognized
+            for (int nnn = 0; nnn < facesDetected[0].Length; nnn++)
             {
-                con.Open();
+                names = names + NamePersons[nnn];// +", ";
             }
-            else
-            {
-                con.Close();
-                con.Open();
-            }
+            //Show the faces procesed and recognized
+            imageBoxFrameGrabber.Image = currentFrame;
+                  
+            // lblIDNumber.Text = names;
+            names = "";
+            //Clear the list(vector) of names
+            NamePersons.Clear();
         }
-        #endregion
-     
+
 
         private void RegisterFace_Load(object sender, EventArgs e)
         {
-
             button1_Click(sender, e);
         }
-
 
         private void btnFaceAdd_Click(object sender, EventArgs e)
         {
@@ -221,16 +216,12 @@ namespace FaceRecognition
 
                 ////Show face added in gray scale
 
-
-
-
-
-                connect();
-                cmd = new MySqlCommand("SELECT * FROM employee WHERE empID='" + maskedTextBox1.Text + "'", con);
-                dr = cmd.ExecuteReader();
-                if ((dr.Read()))
+                db_connection();
+                cmd = new MySqlCommand("SELECT * FROM employee WHERE empID='" + maskedTextBox1.Text + "'", connect);
+                dataReader = cmd.ExecuteReader();
+                if ((dataReader.Read()))
                 {
-                    ImgExist = (dr["TrainedFaces"].ToString());
+                    ImgExist = (dataReader["TrainedFaces"].ToString());
                     if (ImgExist != "0")
                     {
                         MessageBox.Show("Your Face Is already registered.We proceed to update","System Update", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -245,8 +236,6 @@ namespace FaceRecognition
                     }
                     else
                     {
-
-
                         //Write the number of triained faces in a file text for further load
                         File.WriteAllText(Application.StartupPath + "/TrainedFaces/TrainedLabels.txt", trainingImages.ToArray().Length.ToString() + "%");
 
@@ -266,8 +255,8 @@ namespace FaceRecognition
                     }
                
                 }
-                cmd.Dispose();
 
+                cmd.Dispose();
 
                 MessageBox.Show(maskedTextBox1.Text + "´s face detected and added :)", "Training OK", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
@@ -279,9 +268,8 @@ namespace FaceRecognition
                 ms.Position = 0;
                 ms.Read(pic_arr, 0, pic_arr.Length);
 
-
-                connect();
-                cmd = new MySqlCommand("UPDATE employee SET pictureTrained='" + ImgLoc + "' ,TrainedFaces='" + fileNameimg + "' WHERE empID='" + maskedTextBox1.Text + "'", con);
+                db_connection();
+                cmd = new MySqlCommand("UPDATE employee SET pictureTrained='" + ImgLoc + "' ,TrainedFaces='" + fileNameimg + "' WHERE empID='" + maskedTextBox1.Text + "'", connect);
                 cmd.ExecuteNonQuery();
                 cmd.Dispose();
 
@@ -300,18 +288,16 @@ namespace FaceRecognition
         
         }
 
-    
-
         private void maskedTextBox1_TextChanged(object sender, EventArgs e)
         {
-            connect();
-            cmd = new MySqlCommand("Select * from employee WHERE empID=@fd1", con);
+            db_connection();
+            cmd = new MySqlCommand("Select * from employee WHERE empID=@fd1", connect);
             cmd.Parameters.AddWithValue("@fd1", maskedTextBox1.Text);
-            dr = cmd.ExecuteReader();
-            if ((dr.Read()))
+            dataReader = cmd.ExecuteReader();
+            if ((dataReader.Read()))
             {
-                txtname.Text = (dr["lname"] + "," + dr["fname"] + " " + dr["mname"].ToString());
-                //byte[] result = (byte[])dr["pictureTrained"];
+                txtname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
+                //byte[] result = (byte[])dataReader["pictureTrained"];
                 //int ArraySize = result.GetUpperBound(0);
                 //MemoryStream ms = new MemoryStream(result, 0, ArraySize);
                 //imageBoxFrameGrabber.Image =  new MemoryStream(result, 0, ArraySize);
@@ -326,12 +312,12 @@ namespace FaceRecognition
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            connect();
-            cmd = new MySqlCommand("SELECT * FROM employee WHERE empID='" + maskedTextBox1.Text + "'", con);
-            dr = cmd.ExecuteReader();
-            if ((dr.Read()))
+            db_connection();
+            cmd = new MySqlCommand("SELECT * FROM employee WHERE empID='" + maskedTextBox1.Text + "'", connect);
+            dataReader = cmd.ExecuteReader();
+            if ((dataReader.Read()))
             {
-                ImgExist = (dr["TrainedFaces"].ToString());
+                ImgExist = (dataReader["TrainedFaces"].ToString());
                 MessageBox.Show(ImgExist);
                 System.IO.File.Delete(Application.StartupPath + "/TrainedFaces/" + ImgExist + ".bmp");
             }
