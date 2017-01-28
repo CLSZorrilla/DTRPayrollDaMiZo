@@ -73,3 +73,12 @@ C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debu
 C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
 C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
 C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb

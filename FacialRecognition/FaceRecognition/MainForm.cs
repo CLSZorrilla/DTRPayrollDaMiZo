@@ -18,6 +18,7 @@ namespace FaceRecognition
     {
         public string query, fileNameimg, comportno, numberOfFaceDetected, empStat, activated, countInOut, count, what_column;
         public int on_time_AM, on_time_PM;
+        public float vacationLeave;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
        
         //Declararation of all variables, vectors and haarcascades
@@ -71,6 +72,8 @@ namespace FaceRecognition
         public MySqlCommand cmd = new MySqlCommand();
         public MySqlCommand cmd1 = new MySqlCommand();
         public MySqlCommand cmd2 = new MySqlCommand();
+        public MySqlCommand cmd3 = new MySqlCommand();
+
 
         void db_connection()
         {
@@ -231,6 +234,7 @@ namespace FaceRecognition
                 lblname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
                 activated = (dataReader["activated"]).ToString();
                 empStat = (dataReader["status"]).ToString();
+                vacationLeave = (float)dataReader["VL"];
                 pic2.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
@@ -264,6 +268,7 @@ namespace FaceRecognition
         private void btnCapture_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
+            string militaryTime = currentDate.ToString("HH:mm tt");
             string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
             //AM shift
@@ -274,7 +279,11 @@ namespace FaceRecognition
             DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 0); //7PM
 
             DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 0); //8AM
-            DateTime dt1000 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 10, 00, 0); //10AM
+            DateTime dt900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 00, 0); //10AM
+
+            int minsLate = 0, minsLate1 = 0, mins_late = 0, x = 0, y = 0, g = 0, f = 0;
+            float to_deduct = 0, to_deduct1 = 0;
+            TimeSpan timeLate;
 
 
             if (currentDate < dt600 || currentDate > dt1900)
@@ -287,13 +296,12 @@ namespace FaceRecognition
                 db_connection();
                 cmd1 = new MySqlCommand("SELECT COUNT(*) FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "' ", connect);
                 string AlreadyExist = cmd1.ExecuteScalar().ToString();
-
                 if (AlreadyExist == "0")//timeIn
                 {
                     switch (empStat)
                     {
                         case "Regular":
-                            if (currentDate <= dt1000)
+                            if (currentDate <= dt900)
                             {
                                 MessageBox.Show("Time In: " + time_only);
                                 on_time_AM = 1;
@@ -302,6 +310,17 @@ namespace FaceRecognition
                             {
                                 MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
                                 on_time_AM = 0;
+                                //count minutes late
+                                timeLate = currentDate - dt900;
+                                x = timeLate.Hours;
+                                if (timeLate.Minutes != 0)
+                                {
+                                    y = (timeLate.Minutes);
+                                }
+
+                                minsLate = (x * 60) + y;
+                                to_deduct = (float)minsLate * (float)0.002;
+
                             }
                             break;
 
@@ -315,6 +334,17 @@ namespace FaceRecognition
                             {
                                 MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
                                 on_time_AM = 0;
+                                //count minutes late
+                                timeLate = currentDate - dt800;
+                                x = timeLate.Hours;
+                                if (timeLate.Minutes != 0)
+                                {
+                                    y = (timeLate.Minutes);
+                                }
+
+                                minsLate = (x * 60) + y;
+                                to_deduct = (float)minsLate * (float)0.002;
+
                             }
                             break;
 
@@ -323,15 +353,19 @@ namespace FaceRecognition
                             break;
                     }
 
+
+
                     //insert to db
                     db_connection();
-                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + time_only + "', 1,'" + on_time_AM + "');";
+                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM, toDeduct) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + militaryTime + "', 1,'" + on_time_AM + "','" + to_deduct + "');";
                     cmd = new MySqlCommand(query, connect);
 
                     cmd.ExecuteNonQuery();
                     cmd.Dispose();
 
                     SaveImage();
+
+
                 }
                 else //amOut onwards
                 {
@@ -343,6 +377,7 @@ namespace FaceRecognition
                     if (dataReader.Read())
                     {
                         countInOut = dataReader["countInOut"].ToString();
+                        mins_late = Convert.ToInt32(dataReader["toDeduct"]);
 
                         switch (countInOut)
                         {
@@ -364,40 +399,67 @@ namespace FaceRecognition
                                 {
                                     MessageBox.Show("You're Late" + Environment.NewLine + "PM In: " + time_only);
                                     on_time_PM = 0;
+
+                                    //count minutes late
+                                    timeLate = currentDate - dt1300;
+                                    g = timeLate.Hours;
+                                    if (timeLate.Minutes != 0)
+                                    {
+                                        f = (timeLate.Minutes);
+                                    }
+
+                                    minsLate1 = (g * 60) + f;
+                                    mins_late += minsLate1;
+
+                                    to_deduct1 = (float)mins_late * (float)0.002;
                                 }
                                 break;
 
                             case "3"://timeOut
-                                MessageBox.Show("time Out: " + time_only);
+                                MessageBox.Show("Time Out: " + time_only);
                                 what_column = "timeOut";
                                 count = "4";
                                 break;
 
                             default:
                                 MessageBox.Show("You're already done for the day.");
+                                count = "5";
                                 break;
                         }
 
-                        
 
-                        //update db
-                        db_connection();
-                        query = "UPDATE timeLog SET " + what_column + "='" + time_only + "', timeOut ='" + time_only + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
-                        cmd2 = new MySqlCommand(query, connect);
+                        if (count == "2" || count == "3" || count == "4")
+                        {
+                            //update db
+                            db_connection();
+                            query = "UPDATE timeLog SET " + what_column + "='" + militaryTime + "', timeOut ='" + militaryTime + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "', toDeduct = '" + to_deduct1 + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+                            cmd2 = new MySqlCommand(query, connect);
 
-                        cmd2.ExecuteNonQuery();
-                        cmd2.Dispose();
-                        compute();
-                        SaveImage();
+                            cmd2.ExecuteNonQuery();
+                            cmd2.Dispose();
+                            compute();
+                            SaveImage();
+
+
+                            //subtract to_deduct1 to VL from employee tbl
+
+                            vacationLeave -= to_deduct1;
+                            db_connection();
+                            query = "UPDATE employee SET VL ='" + vacationLeave + "' WHERE empID='" + txtEmpID.Text + "'";
+                            cmd3 = new MySqlCommand(query, connect);
+
+                            cmd3.ExecuteNonQuery();
+                            cmd3.Dispose();
+
+                        }
                     }
                 }
             }
         }
 
         int a, b, c, d, totalmin, totalhrs;
-        string StartTime, am_out, pm_in;
+        string StartTime, EndTime, am_out, pm_in;
         string date_only = DateTime.Now.ToString("yyyy-MM-dd");
-        string time_only = DateTime.Now.ToString("hh:mm tt");
         DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
 
         private void compute()
@@ -411,6 +473,7 @@ namespace FaceRecognition
             {
                 countInOut = dataReader["countInOut"].ToString();
                 StartTime = dataReader["timeIn"].ToString();
+                EndTime = dataReader["timeOut"].ToString();
                 am_out = dataReader["amOut"].ToString();
                 pm_in = dataReader["pmIn"].ToString();
 
@@ -419,7 +482,7 @@ namespace FaceRecognition
 
             DateTime timeIn = DateTime.Parse(StartTime);
             DateTime amOut = DateTime.Parse(am_out);
-            DateTime timeOut = DateTime.Parse(time_only);
+            DateTime timeOut = DateTime.Parse(EndTime);
 
             switch (countInOut)
             {
@@ -452,7 +515,7 @@ namespace FaceRecognition
 
                     //pmShift
                     TimeSpan TimeDifferencePM = timeOut - pmIn;
-                    c = (TimeDifferencePM.Hours);
+                    c = TimeDifferencePM.Hours;
                     if (TimeDifferencePM.Minutes != 0)
                     {
                         d = (TimeDifferencePM.Minutes);
