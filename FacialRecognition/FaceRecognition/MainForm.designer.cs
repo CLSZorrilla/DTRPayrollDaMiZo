@@ -571,6 +571,7 @@
             this.Controls.Add(this.lblEmpID);
             this.Controls.Add(this.Panel3);
             this.Controls.Add(this.groupPanel1);
+            this.KeyPreview = true;
             this.Name = "FaceDetect";
             this.Text = "Face Recognition";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;

@@ -198,7 +198,7 @@ namespace FaceRecognition
             lbldate.Text = DateTime.Now.ToString("dd");
             lblyear.Text = DateTime.Now.ToString("yyyy");
             lblday.Text = DateTime.Now.ToString("dddd");
-            lblhour.Text = DateTime.Now.ToString("hh:mm:ss tt");
+            lblhour.Text = DateTime.Now.ToString("hh:mm tt");
         }
 
 
@@ -250,12 +250,21 @@ namespace FaceRecognition
         }
 
 
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == Keys.Enter)
+            {
+                btnCapture.PerformClick();
+                return true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+
         private void btnCapture_Click(object sender, EventArgs e)
         {
-            //earliest can timeIn is 6:00; latest is 10:00?
-            //latest can timeOut is 7:00
             DateTime currentDate = DateTime.Now;
-            string time_only = currentDate.ToString("hh:mm:ss tt");
+            string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
             //AM shift
             DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 00, 0); //6AM
@@ -274,58 +283,55 @@ namespace FaceRecognition
             }
             else
             {
-                //checks if current empID with current date already exist
+                //checks if employee already timed in for the day
                 db_connection();
                 cmd1 = new MySqlCommand("SELECT COUNT(*) FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "' ", connect);
                 string AlreadyExist = cmd1.ExecuteScalar().ToString();
-                MessageBox.Show(AlreadyExist);
-                if (AlreadyExist == "0")//amIn
+
+                if (AlreadyExist == "0")//timeIn
                 {
-                    if (currentDate > dt600 && currentDate < dt1200)
+                    switch (empStat)
                     {
-                        switch (empStat)
-                        {
-                            case "Regular":
-                                if (currentDate <= dt1000)
-                                {
-                                    MessageBox.Show("AM In: " + time_only);
-                                    on_time_AM = 1;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("You're Late" + Environment.NewLine + "AM In: " + time_only);
-                                    on_time_AM = 0;
-                                }
-                                break;
+                        case "Regular":
+                            if (currentDate <= dt1000)
+                            {
+                                MessageBox.Show("Time In: " + time_only);
+                                on_time_AM = 1;
+                            }
+                            else
+                            {
+                                MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
+                                on_time_AM = 0;
+                            }
+                            break;
 
-                            case "Contractual":
-                                if (currentDate <= dt800)
-                                {
-                                    MessageBox.Show("AM In: " + time_only);
-                                    on_time_AM = 1;
-                                }
-                                else
-                                {
-                                    MessageBox.Show("You're Late" + Environment.NewLine + "AM In: " + time_only);
-                                    on_time_AM = 0;
-                                }
-                                break;
+                        case "Contractual":
+                            if (currentDate <= dt800)
+                            {
+                                MessageBox.Show("Time In: " + time_only);
+                                on_time_AM = 1;
+                            }
+                            else
+                            {
+                                MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
+                                on_time_AM = 0;
+                            }
+                            break;
 
-                            default:
-                                MessageBox.Show("INVALID EMPLOYEE STATUS");
-                                break;
-                        }
-
-                        //insert to db
-                        db_connection();
-                        query = "INSERT INTO timelog(empID, logdate, amIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + time_only + "', 1,'" + on_time_AM + "');";
-                        cmd = new MySqlCommand(query, connect);
-
-                        cmd.ExecuteNonQuery();
-                        cmd.Dispose();
-
-                        SaveImage();
+                        default:
+                            MessageBox.Show("INVALID EMPLOYEE STATUS");
+                            break;
                     }
+
+                    //insert to db
+                    db_connection();
+                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + time_only + "', 1,'" + on_time_AM + "');";
+                    cmd = new MySqlCommand(query, connect);
+
+                    cmd.ExecuteNonQuery();
+                    cmd.Dispose();
+
+                    SaveImage();
                 }
                 else //amOut onwards
                 {
@@ -334,7 +340,7 @@ namespace FaceRecognition
                     db_connection();
                     cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
                     dataReader = cmd.ExecuteReader();
-                    if ((dataReader.Read()))
+                    if (dataReader.Read())
                     {
                         countInOut = dataReader["countInOut"].ToString();
 
@@ -361,9 +367,9 @@ namespace FaceRecognition
                                 }
                                 break;
 
-                            case "3"://pmOut
-                                MessageBox.Show("PM Out: " + time_only);
-                                what_column = "pmOut";
+                            case "3"://timeOut
+                                MessageBox.Show("time Out: " + time_only);
+                                what_column = "timeOut";
                                 count = "4";
                                 break;
 
@@ -372,19 +378,111 @@ namespace FaceRecognition
                                 break;
                         }
 
+                        
+
                         //update db
                         db_connection();
-                        query = "UPDATE timeLog SET "+ what_column +"='" + time_only + "', countInOut='" + count + "', onTime_PM = '"+on_time_PM+"' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+                        query = "UPDATE timeLog SET " + what_column + "='" + time_only + "', timeOut ='" + time_only + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
                         cmd2 = new MySqlCommand(query, connect);
 
                         cmd2.ExecuteNonQuery();
                         cmd2.Dispose();
-
+                        compute();
                         SaveImage();
                     }
                 }
             }
         }
+
+
+
+        int a, b, c, d, totalmin, totalhrs;
+        string StartTime, am_out, pm_in;
+        string date_only = DateTime.Now.ToString("yyyy-MM-dd");
+        string time_only = DateTime.Now.ToString("hh:mm tt");
+
+        private void compute()
+        {   
+            
+            //get all time value from timelog
+            db_connection();
+            cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
+            dataReader = cmd.ExecuteReader();
+            if (dataReader.Read())
+            {
+                countInOut = dataReader["countInOut"].ToString();
+                StartTime = dataReader["timeIn"].ToString();
+                am_out = dataReader["amOut"].ToString();
+                pm_in = dataReader["pmIn"].ToString();
+
+            }
+
+
+            DateTime timeIn = DateTime.Parse(StartTime);
+            DateTime amOut = DateTime.Parse(am_out);
+            DateTime timeOut = DateTime.Parse(time_only);
+
+            switch (countInOut)
+            {
+                case "2"://done with amOut
+                    TimeSpan TimeDifference = timeOut - timeIn;
+                    a = TimeDifference.Hours;
+                    if (TimeDifference.Minutes != 0)
+                    {
+                        b = (TimeDifference.Minutes);
+                    }
+
+                    totalhrs = ((a * 60) + b) / 60; //GET TOTAL HOURS WORK
+                    totalmin = ((a * 60) + b) % 60;//GET TOTAL MINS WORK
+                    break;
+
+               
+                case "4"://done with timeOut
+
+                    DateTime pmIn = DateTime.Parse(pm_in);
+
+                    //amShift
+                    TimeSpan TimeDifferenceAM = amOut - timeIn;
+                    a = TimeDifferenceAM.Hours;
+                    if (TimeDifferenceAM.Minutes != 0)
+                    {
+                        b = (TimeDifferenceAM.Minutes);
+                    }
+
+                    //pmShift
+                    TimeSpan TimeDifferencePM = timeOut - pmIn;
+                    c = (TimeDifferencePM.Hours);
+                    if (TimeDifferencePM.Minutes != 0)
+                    {
+                        d = (TimeDifferencePM.Minutes);
+                    }
+                    totalhrs = (((a * 60) + b) + ((c * 60) + d)) / 60; //GET TOTAL HOURS WORK
+                    totalmin = (((a * 60) + b) + ((c * 60) + d)) % 60;//GET TOTAL MINS WORK
+                    break;
+
+                default:
+                    //MessageBox.Show("INVALID countInOut value");
+                    break;
+            }
+
+
+
+            db_connection();
+            query = "UPDATE timeLog SET hrsWorked ='" + totalhrs + "', minsWorked='" + totalmin + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+            cmd = new MySqlCommand(query, connect);
+
+            cmd.ExecuteNonQuery();
+
+
+
+
+
+
+
+        }
+
+
+
 
 
         void clr()
@@ -413,7 +511,5 @@ namespace FaceRecognition
             d.Show();
             d.Focus();
         }
-
-
    }
 }
