@@ -394,12 +394,11 @@ namespace FaceRecognition
             }
         }
 
-
-
         int a, b, c, d, totalmin, totalhrs;
         string StartTime, am_out, pm_in;
         string date_only = DateTime.Now.ToString("yyyy-MM-dd");
         string time_only = DateTime.Now.ToString("hh:mm tt");
+        DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
 
         private void compute()
         {   
@@ -441,6 +440,8 @@ namespace FaceRecognition
 
                     DateTime pmIn = DateTime.Parse(pm_in);
 
+                    if (pmIn < dt1300) pmIn = dt1300; //if pmIn is earlier than 1:00 PM, start time is still 1:00 PM
+
                     //amShift
                     TimeSpan TimeDifferenceAM = amOut - timeIn;
                     a = TimeDifferenceAM.Hours;
@@ -465,25 +466,13 @@ namespace FaceRecognition
                     break;
             }
 
-
-
             db_connection();
             query = "UPDATE timeLog SET hrsWorked ='" + totalhrs + "', minsWorked='" + totalmin + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
             cmd = new MySqlCommand(query, connect);
 
             cmd.ExecuteNonQuery();
 
-
-
-
-
-
-
         }
-
-
-
-
 
         void clr()
         {
