@@ -1,0 +1,393 @@
+*, *::after, *::before {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    width: 100%;
+    /* max-width: 1378px; */
+	min-height:100%;
+    margin: 0 auto;
+    font-family: Century gothic, sans-serif;
+	
+	background: url(../images/bg-login.jpg) center center no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	background-repeat: no-repeat;
+	
+    background-color: #666666;
+	background-blend-mode:multiply;
+	
+    background-size: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    padding-top: 20%;
+}
+
+html {
+    font-size: 100%;
+    -ms-text-size-adjust:100%;
+    -webkit-text-size-adjust:100%
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a, input, button, textarea:focus {
+    outline: 0;
+}
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+
+/*CHANGE PLACEHOLDER COLOR DEFAULT*/
+input::-webkit-input-placeholder {
+    color: #b6c3cc;
+    letter-spacing: 1px;
+}
+
+/*CHANGE PLACEHOLDER COLOR ON FOCUS*/
+input:focus::-webkit-input-placeholder {
+    color: #337ab7;
+    letter-spacing: 1px;
+}
+
+input:-moz-placeholder {
+    color: #b6c3cc;
+    letter-spacing: 1px;
+}
+
+input:focus:-moz-placeholder {
+    color: #337ab7;
+    letter-spacing: 1px;
+}
+
+input::-moz-placeholder {
+    color: #b6c3cc;
+    letter-spacing: 1px;
+}
+input:focus::-moz-placeholder {
+    color: #337ab7;
+    letter-spacing: 1px;
+}
+
+input:-ms-input-placeholder {
+    color: #b6c3cc;
+    letter-spacing: 1px;
+}
+
+input:focus:-ms-input-placeholder {
+    color: #337ab7;
+    letter-spacing: 1px;
+}
+
+
+/*LOGIn BUTTON*/
+#button {
+    width: inherit;
+    text-align: center;
+}
+
+#login {
+    border: 1px solid transparent;
+    background:#337ab7;
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    -webkit-transition: all 0.3s ease-in-out;
+       -moz-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+}
+
+#login:hover {
+    padding-left: 50px;
+    background: #286090;
+}
+
+.tag {
+    font-size: 12px;
+    color: #25282e;
+    text-align: center;
+}
+
+.tag-login {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+}
+
+/*MODAL LOGIN*/
+#modal-login {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    z-index: 10000;
+    background: #cccccc;
+    top: 0;
+    left: 0;
+    padding-top: 10%;
+    color: #25282e;
+    display: none;
+}
+
+@media (max-width:768px){
+	.modal-log-count {
+		width: 300px;
+	}
+}
+
+.modal-log-cont {
+    width: 600px;
+    height: auto;
+    background: #fff;
+    margin: 0px auto;
+    padding-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    z-index: 2;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+}
+
+.modal-head {
+    padding: 15px;
+    font-weight: 100;
+    color: #25282e;
+    border-bottom: 1px solid #e0e0e0;
+    height: 50px;
+}
+
+.modal-head h3 {
+    float: left;
+    margin-top: -4px;
+    font-weight: 300;
+}
+
+.modal-head img {
+    width: 150px;
+}
+
+.clip {
+    background: #2e6da4;
+    width: 4px;
+    height: 40px;
+    position: absolute;
+    margin-left: -17px;
+    margin-top: -10px;
+}
+
+#close-v {
+    background: #2e6da4;
+    width: 40px;
+    height: 40px;
+    float: right;
+    margin-right: -15px;
+    margin-top: -10px;
+    cursor: pointer;
+    -webkit-transition: all 0.3s ease-in-out;
+       -moz-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+}
+
+#close-v:hover {
+    width: 60px;
+}
+
+#close-v img {
+    width: 10px;
+    margin-top: 14px;
+    margin-left: 15px;
+}
+
+.form {
+    background: #fafafa;
+    height: auto;
+}
+
+.form img {
+    width: 100px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.form span {
+    margin-left: 20px;
+}
+
+.form .tag {
+    font-size: 12px;
+    position: absolute;
+    margin-top: -20px;
+    margin-left: 20px;
+}
+
+.form .tag1 {
+    font-size: 12px;
+    position: absolute;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+
+.form form input {
+    border-radius: 2px;
+    margin-left: 20px;
+    padding: 2px;
+    width: 250px;
+    height: 40px;
+    display: block;
+    font-size: 12px;
+    color: #337ab7;
+    text-indent: 5px;
+    letter-spacing: .5px;
+    background: #f0efef;
+    border: 1px solid #e6e6e6;
+    margin-top: 30px;
+    -webkit-transition: all 0.3s ease-in-out;
+      -moz-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
+}
+
+.form form input:focus {
+    border-bottom: 2px solid #2e6da4;
+}
+
+.submit-b {
+    background: #fff;
+    margin-top: 30px;
+    border-top: 1px solid #e0e0e0;
+    height: 30px;
+}
+
+.submit-b #l-submit {
+    border: 1px solid transparent;
+    background: #337ab7;
+    width: 143px;
+    height: 39px;
+    color: #fff;
+    position: absolute;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.submit-b #close {
+    border: 1px solid transparent;
+    background: #25282e;
+    width: 143px;
+    height: 39px;
+    color: #fff;
+    position: absolute;
+    font-weight: 100;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 143px;
+}
+
+.instruction {
+    float: right;
+    width: 280px;
+    margin-top: 50px;
+    font-size: 12px;
+    margin-right: 20px;
+}
+
+.instruction h5 {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/*ERRORS*/
+.m-error1 {
+    position: absolute;
+    background: #f76558;
+    color: #fff;
+    padding: 8px;
+    font-size: 12px;
+    margin-left: 340px;
+    width: 270px;
+    margin-top: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.m-error1 img {
+    width: 40px;
+    float: left;
+    margin-right: 10px;
+    margin-top: -2px;
+}
+
+#m-error {
+    margin-top: 3px;
+}
+
+
+/*MAIN*/
+#info {
+    width: inherit;
+    text-align: center;
+}
+
+#info h3 {
+    font-size: 25px;
+    font-weight: 300;
+    letter-spacing: 1px;
+    color: #34495e;
+}
+
+#info h1 {
+    color: #2ecc71;
+    font-size: 40px;
+    letter-spacing: 1px;
+}
+
+#info h5 {
+    color: #2c3e50;
+    font-size: 20px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+#info a button{
+    border: 1px solid transparent;
+    background: #39b54a;
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    -webkit-transition: all 0.3s ease-in-out;
+       -moz-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+}
+
+#info a button:hover {
+    padding-right: 50px;
+    background: #27ae60;
+}
+
+/*ADDITIONAL*/
+p.InstrucPara {
+	margin:0px;
+}
+
+h5.InstrucHead {
+	margin:0px;
+}
+/*ADDITIONAL*/
