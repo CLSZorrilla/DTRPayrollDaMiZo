@@ -20,12 +20,68 @@ class Deduction extends CI_Controller{
 		$this->load->view('suview', $data);
 	}
 
+	public function submit_deduction(){
+		if($this->input->server('REQUEST_METHOD') == 'POST'){
+			$config = array(
+				array(
+					'field' => 'fName',
+					'label' => 'Full Name',
+					'rules' => 'required'
+					),
+				array(
+					'field' => 'dName',
+					'label' => 'Deduction Name',
+					'rules' => 'required'
+					),
+				array(
+					'field' => 'amt',
+					'label' => 'Amount',
+					'rules' => 'required|greater_than[0]'
+					),
+				array(
+					'field' => 'int',
+					'label' => 'Interest',
+					'rules' => 'required'
+					),
+				array(
+					'field' => 'mtp',
+					'label' => 'Months to Pay',
+					'rules' => 'required|greater_than[0]|less_than[12]'
+					)
+				);
+
+			$this->form_validation->set_rules($config);
+
+			if($this->form_validation->run() == FALSE){
+				$data = array(
+
+					'error' => validation_errors(),
+
+					);
+
+				$data['leaveReq'] = "hr/DeductionMgmt";
+
+				$this->load->view('Suview', $data);
+			}
+			else{
+					$this->Deduction_model->submitDeduction();
+
+					$data['leaveReq'] = "hr/DeductionMgmt";
+					$data['formsubmit'] = "Form has been submitted";
+
+					$this->load->view('Suview', $data);
+			}
+		}	
+	}
 	public function get_employee(){
-		$search = $this->input->post('search');
+		$result = $this->Deduction_model->getEmpSearch($this->input->get('search'));
 
-		$query = $this->Deduction_model->getEmpSearch($search);
+		$name = array();
+		foreach($result as $row){
+			$name[] = array('name' => $row->name);
+		}
 
-		echo json_encode ($query);
+		echo json_encode($name);
 	}
 }
 

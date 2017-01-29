@@ -35,30 +35,30 @@ class Clerk_model extends CI_Model{
 
 		//# of days late
 		$cMonth = date('m');
-		$damLateResult = $this->db->query('SELECT timediff(amIn, "08:00:00") as amIn, amOut, timediff(pmIn, "13:00:00") as pmIn, pmOut 
+		$damLateResult = $this->db->query('SELECT timediff(timeIn, "08:00:00") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
 							AND logdate LIKE "2017-01-29"
 							AND (onTime_AM = 0 OR onTime_PM = 0)');
 
-		$dLateAMin = array();
+		$dLatetimeIn = array();
 		$dLateAMout = array();
 		$dLatePMin = array();
-		$dLatePMout = array();
+		$dLatetimeOut = array();
 		foreach($damLateResult->result() as $daysLate){
-			array_push($dLateAMin,$daysLate->amIn);
+			array_push($dLatetimeIn,$daysLate->timeIn);
 			array_push($dLateAMout,$daysLate->amOut);
 			array_push($dLatePMin,$daysLate->pmIn);
-			array_push($dLatePMout,$daysLate->pmOut);
+			array_push($dLatetimeOut,$daysLate->timeOut);
 		}
 
 		$hrsLate = 0;
 		$minsLate = 0;
 		$totalLate = 0;
 
-		foreach($dLateAMin as $key => $damLate){
-			$hrsLate += substr($dLateAMin[$key],0,2)*60;
-			$minsLate += substr($dLateAMin[$key],3,2);	
+		foreach($dLatetimeIn as $key => $damLate){
+			$hrsLate += substr($dLatetimeIn[$key],0,2)*60;
+			$minsLate += substr($dLatetimeIn[$key],3,2);	
 		}
 
 		foreach($dLatePMin as $key => $dpmlate){
@@ -72,6 +72,10 @@ class Clerk_model extends CI_Model{
 		$hourlyRate = $dailyRate/8;
 
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
+
+		//Additional Deductions
+		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => ));
+
 
 
 		$grossPay = ($basicPay + $pera) - $lateDeduction;

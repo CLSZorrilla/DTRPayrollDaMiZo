@@ -12,10 +12,15 @@
 <?php 
 
 if(isSet($cUserForm)){
-	$this->load->view($cUserForm);
+	if($this->session->userdata('aType') == 'HR'){
+		$this->load->view($cUserForm);
+	}
+	else{
+		redirect('main');
+	}
 }
 else if(isSet($mUser)){
-	if($this->session->userdata('aType')){
+	if($this->session->userdata('aType') == 'HR'){
 		$this->load->view($mUser);
 	}
 	else{
@@ -47,7 +52,7 @@ else if(isSet($leaveReq)){
 	}
 }
 else if(isSet($payrollEmpList)){
-	if($this->session->userdata('aType')){
+	if($this->session->userdata('aType') == 'Payroll Clerk'){
 		$this->load->view($payrollEmpList);
 	}
 	else{
@@ -55,7 +60,7 @@ else if(isSet($payrollEmpList)){
 	}
 }
 else if(isSet($payroll)){
-	if($this->session->userdata('aType')){
+	if($this->session->userdata('aType') == 'Payroll Clerk'){
 		$this->load->view($payroll);
 	}
 	else{
@@ -63,7 +68,7 @@ else if(isSet($payroll)){
 	}
 }
 else if(isSet($dMgmt)){
-	if($this->session->userdata('aType')){
+	if($this->session->userdata('aType') == 'HR'){
 		$this->load->view($dMgmt);
 	}
 	else{

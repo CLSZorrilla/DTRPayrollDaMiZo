@@ -1,12 +1,3 @@
-<?php
-	$attributes=array('id'=>'deduction_create', 'class'=>'form-horizontal');
-	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Full Name', 'Deduction Name', 'Amount', 'Interest', 'Months to Pay');
-	$dName=array('fName', 'dName', 'amt', 'int', 'mtp');
-	$dType=array('text', 'text', 'number', 'text', 'number');
-?>
-
-
 <div>
 	<ol class="breadcrumb">
 		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
@@ -19,16 +10,53 @@
 			<h4>Apply Deductions</h4>
 			<hr />
 		</div>
-		<form class="form-horizontal" action="" method="POST">
+		<?php
+			if(isSet($formsubmit)){
+				echo $formsubmit;
+			}
+		?>
+		<form class="form-horizontal" action="submit_deduction" method="POST">
 		<div class="form-group">
 			<div class="col-md-10">
-				<label for="fName" class="control-label col-md-2">Full Name</label><input type="text" name="fName" class="form-control text-box single-line"/>
+				<label for="fName" class="control-label col-md-2">Full Name:</label>
+				<input type="text"   name="fName" placeholder="Full Name" id="fName" value="<?php echo set_value('fName'); ?>" class="form-control text-box single-line"/>
 			</div>
 		</div>
+		<?php
+		echo form_error("fName", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		?>
 		<div class="form-group">
 			<div class="col-md-10">
+				<label for="dName" class="control-label col-md-2">Deduction Name:</label><input type="text" name="dName" placeholder="Deduction Name" id="dName" value="<?php echo set_value('dName'); ?>" class="form-control text-box single-line"/>
 			</div>
 		</div>
+		<?php
+		echo form_error("dName", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		?>
+		<div class="form-group">
+			<div class="col-md-10">
+				<label for="amt" class="control-label col-md-2">Amount:</label><input type="number" name="amt" placeholder="Amount" id="amt" value="<?php echo set_value('amt'); ?>" class="form-control text-box single-line"/>
+			</div>
+		</div>
+		<?php
+		echo form_error("amt", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		?>
+		<div class="form-group">
+			<div class="col-md-10">
+				<label for="int" class="control-label col-md-2">Interest:</label><input type="text" name="int"  placeholder="Interest" id="interest" value="<?php echo set_value('int'); ?>" class="form-control text-box single-line"/>
+			</div>
+		</div>
+		<?php
+		echo form_error("int", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		?>
+		<div class="form-group">
+			<div class="col-md-10">
+				<label for="mtp" class="control-label col-md-2">Months to pay:</label><input type="number" name="mtp" max="12" min="0" placeholder="Months to pay" id="mtp" value="<?php echo set_value('mtp'); ?>" class="form-control text-box single-line"/>
+			</div>
+		</div>
+		<?php
+		echo form_error("cairo_matrix_transform_point(matrix, dx, dy)", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		?>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<?php
@@ -49,18 +77,28 @@
 	</div>
 </div>
 <script type="text/javascript">
-$('#fName').keyup(function(){
-	if($('#fName').val().length>3){
-		$.ajax
-		({
-			type: "POST",
-			url: "Deduction/get_employee",
-			cache: false,
-			data: 'search='+$('#fName').val(),
-			success= function(r){
+	$("#interest").mask("9.99%");
 
-			}
-		});
-	}
-})
+	
+	$('#fName').keyup(function(){
+		if($('#fName').val().length=3){
+			$.ajax({
+				url: "get_employee?search="+$('#fName').val(),
+				success: function(r){
+					var options = {
+
+						url: "get_employee",
+
+						getValue: "name"
+					};
+					$("#fName").easyAutocomplete(options);
+
+					
+				},
+				error: function(r){
+					alert("Fail");
+				}
+			});
+		}
+	});
 </script>

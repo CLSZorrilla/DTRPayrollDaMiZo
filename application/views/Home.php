@@ -36,10 +36,10 @@
 									foreach($cAttend as $cAtt){
 										echo "
 											<tr>
-												<td>".$cAtt->amIn."</td>
-												<td>".$cAtt->pmOut."</td>
+												<td>".$cAtt->timeIn."</td>
+												<td>".$cAtt->amOut."</td>
 												<td>".$cAtt->pmIn."</td>
-												<td>".$cAtt->pmOut."</td>
+												<td>".$cAtt->timeOut."</td>
 											</tr>
 										";
 									}
