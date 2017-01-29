@@ -4,12 +4,21 @@
 			<li class="active">Attendance</li>
 		</ol>
 	</div>
+  <?php
+    foreach($result as $res){
+      echo $res."<br/>";
+    }
+
+    //echo $result[0];
+  ?>
 	<div class="BodyContainer">
 		<div class="BodyContent">
 			<div class="row Title">
 				<h4>ATTENDANCE</h4>
 				<hr>
+
 				<div id="calendar"></div>
+        <input type="hidden" name="country" value="Norway">
 			</div>
 		</div>
 	</div>
@@ -21,52 +30,19 @@
 </body>
 <script>
   $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
-    
+
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
-    
+
     $('#calendar').fullCalendar({
       header: {
         left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
+        center: 'title'
       },
       editable: true,
-      events: [
-      {
-        title: 'January 9, 2016',
-        start: new Date(2017, 0, 9, 7, 45),
-        end: new Date(2017, 0, 9, 17, 30),
-        allDay: false,
-        url: 'http://google.com/'
-      },
-      {
-        title: 'January 10, 2016',
-        start: new Date(2017, 0, 10, 7, 30),
-        end: new Date(2017, 0, 10, 17, 0),
-        allDay: false
-      },
-      {
-        title: 'January 11, 2016',
-        start: new Date(2017, 0, 11, 7, 45),
-        end: new Date(2017, 0, 11, 17, 15),
-        allDay: false
-      },
-      {
-        title: 'January 12, 2016',
-        start: new Date(2017, 0, 12, 8, 0),
-        end: new Date(2017, 0, 12, 17, 0),
-        allDay: false
-      },
-      {
-        title: 'January 13, 2016',
-        start: new Date(2017, 0, 13, 16 , 15),
-        end: new Date(2017, 0, 13, 16, 45),
-        allDay: false
-      }
-      ]
+      events: [{"title":"Time in","start":"2017-01-29T07:30","allDay":false},{"title":"am Out","start":"2017-01-29T12:30","allDay":false},{"title":"Time in","start":"2017-01-30T08:30","allDay":false},{"title":"am Out","start":"2017-01-30T12:00","allDay":false},{"title":"Time in","start":"2017-01-31T08:00","allDay":false},{"title":"am Out","start":"2017-01-31T12:30","allDay":false}]
     });
   })
 </script>
