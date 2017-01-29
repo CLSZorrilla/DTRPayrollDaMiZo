@@ -74,8 +74,25 @@ class Clerk_model extends CI_Model{
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
 		//Additional Deductions
-		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => ));
+		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
 
+		$dName = array();
+		$amt = array();
+		$int = array();
+		$mtp = array();
+
+		foreach($addDeducResult->result() as $deductions){
+			array_push($dName,$deductions->deductionName);
+			array_push($amt,$deductions->amount);
+			array_push($int,substr($deductions->interest,0,5));
+			array_push($mtp,$deductions->mtp);
+		}
+		
+		$amtTP = array();
+
+		foreach($amt as $key => $amtToPay){
+			array_push($amtTP, (($amt[$key] + ($amt[$key]*($int[$key]/100)))/$mtp[$key]));		
+		}
 
 
 		$grossPay = ($basicPay + $pera) - $lateDeduction;
@@ -146,9 +163,8 @@ class Clerk_model extends CI_Model{
 
 		$withholdingTax = round(((($taxableIncome - $withholdingTable) * $status) + $exemption),2);
 
-		//$halfDay = $this->db->query("SELECT 	");
 
-		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax);
+		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
 
 	}
 }

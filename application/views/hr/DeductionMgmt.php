@@ -77,7 +77,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$("#interest").mask("9.99%");
+	$("#interest").mask("99.99%");
 
 	
 	$('#fName').keyup(function(){
