@@ -28,6 +28,8 @@ class Attendance_model extends CI_Model{
 		foreach($timeIn as $key => $attendance){
 			array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
 			array_push($tIn, array('title' => 'am Out','start' => $date[$key]."T".$amOut[$key], 'allDay' => false ));
+			array_push($tIn, array('title' => 'pm In','start' => $date[$key]."T".$pmIn[$key], 'allDay' => false ));
+			array_push($tIn, array('title' => 'time Out','start' => $date[$key]."T".$timeOut[$key], 'allDay' => false ));
 		}
 
 		$timeInT = json_encode($tIn);

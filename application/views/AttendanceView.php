@@ -6,7 +6,7 @@
 	</div>
   <?php
     foreach($result as $res){
-      echo $res."<br/>";
+      echo "<input type='text' id='calendarData' value='".$res."' />";
     }
 
     //echo $result[0];
@@ -29,6 +29,9 @@
 	</div>
 </body>
 <script>
+  var cData = $('#calendarData').val();
+
+  alert(cData);
   $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
 
     var date = new Date();
@@ -42,7 +45,8 @@
         center: 'title'
       },
       editable: true,
-      events: [{"title":"Time in","start":"2017-01-29T07:30","allDay":false},{"title":"am Out","start":"2017-01-29T12:30","allDay":false},{"title":"Time in","start":"2017-01-30T08:30","allDay":false},{"title":"am Out","start":"2017-01-30T12:00","allDay":false},{"title":"Time in","start":"2017-01-31T08:00","allDay":false},{"title":"am Out","start":"2017-01-31T12:30","allDay":false}]
+      events: [{"title":"Time in","start":"2017-01-29T07:30","allDay":false},{"title":"am Out","start":"2017-01-29T12:30","allDay":false},{"title":"pm In","start":"2017-01-29T13:30","allDay":false},{"title":"time Out","start":"2017-01-29T16:30","allDay":false},{"title":"Time in","start":"2017-01-30T08:30","allDay":false},{"title":"am Out","start":"2017-01-30T12:00","allDay":false},{"title":"pm In","start":"2017-01-30T13:05","allDay":false},{"title":"time Out","start":"2017-01-30T17:00","allDay":false},{"title":"Time in","start":"2017-01-31T08:00","allDay":false},{"title":"am Out","start":"2017-01-31T12:30","allDay":false},{"title":"pm In","start":"2017-01-31T13:00","allDay":false},{"title":"time Out","start":"2017-01-31T17:30","allDay":false},
+        {"title":"Time in","start":"2017-01-26T08:00","allDay":false},{"title":"am Out","start":"2017-01-26T12:30","allDay":false}]
     });
   })
 </script>

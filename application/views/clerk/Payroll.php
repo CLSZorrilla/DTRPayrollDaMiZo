@@ -28,20 +28,20 @@
 	<div class="BodyContent">
 		<div class="row Title">
 			<h4>Salary Computation</h4>
-			<select>
-				<option value="7:00:00 AM">7:00:00 AM</option>
-				<option value="8:00:00 AM">8:00:00 AM</option>
-				<option value="9:00:00 AM">9:00:00 AM</option>
+			<select name="sTime" id="sTime">
+				<option value="7:00:00 AM">07:00:00</option>
+				<option value="8:00:00 AM">08:00:00</option>
+				<option value="9:00:00 AM">09:00:00</option>
 			</select> -
-			<select>
-				<option value="4:00:00 PM">4:00:00 PM</option>
-				<option value="5:00:00 PM">5:00:00 PM</option>
-				<option value="6:00:00 PM">6:00:00 PM</option>
+			<select name="endTime" id="eTime">
+				<option value="4:00:00 PM">16:00:00</option>
+				<option value="5:00:00 PM">17:00:00</option>
+				<option value="6:00:00 PM">18:00:00</option>
 			</select>
 			<button id="timeadjust">Adjust official time</button>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
-		
+		<?php echo $pInfoRes[1]; ?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 
 		<div class="col-md-6">
@@ -134,5 +134,20 @@
 	</div>
 </div>
 <script type="text/javascript">
-
+	$('#timeadjust').click(function(){
+		var startTime = $( "#sTime option:selected" ).val();
+		var endTime = $( "#eTime option:selected" ).val();
+		
+		$.ajax({
+			type: "POST",
+			url:"adjTimeGetPayroll",
+			data:{startTime,endTime},
+			success: function(r){
+				alert(r);
+			},
+			error: function(r){
+				alert('FAIL');
+			}
+		});
+	});
 </script>
