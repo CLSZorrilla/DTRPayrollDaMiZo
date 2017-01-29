@@ -1,7 +1,7 @@
 <?php
 	$attributes=array('id'=>'create_user_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'col-md-2 col-lg-3');
-	$labels=array('Employee ID:','Full Name:', 'Position:', 'Basic Pay:','Tax Status:', 'Dependents:', 'Gross Pay','Pagibig Fund:','PhilHealth Share:', 'GSIS:', 'Withholding Tax:');
+	$labels=array('Employee ID:','Full Name:', 'Position:', 'Basic Pay:','Tax Status:', 'Dependents:', 'Gross Pay','Pagibig Fund:','PhilHealth Share:', 'GSIS(9% of GP):', 'Withholding Tax:');
 	$dName=array('empID','fName','positionCode','bPay', 'tStatus' , 'dependents', 'gPay','pagIbig','pHealth', 'gsis', 'wTax');
 	$dType=array('text','text','dropdown','text', 'dropdown', 'number', 'text','text','text', 'text', 'text');
 
@@ -40,14 +40,6 @@
 			</select>
 			<button id="timeadjust">Adjust official time</button>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
-			<?php
-				/*foreach($pInfoRes[1] as $pres){
-					echo $pres."<br/>";
-				}*/
-
-				echo $pInfoRes[5][0];
-
-			?>
 		</div>
 		
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
@@ -111,7 +103,7 @@
 			<div class="form-group">
 				<label for="" class="control-label col-md-2 col-lg-3"><?php echo $pInfoRes[5][$key] ?></label>
 				<div class="col-md-10 col-lg-9">
-					<input type="text" value="<?php  ?>" class="form-control text-box single-line" readonly />
+					<input type="text" value="<?php echo round($pInfoRes[6][$key],2) ?>" class="form-control text-box single-line" readonly />
 				</div>
 			</div>
 		</div>

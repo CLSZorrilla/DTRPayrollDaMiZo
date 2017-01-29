@@ -7,7 +7,8 @@ class attendance extends CI_Controller{
 	}
 
 	public function index(){
-		$this->load->view('attendance');
+		$data['AttendanceView']="AttendanceView";
+		$this->load->view('suview', $data);
 	}
 
 }

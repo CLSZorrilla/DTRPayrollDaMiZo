@@ -46,7 +46,7 @@ class Deduction extends CI_Controller{
 				array(
 					'field' => 'mtp',
 					'label' => 'Months to Pay',
-					'rules' => 'required|greater_than[0]|less_than[12]'
+					'rules' => 'required'
 					)
 				);
 

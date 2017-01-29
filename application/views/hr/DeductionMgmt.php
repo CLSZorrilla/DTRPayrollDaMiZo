@@ -12,7 +12,7 @@
 		</div>
 		<?php
 			if(isSet($formsubmit)){
-				echo $formsubmit;
+				echo "<div class='alert alert-success alert-dismissable fade in'>Form Submitted<a href='#'' id='ekis' class='close' data-dismiss='alert' aria-label='close'>&times;</a></div>";
 			}
 		?>
 		<form class="form-horizontal" action="submit_deduction" method="POST">

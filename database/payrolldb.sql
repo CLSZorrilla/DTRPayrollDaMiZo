@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 29, 2017 at 01:25 AM
+-- Generation Time: Jan 30, 2017 at 01:08 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -19,6 +19,33 @@ SET time_zone = "+00:00";
 --
 -- Database: `payrolldb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `deductions`
+--
+
+CREATE TABLE IF NOT EXISTS `deductions` (
+  `empID` varchar(255) NOT NULL,
+  `fullName` varchar(255) NOT NULL,
+  `deductionName` varchar(255) NOT NULL,
+  `amount` float NOT NULL,
+  `interest` varchar(255) NOT NULL,
+  `mtp` int(5) NOT NULL,
+  `monthsLeft` int(5) NOT NULL,
+  `status` varchar(255) NOT NULL,
+  KEY `empID` (`empID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `deductions`
+--
+
+INSERT INTO `deductions` (`empID`, `fullName`, `deductionName`, `amount`, `interest`, `mtp`, `monthsLeft`, `status`) VALUES
+('13-037-071', 'Carinan, Wilmar Paul Abella', 'Loyola Plan', 15000, '10.00%', 12, 12, 'on-going'),
+('13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Healthcard', 10000, '10.00%', 12, 12, 'on-going'),
+('13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Landbank Loan', 20000, '10.00%', 6, 6, 'on-going');
 
 -- --------------------------------------------------------
 
@@ -88,7 +115,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
 --
 
 INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `status`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`) VALUES
-(3, '13-037-048', '155a638f9b4153658918d05d255d2a1a0259ff34584ab63e3caa225f8d647191c14e5ba316a0f326182e390c2d6693c7375326156cab05b126744e469807bf54SYbywsoz7s4iS8zyMaG2DUx4Fl69LFUr', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Married', 0, 'CLSZorrilla@gmail.com', '1995-12-28', '0936-312-9137', 'Male', 'Contractual', '2017-06-06', '159752416-5465', '161564651-6516', '111555685-1231', 0, 0, 'http://[::1]/payroll//uploads/WIN_20161027_11_33_08_Pro.jpg', '', 0, 'TRUE'),
+(3, '13-037-048', '155a638f9b4153658918d05d255d2a1a0259ff34584ab63e3caa225f8d647191c14e5ba316a0f326182e390c2d6693c7375326156cab05b126744e469807bf54SYbywsoz7s4iS8zyMaG2DUx4Fl69LFUr', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Married', 0, 'CLSZorrilla@gmail.com', '1995-12-28', '0936-312-9137', 'Male', 'Contractual', '2017-06-06', '159752416-5465', '161564651-6516', '111555685-1231', 1.25, 1.25, 'http://[::1]/payroll//uploads/WIN_20161027_11_33_08_Pro.jpg', '/TrainedFaces/face1.bmp', 1, 'TRUE'),
 (10, '13-037-071', '449a2d4271765549129f22dbaf365d56bd63dcbc2a65a76498d6a5494df60a537456cb0d888fca2a084dc1e478a053c82a399b50882a6153de0cfb4166465cbcK/NnnbGrgFNxpnc1hSXezPhxzPfAz0GZ', 'Payroll Clerk', 1, 1, 2000, 'Carinan', 'Wilmar Paul', 'Abella', 'Pasay City', 'Married', 1, 'wpcarinan@gmail.com', '1995-02-10', '0936-312-9137', 'Male', 'Contractual', '2017-06-06', '159753167-4822', '154871515-4518', '216843584-1515', 1.25, 1.25, '', '', 0, 'TRUE');
 
 -- --------------------------------------------------------
@@ -287,7 +314,16 @@ CREATE TABLE IF NOT EXISTS `timelog` (
   `minsWorked` int(10) NOT NULL,
   `toDeduct` float NOT NULL,
   PRIMARY KEY (`logno`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+
+--
+-- Dumping data for table `timelog`
+--
+
+INSERT INTO `timelog` (`logno`, `empID`, `logdate`, `timeIn`, `amOut`, `pmIn`, `timeOut`, `countInOut`, `onTime_AM`, `onTime_PM`, `hrsWorked`, `minsWorked`, `toDeduct`) VALUES
+(17, '13-037-048', '2017-01-29', '07:30 AM', '12:30 PM', '13:30 PM', '16:30 PM', 4, 1, 0, 8, 0, 0),
+(19, '13-037-048', '2017-01-30', '08:30 AM', '12:00 PM', '13:05 PM', '17:00 PM', 4, 0, 0, 7, 25, 0),
+(21, '13-037-048', '2017-01-31', '08:00 AM', '12:30 PM', '13:00 PM', '17:30 PM', 4, 0, 0, 9, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -349,6 +385,12 @@ INSERT INTO `withholdingtax` (`compensationLevel`, `exemption`, `status`, `Z`, `
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `deductions`
+--
+ALTER TABLE `deductions`
+  ADD CONSTRAINT `deduc_emp_eid` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
 
 --
 -- Constraints for table `employee`

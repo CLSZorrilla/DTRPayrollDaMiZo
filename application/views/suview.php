@@ -75,6 +75,14 @@ else if(isSet($dMgmt)){
 		redirect('main');
 	}
 }
+else if(isSet($AttendanceView)){
+	if($this->session->userdata('aType')){
+		$this->load->view($AttendanceView);
+	}
+	else{
+		redirect('main');
+	}
+}
 ?>
 </div>
 
