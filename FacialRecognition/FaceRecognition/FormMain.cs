@@ -17,7 +17,7 @@ namespace FaceRecognition
     {
         public string query, fileNameimg, comportno, numberOfFaceDetected, empStat, activated, countInOut, count, what_column;
         public int on_time_AM, on_time_PM;
-        public float vacationLeave, gross_pay, to_deduct;
+        public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
         //Declararation of all variables, vectors and haarcascades
@@ -234,7 +234,7 @@ namespace FaceRecognition
                 activated = (dataReader["activated"]).ToString();
                 empStat = (dataReader["status"]).ToString();
                 vacationLeave = (float)dataReader["VL"];
-                gross_pay = (float)dataReader["grossPay"];
+                basic_pay = (float)dataReader["basicPay"];
                 pic2.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
@@ -272,14 +272,14 @@ namespace FaceRecognition
             string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
             //AM shift
-            DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 00, 0); //6AM
-            DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 0); //12AM
+            DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 00, 59); //6AM
+            DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 59); //12PM
             //PM shift
-            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
-            DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 0); //7PM
+            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 59); //1PM
+            DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 59); //7PM
 
-            DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 0); //8AM
-            DateTime dt900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 00, 0); //10AM
+            DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 59); //8AM
+            DateTime dt900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 00, 59); //10AM
 
             int minsLate1 = 0, minsLate2 = 0, x = 0, y = 0, g = 0, f = 0;
             float to_deduct1 = 0, condition = 0;
@@ -430,7 +430,7 @@ namespace FaceRecognition
                         {
                             //update db
                             db_connection();
-                            query = "UPDATE timeLog SET " + what_column + "='" + militaryTime + "', timeOut ='" + militaryTime + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "', toDeduct = '" + to_deduct1 + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+                            query = "UPDATE timeLog SET " + what_column + "='" + militaryTime + "', timeOut ='" + militaryTime + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
                             cmd2 = new MySqlCommand(query, connect);
 
                             cmd2.ExecuteNonQuery();
@@ -438,26 +438,30 @@ namespace FaceRecognition
                             compute();
                             SaveImage();
 
-                            to_deduct1 = (float)minsLate2 * (float)0.002; //total minutes converted to equivalent day based on 8 hour workday
-
-                            //subtract to_deduct2 to VL from employee tbl
-                            condition = vacationLeave - to_deduct1;
-
-                            if ( condition < 0 ) //save the remaining balance to toDeduct @ tbl employee
+                            if (count == "3")
                             {
-                                condition = 0;
-                                to_deduct = to_deduct1 - vacationLeave;
-                                to_deduct = (gross_pay / 10560) * to_deduct1; //10560 = 22 * 8 * 60
+                                to_deduct1 = (float)minsLate2 * (float)0.002; //total minutes converted to equivalent day based on 8 hour workday
+
+                                //subtract to_deduct2 to VL from employee tbl
+                                condition = vacationLeave - to_deduct1;
+
+                                if (condition < 0) //save the remaining balance to toDeduct @ tbl employee
+                                {
+                                    condition = 0;
+                                    to_deduct = to_deduct1 - vacationLeave;
+                                    to_deduct = (basic_pay / 10560) * to_deduct1; //10560 = 22 * 8 * 60
+                                }
+
+                                query = "UPDATE employee SET VL ='" + condition + "', toDeduct ='" + to_deduct + "' WHERE empID='" + txtEmpID.Text + "'";
+                                cmd3 = new MySqlCommand(query, connect);
+
+                                cmd3.ExecuteNonQuery();
+                                cmd3.Dispose();
                             }
-                           
-                            db_connection();
-                            query = "UPDATE employee SET VL ='" + condition + "', toDeduct ='" + to_deduct + "' WHERE empID='" + txtEmpID.Text + "'";
-                            cmd3 = new MySqlCommand(query, connect);
-
-                            cmd3.ExecuteNonQuery();
-                            cmd3.Dispose();
-
                         }
+
+                        
+
                     }
                 }
             }
