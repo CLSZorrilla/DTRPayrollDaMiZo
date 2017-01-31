@@ -227,8 +227,7 @@
 								'id' => $dName[$key],
 								'placeholder' => $label,
 								'type' => $dType[$key],
-								'max' => '4',
-								'value' => set_value($dName[$key])
+								'max' => '4'
 							));
 						}
 						else{
@@ -237,8 +236,7 @@
 								'name' => $dName[$key],
 								'id' => $dName[$key],
 								'placeholder' => $label,
-								'type' => $dType[$key],
-								'value' => set_value($dName[$key])
+								'type' => $dType[$key]
 							));
 						}
 					}

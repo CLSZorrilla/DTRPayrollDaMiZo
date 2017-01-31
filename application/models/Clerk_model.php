@@ -96,7 +96,7 @@ class Clerk_model extends CI_Model{
 		}
 
 		//# of absences
-		$iter = 24*60*60;
+		$iter = 24*60*60; //segundo sa isang araw
 	    $weekEndcount = 0;
 	    $startDate = strtotime("2017-".$cMonth."-01");
 	    $endDate = strtotime("2017-".$cMonth."-31");
@@ -129,15 +129,18 @@ class Clerk_model extends CI_Model{
 											FROM philhealth
 											WHERE '".$grossPay."'>=startRange
 											AND '".$grossPay."'<=endRange");
-
+		
 		$pHealthContrib = $pHealthResult->row(0)->employeeshare; //Depending on salary bracket 
-		$gsis = round(($grossPay * 0.09),2); //9% of Gross pay
 
+		$gsis = round(($grossPay * 0.09),2); //9% of Gross pay
 		//Withholding Tax
+
+		$taxableIncome = $grossPay - ($pHealthContrib + $gsis + 100);
+
 		if($mStatusDep == 'ME1S1'){
 			$wTax = $this->db->query("SELECT ME1S1, exemption, status
 								FROM withholdingtax
-								WHERE ME1S1 <= '".$basicPay."'
+								WHERE ME1S1 <= '".$taxableIncome."'
 								AND compensationLevel LIKE 'monthly%'
 								ORDER BY ME1S1 DESC LIMIT 1");
 
@@ -148,7 +151,7 @@ class Clerk_model extends CI_Model{
 		else if($mStatusDep == 'ME2S2'){
 			$wTax = $this->db->query("SELECT ME2S2, exemption, status
 								FROM withholdingtax
-								WHERE ME2S2 <= '".$basicPay."'
+								WHERE ME2S2 <= '".$taxableIncome."'
 								AND compensationLevel LIKE 'monthly%'
 								ORDER BY ME2S2 DESC LIMIT 1");
 			$withholdingTable = $wTax->row(0)->ME2S2;
@@ -158,7 +161,7 @@ class Clerk_model extends CI_Model{
 		else if($mStatusDep == 'ME3S3'){
 			$wTax = $this->db->query("SELECT ME3S3, exemption, status
 								FROM withholdingtax
-								WHERE ME3S3 <= '".$basicPay."'
+								WHERE ME3S3 <= '".$taxableIncome."'
 								AND compensationLevel LIKE 'monthly%'
 								ORDER BY ME3S3 DESC LIMIT 1");
 			$withholdingTable = $wTax->row(0)->ME3S3;
@@ -168,7 +171,7 @@ class Clerk_model extends CI_Model{
 		else if($mStatusDep == 'ME4S4'){
 			$wTax = $this->db->query("SELECT ME4S4, exemption, status
 								FROM withholdingtax
-								WHERE ME4S4 <= '".$basicPay."'
+								WHERE ME4S4 <= '".$taxableIncome."'
 								AND compensationLevel LIKE 'monthly%'
 								ORDER BY ME4S4 DESC LIMIT 1");
 			$withholdingTable = $wTax->row(0)->ME4S4;
@@ -178,7 +181,7 @@ class Clerk_model extends CI_Model{
 		else{
 			$wTax = $this->db->query("SELECT SME, exemption, status
 								FROM withholdingtax
-								WHERE SME <= '".$basicPay."'
+								WHERE SME <= '".$taxableIncome."'
 								AND compensationLevel LIKE 'monthly%'
 								ORDER BY SME DESC LIMIT 1");
 			$withholdingTable = $wTax->row(0)->SME;
@@ -186,12 +189,9 @@ class Clerk_model extends CI_Model{
 			$status = $wTax->row(2)->status;
 		}
 
-		$taxableIncome = $grossPay - ($pHealthContrib + $gsis + 100);
-
 		$withholdingTax = round(((($taxableIncome - $withholdingTable) * $status) + $exemption),2);
 
-
-		return array($basicInfo, $peraDeduction, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
+		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
 
 	}
 

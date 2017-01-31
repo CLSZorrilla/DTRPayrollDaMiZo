@@ -123,7 +123,7 @@ class Employee extends CI_Controller{
 			$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
 			$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
 
-			if($this->form_validation->run() == FALSE || !$this->upload->do_upload('pic')){
+			if($this->form_validation->run() == FALSE){
 				$data = array(
 
 					'error' => validation_errors(),
@@ -136,11 +136,13 @@ class Employee extends CI_Controller{
 
 				$data['department'] = $this->Emp_model->load_dept();
 				$data['pictureError'] = $this->upload->display_errors();
+
 				$this->load->view('Suview', $data);
 
 			}
 			else{
 
+				echo "Chris";
 				$file_data = $this->upload->data();
 
 				$imgPath = base_url().'/uploads/'.$file_data['file_name'];
