@@ -13,14 +13,13 @@ using System.Data;
 using System.IO.Ports;
 namespace FaceRecognition
 {
-
-    public partial class FaceDetect : Form
+    public partial class FormMain : Form
     {
         public string query, fileNameimg, comportno, numberOfFaceDetected, empStat, activated, countInOut, count, what_column;
         public int on_time_AM, on_time_PM;
-        public float vacationLeave;
+        public float vacationLeave, gross_pay, to_deduct;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
-       
+
         //Declararation of all variables, vectors and haarcascades
         Image<Bgr, Byte> currentFrame;
         Capture grabber;
@@ -30,13 +29,13 @@ namespace FaceRecognition
         Image<Gray, byte> result, TrainedFace = null;
         Image<Gray, byte> gray = null;
         List<Image<Gray, byte>> trainingImages = new List<Image<Gray, byte>>();
-        List<string> labels= new List<string>();
+        List<string> labels = new List<string>();
         List<string> NamePersons = new List<string>();
         int ContTrain, NumLabels, t;
         string name, names = null;
 
 
-        public FaceDetect()
+        public FormMain()
         {
             InitializeComponent();
             face = new HaarCascade("haarcascade_frontalface_default.xml");
@@ -50,7 +49,7 @@ namespace FaceRecognition
                 ContTrain = NumLabels;
                 string LoadFaces;
 
-                for (int tf = 1; tf < NumLabels+1; tf++)
+                for (int tf = 1; tf < NumLabels + 1; tf++)
                 {
                     LoadFaces = "face" + tf + ".bmp";
                     trainingImages.Add(new Image<Gray, byte>(Application.StartupPath + "/TrainedFaces/" + LoadFaces));
@@ -58,7 +57,7 @@ namespace FaceRecognition
                 }
 
             }
-            catch(Exception)
+            catch (Exception)
             {
                 MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
@@ -98,7 +97,7 @@ namespace FaceRecognition
 
 
         private void StartCapturing()
-        { 
+        {
             grabber = new Capture();
             grabber.QueryFrame();
             Application.Idle += new EventHandler(FrameGrabber);
@@ -146,11 +145,11 @@ namespace FaceRecognition
 
                 }
 
-                NamePersons[t-1] = name;
+                NamePersons[t - 1] = name;
                 NamePersons.Add("");
                 numberOfFaceDetected = facesDetected[0].Length.ToString();
             }
-                    
+
             t = 0;
 
             //Names concatenation of persons recognized
@@ -235,6 +234,7 @@ namespace FaceRecognition
                 activated = (dataReader["activated"]).ToString();
                 empStat = (dataReader["status"]).ToString();
                 vacationLeave = (float)dataReader["VL"];
+                gross_pay = (float)dataReader["grossPay"];
                 pic2.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
@@ -272,17 +272,17 @@ namespace FaceRecognition
             string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
             //AM shift
-            DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 01, 0); //6AM
-            DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 01, 0); //12AM
+            DateTime dt600 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 6, 00, 0); //6AM
+            DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 0); //12AM
             //PM shift
-            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 01, 0); //1PM
-            DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 01, 0); //7PM
+            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
+            DateTime dt1900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 19, 00, 0); //7PM
 
-            DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 01, 0); //8AM
-            DateTime dt900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 01, 0); //9AM
+            DateTime dt800 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 8, 00, 0); //8AM
+            DateTime dt900 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 9, 00, 0); //10AM
 
-            int minsLate = 0, minsLate1 = 0, mins_late = 0, x = 0, y = 0, g = 0, f = 0;
-            float to_deduct = 0, to_deduct1 = 0;
+            int minsLate1 = 0, minsLate2 = 0, x = 0, y = 0, g = 0, f = 0;
+            float to_deduct1 = 0, condition = 0;
             TimeSpan timeLate;
 
 
@@ -310,6 +310,7 @@ namespace FaceRecognition
                             {
                                 MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
                                 on_time_AM = 0;
+
                                 //count minutes late
                                 timeLate = currentDate - dt900;
                                 x = timeLate.Hours;
@@ -318,9 +319,8 @@ namespace FaceRecognition
                                     y = (timeLate.Minutes);
                                 }
 
-                                minsLate = (x * 60) + y;
-                                to_deduct = (float)minsLate * (float)0.002;
-
+                                minsLate1 = (x * 60) + y;
+                               // to_deduct1 = (float)minsLate1 * (float)0.002;
                             }
                             break;
 
@@ -334,6 +334,7 @@ namespace FaceRecognition
                             {
                                 MessageBox.Show("You're Late" + Environment.NewLine + "Time In: " + time_only);
                                 on_time_AM = 0;
+
                                 //count minutes late
                                 timeLate = currentDate - dt800;
                                 x = timeLate.Hours;
@@ -342,9 +343,8 @@ namespace FaceRecognition
                                     y = (timeLate.Minutes);
                                 }
 
-                                minsLate = (x * 60) + y;
-                                to_deduct = (float)minsLate * (float)0.002;
-
+                                minsLate1 = (x * 60) + y;
+                                //to_deduct1 = (float)minsLate1 * (float)0.002;
                             }
                             break;
 
@@ -357,7 +357,7 @@ namespace FaceRecognition
 
                     //insert to db
                     db_connection();
-                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM, toDeduct) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + militaryTime + "', 1,'" + on_time_AM + "','" + to_deduct + "');";
+                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + militaryTime + "', 1,'" + on_time_AM + "');";
                     cmd = new MySqlCommand(query, connect);
 
                     cmd.ExecuteNonQuery();
@@ -377,7 +377,6 @@ namespace FaceRecognition
                     if (dataReader.Read())
                     {
                         countInOut = dataReader["countInOut"].ToString();
-                        mins_late = Convert.ToInt32(dataReader["toDeduct"]);
 
                         switch (countInOut)
                         {
@@ -408,10 +407,9 @@ namespace FaceRecognition
                                         f = (timeLate.Minutes);
                                     }
 
-                                    minsLate1 = (g * 60) + f;
-                                    mins_late += minsLate1;
+                                    minsLate2 = (g * 60) + f;
 
-                                    to_deduct1 = (float)mins_late * (float)0.002;
+                                    minsLate2 += minsLate1; // total of minutes late for the day
                                 }
                                 break;
 
@@ -440,12 +438,20 @@ namespace FaceRecognition
                             compute();
                             SaveImage();
 
+                            to_deduct1 = (float)minsLate2 * (float)0.002; //total minutes converted to equivalent day based on 8 hour workday
 
-                            //subtract to_deduct1 to VL from employee tbl
+                            //subtract to_deduct2 to VL from employee tbl
+                            condition = vacationLeave - to_deduct1;
 
-                            vacationLeave -= to_deduct1;
+                            if ( condition < 0 ) //save the remaining balance to toDeduct @ tbl employee
+                            {
+                                condition = 0;
+                                to_deduct = to_deduct1 - vacationLeave;
+                                to_deduct = (gross_pay / 10560) * to_deduct1; //10560 = 22 * 8 * 60
+                            }
+                           
                             db_connection();
-                            query = "UPDATE employee SET VL ='" + vacationLeave + "' WHERE empID='" + txtEmpID.Text + "'";
+                            query = "UPDATE employee SET VL ='" + condition + "', toDeduct ='" + to_deduct + "' WHERE empID='" + txtEmpID.Text + "'";
                             cmd3 = new MySqlCommand(query, connect);
 
                             cmd3.ExecuteNonQuery();
@@ -463,8 +469,8 @@ namespace FaceRecognition
         DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
 
         private void compute()
-        {   
-            
+        {
+
             //get all time value from timelog
             db_connection();
             cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
@@ -498,7 +504,7 @@ namespace FaceRecognition
                     totalmin = ((a * 60) + b) % 60;//GET TOTAL MINS WORK
                     break;
 
-               
+
                 case "4"://done with timeOut
 
                     DateTime pmIn = DateTime.Parse(pm_in);
@@ -563,5 +569,5 @@ namespace FaceRecognition
             d.Show();
             d.Focus();
         }
-   }
+    }
 }

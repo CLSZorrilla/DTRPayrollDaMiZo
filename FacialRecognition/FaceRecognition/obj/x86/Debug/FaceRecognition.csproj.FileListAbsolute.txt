@@ -82,3 +82,5 @@ C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
