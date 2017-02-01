@@ -28,15 +28,6 @@ class Clerk extends CI_Controller{
 			redirect('Clerk');
 		}
 	}
-
-	public function adjTimeGetPayroll(){
-		$sTime = $this->input->post('startTime');
-		$eTime = $this->input->post('endTime');
-
-		$result = $this->Clerk_model->payrollAdjTime($sTime, $eTime, $this->uri->segment(3));
-
-		return $result;
-	}
 }
 
 

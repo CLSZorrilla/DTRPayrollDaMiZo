@@ -31,6 +31,8 @@ class Clerk_model extends CI_Model{
 		$pera = $basicInfo->row(4)->pera;
 		$dep = $basicInfo->row(2)->noOfDependents;
 		$mStatusDep = substr($basicInfo->row(1)->maritalStatus,0,1)."E".$dep."S".$dep;
+		$sTime = $this->input->post('startTime');
+		$eTime = $this->input->post('endTime');
 
 
 		//# of days late
@@ -75,23 +77,49 @@ class Clerk_model extends CI_Model{
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
 		//Undertime Deduction
-		$uTimeDeduction = $this->db->query("SELECT 
-				timediff(timeDiff(amOut,'08:00:00'),
+		$uTime= $this->db->query("SELECT 
+				addtime(timediff(timeDiff(amOut,'08:00:00'),
 				addTime(timeDiff(amOut, '12:00:00'), 
 				CASE
 				WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
 				ELSE timeDiff(timeIn, '08:00:00')
-				END)) as amWorked 
-				FROM `timelog`");
+				END)),
+                 
+                (timeDiff(timeDiff(timeOut, '13:00:00'),
+                addTime(
+                CASE
+                WHEN timeDiff(pmIn, '13:00:00') < 0 THEN '00:00:00'
+                ELSE timeDiff(pmIn, '13:00:00')
+                END, 
+                timeDiff(timeOut,'17:00:00'))))) as hoursWorked
+                FROM `timelog`
+                WHERE empID LIKE '".$eid."'
+				AND substr(logdate,6,2) LIKE '".$cMonth."'
+				");
 
-		$amWorked = array();
-		$pmWorked = array();
+		$numOfDays = $uTime->num_rows()*8;
+		$hoursWorked = array();
 
-		foreach($uTimeDeduction->result() as $hoursWorked){
-			array_push($amWorked, $hoursWorked->amWorked);
-			array_push($pmWorked, $hoursWorked->pmWorked);
+		foreach($uTime->result() as $hours){
+			array_push($hoursWorked, $hours->hoursWorked);
 		}
 
+		$hrsUtime = 0;
+		$minsUtime = 0;
+		$totalUtime = 0;
+
+		foreach ($hoursWorked as $hrsandmins) {
+			if($hrsandmins < "08:00:00"){
+				$hrsUtime += substr($hrsandmins,0,2)*60;
+				$minsUtime += substr($hrsandmins,3,2);
+			}
+		}
+
+		$totalUtime = ($hrsUtime + $minsUtime)/60;
+
+		$uTimeDeduction = 0;
+
+		$uTimeDeduction = round(($numOfDays - $totalUtime) * ($hourlyRate),2); 
 		//Additional Deductions
 		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
 
@@ -140,7 +168,7 @@ class Clerk_model extends CI_Model{
 	    $peraDailyRate = $pera/22;
 	    $peraDeduction = round(($absences * $peraDailyRate),2);
 	    //----------------------------------------------------------------
-		$grossPay = ($basicPay + $pera) - $lateDeduction - $absentDeduction - $peraDeduction;
+		$grossPay = ($basicPay + $pera) - $lateDeduction - $absentDeduction - $uTimeDeduction - $peraDeduction;
 
 		//Philhealth
 		$pHealthResult = $this->db->query("SELECT employeeshare
@@ -148,8 +176,12 @@ class Clerk_model extends CI_Model{
 											WHERE '".$grossPay."'>=startRange
 											AND '".$grossPay."'<=endRange");
 		
+		if($grossPay != 0){
 		$pHealthContrib = $pHealthResult->row(0)->employeeshare; //Depending on salary bracket 
-
+		}
+		else{
+			$pHealthContrib = 0;
+		}
 		$gsis = round(($grossPay * 0.09),2); //9% of Gross pay
 		//Withholding Tax
 
@@ -209,7 +241,7 @@ class Clerk_model extends CI_Model{
 
 		$withholdingTax = round(((($taxableIncome - $withholdingTable) * $status) + $exemption),2);
 
-		return array($basicInfo, $amWorked, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
+		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
 
 	}
 }

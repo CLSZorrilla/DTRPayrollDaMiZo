@@ -42,10 +42,10 @@
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
 		<?php 
-			foreach($pInfoRes[1] as $pres){
+			/*foreach($pInfoRes[1] as $pres){
 				echo $pres."<br/>";
-			}
-			//echo $pInfoRes[1]; 
+			}*/
+			echo $pInfoRes[1]; 
 		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 
@@ -145,7 +145,7 @@
 		
 		$.ajax({
 			type: "POST",
-			url:"adjTimeGetPayroll",
+			url:"payroll_computation",
 			data:{startTime,endTime},
 			success: function(r){
 				alert(r);
