@@ -28,6 +28,10 @@ class Clerk extends CI_Controller{
 			redirect('Clerk');
 		}
 	}
+
+	public function adjPayroll(){
+		$this->Clerk_model->timeAdjPayroll();
+	}
 }
 
 

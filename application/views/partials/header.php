@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/responsive.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.alerts.css" />
-<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootcomplete.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-attendance.css" />
 
 <script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>

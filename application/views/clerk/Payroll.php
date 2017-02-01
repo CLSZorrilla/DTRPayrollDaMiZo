@@ -45,7 +45,10 @@
 			/*foreach($pInfoRes[1] as $pres){
 				echo $pres."<br/>";
 			}*/
-			echo $pInfoRes[1]; 
+
+			echo $pInfoRes[1];
+
+			//echo date("H:i",strtotime("04:00:00")) + date("H:i",strtotime("00:00:00"));
 		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 
@@ -142,16 +145,19 @@
 	$('#timeadjust').click(function(){
 		var startTime = $( "#sTime option:selected" ).val();
 		var endTime = $( "#eTime option:selected" ).val();
+		var eid = "<?php echo $this->uri->segment(3); ?>";
 		
 		$.ajax({
 			type: "POST",
-			url:"payroll_computation",
-			data:{startTime,endTime},
+			url:"<?php echo base_url(); ?>" + "Clerk/adjPayroll",
+			timeout: 100000000000000000000000000000000000,
+			data:{startTime,endTime, eid},
 			success: function(r){
+				//var result = $.parseJSON(r);
 				alert(r);
 			},
 			error: function(r){
-				alert('FAIL');
+				alert("FAIL" +r);
 			}
 		});
 	});

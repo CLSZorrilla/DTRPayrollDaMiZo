@@ -62,7 +62,7 @@
 											<td>".$info->sex."</td>
 											<td><img src='".$info->picture."' width='20' height='25'/></td>
 											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
-											<span>|</span>";
+											";
 										if($info->activated == 'TRUE'){
 										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a></td></tr>";
 										}
