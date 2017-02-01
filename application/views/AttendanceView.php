@@ -8,8 +8,6 @@
     foreach($result as $res){
       echo "<input type='hidden' id='calendarData' value='".$res."' />";
     }
-
-    //echo $result[0];
   ?>
 	<div class="BodyContainer">
 		<div class="BodyContent">
@@ -32,7 +30,6 @@
   $(document).ready(function(){
   var cData = $('#calendarData').val();
 
-  alert(cData);
   $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
 
     var date = new Date();

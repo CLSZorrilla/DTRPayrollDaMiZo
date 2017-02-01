@@ -41,7 +41,12 @@
 			<button id="timeadjust">Adjust official time</button>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
-		<?php echo $pInfoRes[1]; ?>
+		<?php 
+			foreach($pInfoRes[1] as $pres){
+				echo $pres."<br/>";
+			}
+			//echo $pInfoRes[1]; 
+		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 
 		<div class="col-md-6">

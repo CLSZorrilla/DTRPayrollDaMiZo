@@ -8,9 +8,6 @@ class Employee extends CI_Controller{
 		$this->load->model('Emp_model');
 		$config['upload_path'] = './uploads/';
 		$config['allowed_types'] = 'gif|jpg|png';
-		$config['max_size']     = '100';
-		$config['max_width'] = '1024';
-		$config['max_height'] = '768';
 		$this->load->library('upload', $config);
 	}
 
@@ -73,9 +70,6 @@ class Employee extends CI_Controller{
 				'error' => validation_errors()
 
 				);
-			foreach($data as $d){
-				echo $d;
-			}
 
 		}
 		else{
@@ -123,7 +117,7 @@ class Employee extends CI_Controller{
 			$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
 			$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
 
-			if($this->form_validation->run() == FALSE){
+			if($this->form_validation->run() == FALSE || !$this->upload->do_upload('pic')){
 				$data = array(
 
 					'error' => validation_errors(),
@@ -142,7 +136,6 @@ class Employee extends CI_Controller{
 			}
 			else{
 
-				echo "Chris";
 				$file_data = $this->upload->data();
 
 				$imgPath = base_url().'/uploads/'.$file_data['file_name'];

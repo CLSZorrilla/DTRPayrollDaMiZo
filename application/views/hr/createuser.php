@@ -196,8 +196,10 @@
 			<?php
 				echo form_upload('pic','Profile Picture');
 			?>
-			<?php 
-				form_error($dName[$key]);
+			<?php
+				if(isSet($pictureError)){
+					echo $pictureError;
+				}
 			?>
 			</div>
 		</div>
@@ -299,4 +301,20 @@ $('#cNo').mask("0999-999-9999", {placeholder:" "});
 $('#gsisNo').mask("999999999-9999");
 $('#phNo').mask("999999999-9999");
 $('#tin').mask("999999999-9999");
+
+$('input:radio[name="type"]').change(
+    function(){
+        if (this.checked && this.value == 'Contractual') {
+            $("#vLeave").hide();
+            $('label[for="vLeave"]').hide();
+            $("#sLeave").hide();
+            $('label[for="sLeave"]').hide();
+        }
+        else if (this.checked && this.value == 'Regular') {
+            $("#vLeave").show();
+            $('label[for="vLeave"]').show();
+            $("#sLeave").show();
+            $('label[for="sLeave"]').show();
+        }
+    });
 </script>
