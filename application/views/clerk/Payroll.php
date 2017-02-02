@@ -28,17 +28,6 @@
 	<div class="BodyContent">
 		<div class="row Title">
 			<h4>Salary Computation</h4>
-			<select name="sTime" id="sTime">
-				<option value="7:00:00 AM">07:00:00</option>
-				<option value="8:00:00 AM">08:00:00</option>
-				<option value="9:00:00 AM">09:00:00</option>
-			</select> -
-			<select name="endTime" id="eTime">
-				<option value="4:00:00 PM">16:00:00</option>
-				<option value="5:00:00 PM">17:00:00</option>
-				<option value="6:00:00 PM">18:00:00</option>
-			</select>
-			<button id="timeadjust">Adjust official time</button>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
 		<?php 
@@ -46,7 +35,7 @@
 				echo $pres."<br/>";
 			}*/
 
-			echo $pInfoRes[1];
+			//echo $pInfoRes[1];
 
 			//echo date("H:i",strtotime("04:00:00")) + date("H:i",strtotime("00:00:00"));
 		?>
@@ -83,7 +72,8 @@
 					default:
 			?>
 			<div class="form-group">
-				<?php echo form_label($label, $dName[$key], $lAttrib); ?>
+				<?php echo form_label($label, $dName[$key], $lAttrib); 
+				if($dName[$key] == 'fName'):?>
 				<div class="col-md-10 col-lg-9">
 					<?php
 						echo form_input(array(
@@ -98,6 +88,22 @@
 						echo form_error($dName[$key], '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
 					?>
 				</div>
+			<?php else:?>
+				<div class="col-md-5">
+					<?php
+						echo form_input(array(
+							'class' => 'form-control text-box single-line',
+							'name' => $dName[$key],
+							'id' => $dName[$key],
+							'placeholder' => $label,
+							'type' => $dType[$key],
+							'value' => $ESlip[$key]
+						));
+
+						echo form_error($dName[$key], '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+					?>
+				</div>
+			<?php endif; ?>
 			</div>
 			<?php 
 				} 
@@ -142,7 +148,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-	$('#timeadjust').click(function(){
+	/*$('#timeadjust').click(function(){
 		var startTime = $( "#sTime option:selected" ).val();
 		var endTime = $( "#eTime option:selected" ).val();
 		var eid = "<?php echo $this->uri->segment(3); ?>";
@@ -150,15 +156,14 @@
 		$.ajax({
 			type: "POST",
 			url:"<?php echo base_url(); ?>" + "Clerk/adjPayroll",
-			timeout: 100000000000000000000000000000000000,
 			data:{startTime,endTime, eid},
 			success: function(r){
-				//var result = $.parseJSON(r);
+				var result = $.parseJSON(r);
 				alert(r);
 			},
 			error: function(r){
 				alert("FAIL" +r);
 			}
 		});
-	});
+	});*/
 </script>

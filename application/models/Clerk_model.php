@@ -75,8 +75,17 @@ class Clerk_model extends CI_Model{
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
 		//Undertime Deduction
-		$uTime= $this->db->query("SELECT timediff(timeDiff(amOut,'08:00:00'),addTime(timeDiff(amOut, '12:00:00'),CASE WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
-			ELSE timeDiff(timeIn, '08:00:00')END)) as amWorked,
+		$uTime= $this->db->query("SELECT 
+			timediff(timeDiff(amOut,'08:00:00'),
+			addTime(
+			CASE 
+				WHEN timeDiff(amOut, '12:00:00') < 0 THEN '00:00:00'
+				ELSE timeDiff(amOut, '12:00:00')
+			END,
+			CASE 
+				WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
+				ELSE timeDiff(timeIn, '08:00:00')
+			END)) as amWorked,
 
 			CASE
 				WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
@@ -85,7 +94,10 @@ class Clerk_model extends CI_Model{
 					WHEN timeDiff(pmIn, '13:00:00') < 0 THEN '00:00:00' 
 					ELSE timeDiff(pmIn, '13:00:00')
 				END,
-				timeDiff(timeOut,'17:00:00')))
+				CASE
+					WHEN timeDiff(timeOut,'17:00:00') < 0 THEN '00:00:00'
+					ELSE timeDiff(timeOut,'17:00:00')
+				END ))
 			END as pmWorked
 
 			FROM `timelog`
@@ -254,13 +266,8 @@ class Clerk_model extends CI_Model{
 
 	public function timeAdjPayroll(){
 		$eid = $this->input->post('eid');
-		//$sTime = $this->input->post('startTime');
-		//$eTime = $this->input->post('endTime');
-		//$aray = get_payroll_info($eid);
-		try{
-			//echo $eid." ".$sTime." ".$eTime;
-		echo json_encoder(get_payroll_info($eid));
-		}catch(Exception $e){echo "porn";}
+
+		echo json_encode($this->Clerk_model->get_payroll_info($eid));
 	}
 }
 

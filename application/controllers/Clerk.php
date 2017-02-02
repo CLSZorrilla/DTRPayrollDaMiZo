@@ -9,7 +9,7 @@ class Clerk extends CI_Controller{
 	}
 
 	public function index(){
-		$data['payrollEmpList'] = "clerk/hrpayroll";
+		$data['payrollEmpList'] = "clerk/computepayroll";
 
 		$data['uinfo'] = $this->Clerk_model->get_emp_list();
 
@@ -27,10 +27,6 @@ class Clerk extends CI_Controller{
 		else{
 			redirect('Clerk');
 		}
-	}
-
-	public function adjPayroll(){
-		$this->Clerk_model->timeAdjPayroll();
 	}
 }
 
