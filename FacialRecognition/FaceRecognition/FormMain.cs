@@ -15,8 +15,7 @@ namespace FaceRecognition
 {
     public partial class FormMain : Form
     {
-        public string query, fileNameimg, comportno, numberOfFaceDetected, empStat, activated, countInOut, count, what_column, start, end;
-        public int on_time_AM, on_time_PM;
+        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, theme;
         public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
@@ -93,6 +92,9 @@ namespace FaceRecognition
         {
             timer1.Start();
             StartCapturing();
+
+            searchCompany();
+            panel1.BackColor = ColorTranslator.FromHtml(theme);
         }
 
 
@@ -215,8 +217,7 @@ namespace FaceRecognition
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            if (txtEmpID.Text == "")
-            { btnCapture.Enabled = false; }
+            if (txtEmpID.Text == "") { btnCapture.Enabled = false; }
             else
             { btnCapture.Enabled = true; }
                 searchEmployee();
@@ -233,6 +234,8 @@ namespace FaceRecognition
             {
                 start = (dataReader["startTime"]).ToString();
                 end = (dataReader["endTime"]).ToString();
+                theme = (dataReader["colorTheme"]).ToString();
+                picLogo.ImageLocation = dataReader["logo"].ToString();
             }
         }
 
@@ -249,10 +252,9 @@ namespace FaceRecognition
                 lblEmpID.Text = (dataReader["empID"]).ToString();
                 lblname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
                 activated = (dataReader["activated"]).ToString();
-                empStat = (dataReader["status"]).ToString();
                 vacationLeave = (float)dataReader["VL"];
                 basic_pay = (float)dataReader["basicPay"];
-                pic2.ImageLocation = dataReader["picture"].ToString();
+                _picture.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
                 if (activated == "FALSE")
@@ -260,7 +262,6 @@ namespace FaceRecognition
                     MessageBox.Show("Inactive Account.");
                     return;
                 }
-                //empINOUT();
                 cmd.Dispose();
                 return;
             }
@@ -316,64 +317,30 @@ namespace FaceRecognition
                 string AlreadyExist = cmd1.ExecuteScalar().ToString();
                 if (AlreadyExist == "0")//timeIn
                 {
-                    switch (empStat)
+                    count = "1";
+                    if (currentDate <= _start)
                     {
-                        case "Regular":
-                            if (currentDate <= _start)
-                            {
-                                MessageBox.Show("Time In: " + time_only);
-                                on_time_AM = 1;
-                            }
-                            else //late
-                            {
-                                MessageBox.Show("Time In: " + time_only);
-                                on_time_AM = 0;
+                        MessageBox.Show("Time In: " + time_only);
+                    }
+                    else //late
+                    {
+                        MessageBox.Show("Time In: " + time_only);
 
-                                //count minutes late
-                                timeLate = currentDate - _start;
-                                x = timeLate.Hours;
-                                if (timeLate.Minutes != 0)
-                                {
-                                    y = (timeLate.Minutes);
-                                }
+                        //count minutes late
+                        timeLate = currentDate - _start;
+                        x = timeLate.Hours;
+                        if (timeLate.Minutes != 0)
+                        {
+                            y = (timeLate.Minutes);
+                        }
 
-                                minsLate1 = (x * 60) + y;
-                               // to_deduct1 = (float)minsLate1 * (float)0.002;
-                            }
-                            break;
-
-                        case "Contractual":
-                            if (currentDate <= _start)
-                            {
-                                MessageBox.Show("Time In: " + time_only);
-                                on_time_AM = 1;
-                            }
-                            else //late
-                            {
-                                MessageBox.Show("Time In: " + time_only);
-                                on_time_AM = 0;
-
-                                //count minutes late
-                                timeLate = currentDate - _start;
-                                x = timeLate.Hours;
-                                if (timeLate.Minutes != 0)
-                                {
-                                    y = (timeLate.Minutes);
-                                }
-
-                                minsLate1 = (x * 60) + y;
-                                //to_deduct1 = (float)minsLate1 * (float)0.002;
-                            }
-                            break;
-
-                        default:
-                            MessageBox.Show("INVALID EMPLOYEE STATUS");
-                            break;
+                        minsLate1 = (x * 60) + y;
+                        // to_deduct1 = (float)minsLate1 * (float)0.002;
                     }
 
                     //insert to db
                     db_connection();
-                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut, onTime_AM) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + militaryTime + "', 1,'" + on_time_AM + "');";
+                    query = "INSERT INTO timelog(empID, logdate, timeIn, countInOut) VALUES('" + txtEmpID.Text + "','" + date_only + "','" + militaryTime + "','" + count + "');";
                     cmd = new MySqlCommand(query, connect);
 
                     cmd.ExecuteNonQuery();
@@ -383,7 +350,6 @@ namespace FaceRecognition
                 }
                 else //amOut onwards
                 {
-
                     //get countInOut value from db
                     db_connection();
                     cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
@@ -406,12 +372,10 @@ namespace FaceRecognition
                                 if (currentDate <= dt1300)
                                 {
                                     MessageBox.Show("PM In: " + time_only);
-                                    on_time_PM = 1;
                                 }
                                 else //late
                                 {
                                     MessageBox.Show("PM In: " + time_only);
-                                    on_time_PM = 0;
 
                                     //count minutes late
                                     timeLate = currentDate - dt1300;
@@ -420,9 +384,7 @@ namespace FaceRecognition
                                     {
                                         f = (timeLate.Minutes);
                                     }
-
                                     minsLate2 = (g * 60) + f;
-
                                     minsLate2 += minsLate1; // total of minutes late for the day
                                 }
                                 break;
@@ -444,7 +406,7 @@ namespace FaceRecognition
                         {
                             //update db
                             db_connection();
-                            query = "UPDATE timeLog SET " + what_column + "='" + militaryTime + "', timeOut ='" + militaryTime + "', countInOut='" + count + "', onTime_PM = '" + on_time_PM + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+                            query = "UPDATE timeLog SET " + what_column + "='" + militaryTime + "', timeOut ='" + militaryTime + "', countInOut='" + count + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
                             cmd2 = new MySqlCommand(query, connect);
 
                             cmd2.ExecuteNonQuery();
@@ -580,7 +542,7 @@ namespace FaceRecognition
         private void btnRegisterFace_Click(object sender, EventArgs e)
         {
             this.Hide();
-            RegisterFace d = new RegisterFace();
+            FaceRegister d = new FaceRegister();
             d.Show();
             d.Focus();
         }

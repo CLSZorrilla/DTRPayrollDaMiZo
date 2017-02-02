@@ -59,15 +59,5 @@ namespace FaceRecognition.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap LTO_logo {
-            get {
-                object obj = ResourceManager.GetObject("LTO-logo", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

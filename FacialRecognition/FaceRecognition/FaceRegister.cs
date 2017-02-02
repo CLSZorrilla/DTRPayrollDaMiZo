@@ -17,7 +17,7 @@ namespace FaceRecognition
 {
     public partial class FaceRegister : Form
     {
-        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc;
+        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc, theme;
         public int fileNameimg;
 
         //Declararation of all variables, vectors and haarcascades
@@ -170,6 +170,20 @@ namespace FaceRecognition
         private void RegisterFace_Load(object sender, EventArgs e)
         {
             button1_Click(sender, e);
+            searchCompany();
+            panel1.BackColor = ColorTranslator.FromHtml(theme);
+        }
+
+        private void searchCompany()
+        {
+            db_connection();
+            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE name='" + company_name.Text + "'", connect);
+            dataReader = cmd.ExecuteReader();
+            if (dataReader.Read())
+            {
+                theme = (dataReader["colorTheme"]).ToString();
+                picLogo.ImageLocation = dataReader["logo"].ToString();
+            }
         }
 
         private void btnFaceAdd_Click(object sender, EventArgs e)
@@ -277,8 +291,8 @@ namespace FaceRecognition
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-             this.Hide();
-            FaceDetect  d = new FaceDetect();
+            this.Hide();
+            FormMain d = new FormMain();
             d.ShowDialog ();
         
         }
@@ -318,6 +332,14 @@ namespace FaceRecognition
             }
             cmd.Dispose();
             return;
+        }
+
+        private void btnReturn_Click(object sender, EventArgs e)
+        {
+            this.Close();
+            FormMain d = new FormMain();
+            d.Show();
+            d.Focus();
         }
     }
 }

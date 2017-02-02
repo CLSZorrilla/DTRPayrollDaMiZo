@@ -32,33 +32,34 @@
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.company_name = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.imageBoxFrameGrabber = new Emgu.CV.UI.ImageBox();
+            this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.btnReturn = new System.Windows.Forms.Button();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
             this.btnFaceAdd = new System.Windows.Forms.Button();
             this.txtname = new System.Windows.Forms.TextBox();
-            this.imageBox1 = new Emgu.CV.UI.ImageBox();
-            this.imageBoxFrameGrabber = new Emgu.CV.UI.ImageBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.btnReturn = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.tableLayoutPanel5.SuspendLayout();
-            this.tableLayoutPanel6.SuspendLayout();
-            this.panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
+            this.tableLayoutPanel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panel4.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -81,7 +82,7 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.Color.Blue;
+            this.panel1.BackColor = System.Drawing.Color.Black;
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(3, 58);
             this.panel1.Name = "panel1";
@@ -95,8 +96,8 @@
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 692F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.panel2, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.panel3, 2, 0);
+            this.tableLayoutPanel2.Controls.Add(this.picLogo, 1, 0);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -104,15 +105,6 @@
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel2.Size = new System.Drawing.Size(1052, 49);
             this.tableLayoutPanel2.TabIndex = 1;
-            // 
-            // panel2
-            // 
-            this.panel2.BackgroundImage = global::FaceRecognition.Properties.Resources.LTO_logo;
-            this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel2.Location = new System.Drawing.Point(18, 3);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(44, 43);
-            this.panel2.TabIndex = 0;
             // 
             // panel3
             // 
@@ -142,6 +134,17 @@
             this.label1.Size = new System.Drawing.Size(353, 32);
             this.label1.TabIndex = 2;
             this.label1.Text = "Daily Employee Time In/Out";
+            // 
+            // picLogo
+            // 
+            this.picLogo.BackColor = System.Drawing.Color.White;
+            this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picLogo.Location = new System.Drawing.Point(18, 3);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(44, 43);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 1135;
+            this.picLogo.TabStop = false;
             // 
             // tableLayoutPanel3
             // 
@@ -188,9 +191,33 @@
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 1;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 338F));
             this.tableLayoutPanel5.Size = new System.Drawing.Size(688, 338);
             this.tableLayoutPanel5.TabIndex = 0;
+            // 
+            // imageBoxFrameGrabber
+            // 
+            this.imageBoxFrameGrabber.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imageBoxFrameGrabber.BackColor = System.Drawing.SystemColors.Control;
+            this.imageBoxFrameGrabber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBoxFrameGrabber.Location = new System.Drawing.Point(22, 19);
+            this.imageBoxFrameGrabber.Name = "imageBoxFrameGrabber";
+            this.imageBoxFrameGrabber.Size = new System.Drawing.Size(300, 300);
+            this.imageBoxFrameGrabber.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageBoxFrameGrabber.TabIndex = 7;
+            this.imageBoxFrameGrabber.TabStop = false;
+            // 
+            // imageBox1
+            // 
+            this.imageBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imageBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBox1.Location = new System.Drawing.Point(366, 19);
+            this.imageBox1.Name = "imageBox1";
+            this.imageBox1.Size = new System.Drawing.Size(300, 300);
+            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageBox1.TabIndex = 6;
+            this.imageBox1.TabStop = false;
             // 
             // tableLayoutPanel6
             // 
@@ -208,6 +235,17 @@
             this.tableLayoutPanel6.Size = new System.Drawing.Size(688, 144);
             this.tableLayoutPanel6.TabIndex = 1;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.pictureBox1.Location = new System.Drawing.Point(3, 15);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(113, 113);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 1124;
+            this.pictureBox1.TabStop = false;
+            // 
             // panel4
             // 
             this.panel4.Controls.Add(this.btnReturn);
@@ -219,6 +257,19 @@
             this.panel4.Name = "panel4";
             this.panel4.Size = new System.Drawing.Size(444, 138);
             this.panel4.TabIndex = 0;
+            // 
+            // btnReturn
+            // 
+            this.btnReturn.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.btnReturn.Font = new System.Drawing.Font("Berlin Sans FB", 18F);
+            this.btnReturn.Location = new System.Drawing.Point(226, 75);
+            this.btnReturn.Name = "btnReturn";
+            this.btnReturn.Size = new System.Drawing.Size(168, 53);
+            this.btnReturn.TabIndex = 1124;
+            this.btnReturn.Text = "Return";
+            this.btnReturn.UseVisualStyleBackColor = true;
+            this.btnReturn.Click += new System.EventHandler(this.btnReturn_Click);
             // 
             // maskedTextBox1
             // 
@@ -258,53 +309,6 @@
             this.txtname.TabIndex = 1122;
             this.txtname.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
-            // imageBox1
-            // 
-            this.imageBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imageBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox1.Location = new System.Drawing.Point(366, 19);
-            this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(300, 300);
-            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imageBox1.TabIndex = 6;
-            this.imageBox1.TabStop = false;
-            // 
-            // imageBoxFrameGrabber
-            // 
-            this.imageBoxFrameGrabber.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imageBoxFrameGrabber.BackColor = System.Drawing.SystemColors.Control;
-            this.imageBoxFrameGrabber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBoxFrameGrabber.Location = new System.Drawing.Point(22, 19);
-            this.imageBoxFrameGrabber.Name = "imageBoxFrameGrabber";
-            this.imageBoxFrameGrabber.Size = new System.Drawing.Size(300, 300);
-            this.imageBoxFrameGrabber.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imageBoxFrameGrabber.TabIndex = 7;
-            this.imageBoxFrameGrabber.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.pictureBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 15);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(113, 113);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 1124;
-            this.pictureBox1.TabStop = false;
-            // 
-            // btnReturn
-            // 
-            this.btnReturn.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.btnReturn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.btnReturn.Font = new System.Drawing.Font("Berlin Sans FB", 18F);
-            this.btnReturn.Location = new System.Drawing.Point(226, 75);
-            this.btnReturn.Name = "btnReturn";
-            this.btnReturn.Size = new System.Drawing.Size(168, 53);
-            this.btnReturn.TabIndex = 1124;
-            this.btnReturn.Text = "Return";
-            this.btnReturn.UseVisualStyleBackColor = true;
-            // 
             // FaceRegister
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -319,15 +323,16 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             this.tableLayoutPanel6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel4.ResumeLayout(false);
             this.panel4.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -337,7 +342,6 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label company_name;
         private System.Windows.Forms.Label label1;
@@ -353,6 +357,7 @@
         private Emgu.CV.UI.ImageBox imageBoxFrameGrabber;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Button btnReturn;
+        internal System.Windows.Forms.PictureBox picLogo;
 
     }
 }
