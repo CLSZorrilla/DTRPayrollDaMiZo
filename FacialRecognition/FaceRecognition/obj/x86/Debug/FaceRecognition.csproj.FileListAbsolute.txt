@@ -83,3 +83,14 @@ C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache

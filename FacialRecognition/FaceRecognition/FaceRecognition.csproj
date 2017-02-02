@@ -93,6 +93,12 @@
     <Compile Include="Attendance View.Designer.cs">
       <DependentUpon>Attendance View.cs</DependentUpon>
     </Compile>
+    <Compile Include="FaceRegister.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FaceRegister.Designer.cs">
+      <DependentUpon>FaceRegister.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -115,6 +121,9 @@
     </Compile>
     <EmbeddedResource Include="Attendance View.resx">
       <DependentUpon>Attendance View.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FaceRegister.resx">
+      <DependentUpon>FaceRegister.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>

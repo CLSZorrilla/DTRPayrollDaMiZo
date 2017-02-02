@@ -33,16 +33,16 @@
             this.LabelX1 = new DevComponents.DotNetBar.LabelX();
             this.txtname = new System.Windows.Forms.TextBox();
             this.btnFaceAdd = new System.Windows.Forms.Button();
-            this.imageBox1 = new Emgu.CV.UI.ImageBox();
-            this.imageBoxFrameGrabber = new Emgu.CV.UI.ImageBox();
             this.groupPanel1 = new DevComponents.DotNetBar.Controls.GroupPanel();
             this.maskedTextBox1 = new System.Windows.Forms.MaskedTextBox();
+            this.imageBoxFrameGrabber = new Emgu.CV.UI.ImageBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.imageBox1 = new Emgu.CV.UI.ImageBox();
             this.Panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).BeginInit();
             this.groupPanel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // Panel3
@@ -56,7 +56,7 @@
             // 
             // LabelX1
             // 
-            this.LabelX1.BackColor = System.Drawing.Color.Transparent;
+            this.LabelX1.BackColor = System.Drawing.SystemColors.Control;
             // 
             // 
             // 
@@ -111,33 +111,11 @@
             this.btnFaceAdd.UseVisualStyleBackColor = true;
             this.btnFaceAdd.Click += new System.EventHandler(this.btnFaceAdd_Click);
             // 
-            // imageBox1
-            // 
-            this.imageBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBox1.Location = new System.Drawing.Point(436, 85);
-            this.imageBox1.Name = "imageBox1";
-            this.imageBox1.Size = new System.Drawing.Size(350, 350);
-            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imageBox1.TabIndex = 5;
-            this.imageBox1.TabStop = false;
-            // 
-            // imageBoxFrameGrabber
-            // 
-            this.imageBoxFrameGrabber.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.imageBoxFrameGrabber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageBoxFrameGrabber.Location = new System.Drawing.Point(66, 85);
-            this.imageBoxFrameGrabber.Name = "imageBoxFrameGrabber";
-            this.imageBoxFrameGrabber.Size = new System.Drawing.Size(350, 350);
-            this.imageBoxFrameGrabber.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.imageBoxFrameGrabber.TabIndex = 4;
-            this.imageBoxFrameGrabber.TabStop = false;
-            // 
             // groupPanel1
             // 
+            this.groupPanel1.BackColor = System.Drawing.Color.Maroon;
             this.groupPanel1.CanvasColor = System.Drawing.SystemColors.Control;
             this.groupPanel1.ColorSchemeStyle = DevComponents.DotNetBar.eDotNetBarStyle.OfficeXP;
-            this.groupPanel1.Controls.Add(this.imageBoxFrameGrabber);
             this.groupPanel1.Controls.Add(this.imageBox1);
             this.groupPanel1.Controls.Add(this.btnFaceAdd);
             this.groupPanel1.Controls.Add(this.txtname);
@@ -190,6 +168,17 @@
             this.maskedTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.maskedTextBox1.TextChanged += new System.EventHandler(this.maskedTextBox1_TextChanged);
             // 
+            // imageBoxFrameGrabber
+            // 
+            this.imageBoxFrameGrabber.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imageBoxFrameGrabber.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBoxFrameGrabber.Location = new System.Drawing.Point(67, 88);
+            this.imageBoxFrameGrabber.Name = "imageBoxFrameGrabber";
+            this.imageBoxFrameGrabber.Size = new System.Drawing.Size(350, 350);
+            this.imageBoxFrameGrabber.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageBoxFrameGrabber.TabIndex = 4;
+            this.imageBoxFrameGrabber.TabStop = false;
+            // 
             // pictureBox1
             // 
             this.pictureBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -200,11 +189,24 @@
             this.pictureBox1.TabIndex = 1122;
             this.pictureBox1.TabStop = false;
             // 
+            // imageBox1
+            // 
+            this.imageBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.imageBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.imageBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.imageBox1.Location = new System.Drawing.Point(436, 85);
+            this.imageBox1.Name = "imageBox1";
+            this.imageBox1.Size = new System.Drawing.Size(350, 350);
+            this.imageBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.imageBox1.TabIndex = 5;
+            this.imageBox1.TabStop = false;
+            // 
             // RegisterFace
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 601);
+            this.Controls.Add(this.imageBoxFrameGrabber);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.maskedTextBox1);
             this.Controls.Add(this.Panel3);
@@ -215,11 +217,11 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.RegisterFace_Load);
             this.Panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
             this.groupPanel1.ResumeLayout(false);
             this.groupPanel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBoxFrameGrabber)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.imageBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

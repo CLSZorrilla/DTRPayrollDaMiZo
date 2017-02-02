@@ -15,7 +15,7 @@ using Microsoft.VisualBasic;
 
 namespace FaceRecognition
 {
-    public partial class RegisterFace : Form
+    public partial class FaceRegister : Form
     {
         public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc;
         public int fileNameimg;
@@ -29,12 +29,12 @@ namespace FaceRecognition
         Image<Gray, byte> result, TrainedFace = null;
         Image<Gray, byte> gray = null;
         List<Image<Gray, byte>> trainingImages = new List<Image<Gray, byte>>();
-        List<string> labels= new List<string>();
+        List<string> labels = new List<string>();
         List<string> NamePersons = new List<string>();
         int ContTrain, NumLabels, t;
         string name, names = null;
 
-        public RegisterFace()
+        public FaceRegister()
         {
             InitializeComponent();
             //Load haarcascades for face detection
@@ -49,22 +49,20 @@ namespace FaceRecognition
                 ContTrain = NumLabels;
                 string LoadFaces;
 
-                for (int tf = 1; tf < NumLabels+1; tf++)
+                for (int tf = 1; tf < NumLabels + 1; tf++)
                 {
                     LoadFaces = "face" + tf + ".bmp";
                     trainingImages.Add(new Image<Gray, byte>(Application.StartupPath + "/TrainedFaces/" + LoadFaces));
                     labels.Add(Labels[tf]);
                 }
-            
+
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 //MessageBox.Show(e.ToString());
-              // MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                // MessageBox.Show("Nothing in binary database, please add at least a face(Simply train the prototype with the Add Face Button).", "Triained faces load", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-
         }
-
 
         public string conn;
         public MySqlConnection connect;
@@ -320,7 +318,6 @@ namespace FaceRecognition
             }
             cmd.Dispose();
             return;
-        } 
-
+        }
     }
 }
