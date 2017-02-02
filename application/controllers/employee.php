@@ -29,8 +29,6 @@ class Employee extends CI_Controller{
 		$data['mUser'] = "hr/Manageuser";
 
 		$this->load->view('Suview', $data);
-
-
 	}
 
 	public function deleteUserAcct(){
@@ -40,6 +38,7 @@ class Employee extends CI_Controller{
 
 		redirect('Employee/manageUserAcct');
 	}
+	
 	public function editUserAcct(){
 		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]');
 		$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');

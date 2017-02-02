@@ -214,6 +214,7 @@ div.TitleBar li a {
 }
 */
 div.MenuBar {
+	Background-color:#337ab7;
 	border-top:1px solid white;
 	border-bottom:1px solid white;
 }

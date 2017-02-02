@@ -83,6 +83,14 @@ else if(isSet($AttendanceView)){
 		redirect('main');
 	}
 }
+else if(isSet($customize)){
+	if($this->session->userdata('aType') == 'HR'){
+		$this->load->view($customize);
+	}
+	else{
+		redirect('main');
+	}
+}
 ?>
 </div>
 

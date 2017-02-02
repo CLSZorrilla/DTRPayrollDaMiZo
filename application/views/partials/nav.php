@@ -13,11 +13,13 @@
 						<i class="circle"><span class="glyphicon glyphicon-envelope"></span></i>
 					</a>
 				</li>
+				<?php if($this->session->userdata('aType') == 'HR'):?>
 				<li>
-					<a href="#">
+					<a href="<?php echo base_url(); ?>main/customize">
 						<i class="circle"><span class="glyphicon glyphicon-wrench"></span></i>
 					</a>
 				</li>
+				<?php endif; ?>
 				<li>
 					<a href="<?php echo base_url(); ?>main/logout">
 						<i class="circle"><span class="glyphicon glyphicon-log-out"></span></i>
@@ -26,7 +28,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="MenuBar row" style="Background-color:#337ab7;">
+	<div class="MenuBar row">
 			<ul>
 				<a href="<?php echo base_url(); ?>main/home_view">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

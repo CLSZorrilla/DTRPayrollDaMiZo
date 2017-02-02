@@ -38,6 +38,7 @@ class Deduction_model extends CI_Model{
 			'fullName'=> $fName,
 			'deductionName' => $this->input->post('dName'),
 			'amount' => $this->input->post('amt'),
+			'interest' => $this->input->post('int'),
 			'mtp' => $this->input->post('mtp'),
 			'monthsLeft' => $this->input->post('mtp'),
 			'status' => 'on-going'
