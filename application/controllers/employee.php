@@ -28,7 +28,11 @@ class Employee extends CI_Controller{
 
 		$data['mUser'] = "hr/Manageuser";
 
+		$data['nothing'] = "blabla";
+
 		$this->load->view('Suview', $data);
+
+
 	}
 
 	public function deleteUserAcct(){
