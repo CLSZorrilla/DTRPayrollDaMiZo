@@ -9,7 +9,7 @@ class Clerk extends CI_Controller{
 	}
 
 	public function index(){
-		$data['payrollEmpList'] = "clerk/computepayroll";
+		$data['payrollEmpList'] = "clerk/viewpayslip";
 
 		$data['uinfo'] = $this->Clerk_model->get_emp_list();
 
@@ -26,6 +26,12 @@ class Clerk extends CI_Controller{
 		}
 		else{
 			redirect('Clerk');
+		}
+	}
+
+	public function gen_payslip(){
+		if($this->input->server('REQUEST_METHOD') == 'POST'){
+
 		}
 	}
 }

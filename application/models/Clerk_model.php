@@ -40,7 +40,7 @@ class Clerk_model extends CI_Model{
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
 							AND substr(logdate,6,2) LIKE "'.$cMonth.'"
-							AND (onTime_AM = 0 OR onTime_PM = 0)');
+							');
 
 		$dLatetimeIn = array();
 		$dLateAMout = array();
@@ -101,6 +101,7 @@ class Clerk_model extends CI_Model{
 			END as pmWorked
 
 			FROM `timelog`
+			WHERE substr(logdate,6,2) LIKE '".$cMonth."'
 				");
 
 		$numOfDays = $uTime->num_rows()*8;
@@ -151,14 +152,13 @@ class Clerk_model extends CI_Model{
 		foreach($addDeducResult->result() as $deductions){
 			array_push($dName,$deductions->deductionName);
 			array_push($amt,$deductions->amount);
-			array_push($int,substr($deductions->interest,0,5));
 			array_push($mtp,$deductions->mtp);
 		}
 		
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, (($amt[$key] + ($amt[$key]*($int[$key]/100)))/$mtp[$key]));		
+			array_push($amtTP, (($amt[$key] )/$mtp[$key]));		
 		}
 
 		//# of absences

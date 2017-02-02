@@ -1,7 +1,7 @@
 <?php
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Employee ID:','Full Name','Position', 'Department','Vacation Leave','Sick Leave','Leave Type:','Starting Date','End Date','Approval Date:','Remarks:');
+	$labels=array('Employee ID:','Full Name:','Position:', 'Department:','Vacation Leave:','Sick Leave:','Leave Type:','Starting Date:','End Date:','Approval Date:','Remarks:');
 	$dName=array('empID', 'fName' ,'pos' ,'dept' ,'vl','sl','leaveType','startDate','endDate','appDate','note');
 	$dType=array('text','text','dropdown','dropdown','text','text','dropdown', 'date' ,'date','date','text');
 ?>

@@ -39,11 +39,6 @@ class Deduction extends CI_Controller{
 					'rules' => 'required|greater_than[0]'
 					),
 				array(
-					'field' => 'int',
-					'label' => 'Interest',
-					'rules' => 'required'
-					),
-				array(
 					'field' => 'mtp',
 					'label' => 'Months to Pay',
 					'rules' => 'required'

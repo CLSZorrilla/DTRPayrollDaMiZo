@@ -14,6 +14,11 @@
 					</a>
 				</li>
 				<li>
+					<a href="#">
+						<i class="circle"><span class="glyphicon glyphicon-wrench"></span></i>
+					</a>
+				</li>
+				<li>
 					<a href="<?php echo base_url(); ?>main/logout">
 						<i class="circle"><span class="glyphicon glyphicon-log-out"></span></i>
 					</a>
@@ -21,7 +26,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="MenuBar row">
+	<div class="MenuBar row" style="Background-color:#337ab7;">
 			<ul>
 				<a href="<?php echo base_url(); ?>main/home_view">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
