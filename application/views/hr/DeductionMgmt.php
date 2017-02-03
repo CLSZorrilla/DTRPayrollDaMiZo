@@ -43,27 +43,11 @@
 		?>
 		<div class="form-group">
 			<div class="col-md-10">
-				<label for="int" class="control-label col-md-2">Interest:</label><input type="text" name="int"  placeholder="Interest" id="interest" value="<?php echo set_value('int'); ?>" class="form-control text-box single-line"/>
-			</div>
-		</div>
-		<?php
-		echo form_error("int", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
-		?>
-		<div class="form-group">
-			<div class="col-md-10">
 				<label for="mtp" class="control-label col-md-2">Months to pay:</label><input type="number" name="mtp" max="12" min="0" placeholder="Months to pay" id="mtp" value="<?php echo set_value('mtp'); ?>" class="form-control text-box single-line"/>
 			</div>
 		</div>
-		<div class="form-group">
-			<div class="col-md-10">
-				<select>
-					<option>asda</option>
-					<option>nothing</option>
-				</select>
-			</div>
-		</div>
 		<?php
-		echo form_error("cairo_matrix_transform_point(matrix, dx, dy)", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+		echo form_error("mtp", '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
 		?>
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">

@@ -6,7 +6,16 @@
 	$dType=array('text','text','text','text','text','text','color','image');
 	
 	$id = 1;
-	$cForm=array($id, $name, $description, $address ,$conatctNo, $startTime, $endTime, $colorTheme, $logo);
+	$cForm=array($cInfo->row(0)->id,
+			$cInfo->row(0)->name,
+			$cInfo->row(0)->description,
+			$cInfo->row(0)->address,
+			$cInfo->row(0)->contactNo,
+			$cInfo->row(0)->startTime,
+			$cInfo->row(0)->endTime,
+			$cInfo->row(0)->colorTheme,
+			$cInfo->row(0)->logo,
+			);
 	
 ?>
 

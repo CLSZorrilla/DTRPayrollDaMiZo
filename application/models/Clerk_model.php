@@ -39,8 +39,7 @@ class Clerk_model extends CI_Model{
 		$damLateResult = $this->db->query('SELECT timediff(timeIn, "08:00:00") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
-							AND substr(logdate,6,2) LIKE "'.$cMonth.'"
-							AND (onTime_AM = 0 OR onTime_PM = 0)');
+							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
 
 		$dLatetimeIn = array();
 		$dLateAMout = array();
@@ -75,8 +74,17 @@ class Clerk_model extends CI_Model{
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
 		//Undertime Deduction
-		$uTime= $this->db->query("SELECT timediff(timeDiff(amOut,'08:00:00'),addTime(timeDiff(amOut, '12:00:00'),CASE WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
-			ELSE timeDiff(timeIn, '08:00:00')END)) as amWorked,
+		$uTime= $this->db->query("SELECT 
+			timediff(timeDiff(amOut,'08:00:00'),
+			addTime(
+			CASE
+				WHEN timeDiff(amOut, '12:00:00') < 0 THEN '00:00:00'
+				ELSE timeDiff(amOut, '12:00:00')
+			END,
+			CASE 
+				WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
+				ELSE timeDiff(timeIn, '08:00:00')
+			END)) as amWorked,
 
 			CASE
 				WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
@@ -85,7 +93,10 @@ class Clerk_model extends CI_Model{
 					WHEN timeDiff(pmIn, '13:00:00') < 0 THEN '00:00:00' 
 					ELSE timeDiff(pmIn, '13:00:00')
 				END,
-				timeDiff(timeOut,'17:00:00')))
+				CASE
+					WHEN timeDiff(timeOut,'17:00:00') < 0 THEN '00:00:00'
+					ELSE timeDiff(timeOut, '17:00:00')
+				END))
 			END as pmWorked
 
 			FROM `timelog`
@@ -133,20 +144,18 @@ class Clerk_model extends CI_Model{
 
 		$dName = array();
 		$amt = array();
-		$int = array();
 		$mtp = array();
 
 		foreach($addDeducResult->result() as $deductions){
 			array_push($dName,$deductions->deductionName);
 			array_push($amt,$deductions->amount);
-			array_push($int,substr($deductions->interest,0,5));
 			array_push($mtp,$deductions->mtp);
 		}
 		
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, (($amt[$key] + ($amt[$key]*($int[$key]/100)))/$mtp[$key]));		
+			array_push($amtTP, (($amt[$key])/$mtp[$key]));		
 		}
 
 		//# of absences

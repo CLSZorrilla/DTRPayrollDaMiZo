@@ -26,9 +26,21 @@ class Attendance_model extends CI_Model{
 
 		$tIn = array();
 		foreach($timeIn as $key => $attendance){
-			array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
+			if($timeIn[$key] > '08:00:00'){
+				array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false, 'color' => 'red'));
+			}
+			else{
+				array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
+			}
+			
 			array_push($tIn, array('title' => 'am Out','start' => $date[$key]."T".$amOut[$key], 'allDay' => false ));
-			array_push($tIn, array('title' => 'pm In','start' => $date[$key]."T".$pmIn[$key], 'allDay' => false ));
+			if($pmIn[$key] > '13:00:00'){
+				array_push($tIn, array('title' => 'pm In','start' => $date[$key]."T".$pmIn[$key], 'allDay' => false, 'color' => 'red'));
+			}
+			else{
+				array_push($tIn, array('title' => 'pm In','start' => $date[$key]."T".$pmIn[$key], 'allDay' => false ));
+			}
+			
 			array_push($tIn, array('title' => 'time Out','start' => $date[$key]."T".$timeOut[$key], 'allDay' => false ));
 		}
 

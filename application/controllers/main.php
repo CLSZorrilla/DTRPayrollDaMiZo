@@ -4,7 +4,7 @@
 class Main extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Customize_model');
+		$this->load->model('Emp_model');
 		$config['upload_path'] = './companyLogo/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$this->load->library('upload', $config);
@@ -80,12 +80,8 @@ class Main extends CI_Controller{
 	}
 	
 	public function customize(){
+		$this->load->model('Customize_model');
 
-		$data['cinfo'] = $this->Customize_model->get_company()->result();
-		$query = $this->Customize_model->get_company();
-		$row = $query->row();
-
-		
 		if($this->input->server('REQUEST_METHOD') == 'POST'){
 			$config = array(
 				array(
@@ -134,7 +130,6 @@ class Main extends CI_Controller{
 
 				$imgPath = base_url().'companyLogo/'.$file_data['file_name'];
 	
-				$this->load->model('Customize_model');
 				$this->Customize_model->insert_companyProfile($imgPath);
 				
 				redirect('main/home_view');
@@ -143,6 +138,8 @@ class Main extends CI_Controller{
 		}
 		else{		
 			$data['customize'] = "hr/Customize";
+
+			$data['cinfo'] = $this->Customize_model->get_company();
 
 			$this->load->view('Suview', $data);
 		}
