@@ -17,7 +17,7 @@ namespace FaceRecognition
 {
     public partial class FaceRegister : Form
     {
-        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc, theme;
+        public string SQL, msg, lblIDnumber1, ImgExist, ImgLoc, theme, abbre;
         public int fileNameimg;
 
         //Declararation of all variables, vectors and haarcascades
@@ -166,21 +166,22 @@ namespace FaceRecognition
             NamePersons.Clear();
         }
 
-
         private void RegisterFace_Load(object sender, EventArgs e)
         {
             button1_Click(sender, e);
             searchCompany();
             panel1.BackColor = ColorTranslator.FromHtml(theme);
+            company_name.Text = abbre + " Daily Employee Time In/Out";
         }
 
         private void searchCompany()
         {
             db_connection();
-            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE name='" + company_name.Text + "'", connect);
+            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE id=1", connect);
             dataReader = cmd.ExecuteReader();
             if (dataReader.Read())
             {
+                abbre = (dataReader["abbre"]).ToString();
                 theme = (dataReader["colorTheme"]).ToString();
                 picLogo.ImageLocation = dataReader["logo"].ToString();
             }

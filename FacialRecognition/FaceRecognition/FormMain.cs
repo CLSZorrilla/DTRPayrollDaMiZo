@@ -15,7 +15,7 @@ namespace FaceRecognition
 {
     public partial class FormMain : Form
     {
-        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, theme;
+        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, theme, abbre;
         public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
@@ -95,6 +95,7 @@ namespace FaceRecognition
 
             searchCompany();
             panel1.BackColor = ColorTranslator.FromHtml(theme);
+            company_name.Text = abbre + " Daily Employee Time In/Out" ;
         }
 
 
@@ -228,10 +229,11 @@ namespace FaceRecognition
         private void searchCompany()
         { 
             db_connection();
-            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE name='" + company_name.Text + "'", connect);
+            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE id=1", connect);
             dataReader = cmd.ExecuteReader();
             if (dataReader.Read())
             {
+                abbre = (dataReader["abbre"]).ToString();
                 start = (dataReader["startTime"]).ToString();
                 end = (dataReader["endTime"]).ToString();
                 theme = (dataReader["colorTheme"]).ToString();
