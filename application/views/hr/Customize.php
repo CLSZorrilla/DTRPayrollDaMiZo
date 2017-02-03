@@ -4,8 +4,11 @@
 	$labels=array('Company Name','Description','Address', 'Contact Number','Start Time','End Time','Color Theme','Company Logo');
 	$dName=array('name', 'desc' ,'address' ,'contactNo' ,'start_time','end_time','color_theme','logo');
 	$dType=array('text','text','text','text','text','text','color','image');
+	
+	$id = 1;
+	$cForm=array($id, $name, $description, $address ,$conatctNo, $startTime, $endTime, $colorTheme, $logo);
+	
 ?>
-
 
 <div>
 	<ol class="breadcrumb">
@@ -52,6 +55,7 @@
 						'id' => $dName[$key],
 						'placeholder' => $label,
 						'type' => $dType[$key],	
+						'value' => $EForm[$key]
 					));
 					
 					echo form_error($dName[$key], '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');

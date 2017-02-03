@@ -4,7 +4,7 @@
 class Main extends CI_Controller{
 	public function __construct(){
 		parent::__construct();
-		$this->load->model('Emp_model');
+		$this->load->model('Customize_model');
 		$config['upload_path'] = './companyLogo/';
 		$config['allowed_types'] = 'gif|jpg|png';
 		$this->load->library('upload', $config);
@@ -81,6 +81,11 @@ class Main extends CI_Controller{
 	
 	public function customize(){
 
+		$data['cinfo'] = $this->Customize_model->get_company()->result();
+		$query = $this->Customize_model->get_company();
+		$row = $query->row();
+
+		
 		if($this->input->server('REQUEST_METHOD') == 'POST'){
 			$config = array(
 				array(

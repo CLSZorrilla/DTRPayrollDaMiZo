@@ -6,7 +6,7 @@ class Customize_model extends CI_Model{
 		parent::__construct();
 	}
 	
-	public function insert_companyProfile($img){
+	public function update_company($img){
 		$data=array(
 			'name'=>$this->input->post('name', TRUE),
 			'description'=>$this->input->post('desc',TRUE),
@@ -23,5 +23,12 @@ class Customize_model extends CI_Model{
 		return $insert_data;
 	}
 	
+	public function get_company(){
+		$this->db->select('id, name, description, address, contactNo, startTime, endTime, colorTheme, logo', FALSE);
+		$this->db->from('company_profile');
+		$query = $this->db->get();
+
+		return $query;
+	}
 }
 ?>
