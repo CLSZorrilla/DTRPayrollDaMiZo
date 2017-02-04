@@ -19,7 +19,7 @@
           <thead>
             <tr>
               <?php
-                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Address', 'Date Hired', 'Action', 'Marital Status' ,'GSIS No.', 'PhilHealth No.', 'TIN', 'Vacation Leave', 'Sick Leave' ,'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture');
+                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Action');
                   foreach($tHeader as $tHead){
                     echo '<th>'.$tHead.'</th>';
                   };
@@ -37,21 +37,7 @@
                         <td>".$info->positionName."</td>
                         <td>".$info->deptName."</td>
                         <td>".$info->name."</td>
-                        <td>".$info->address."</td>
-                        <td>".$info->dateHired."</td>
                         <td><a href=".$base_url."Clerk/payroll_computation/".$info->empID." id='payroll' class='btn btn-primary'>Process Payroll</a></td>
-                        <td>".$info->maritalStatus."</td>
-                        <td>".$info->GSISNo."</td>
-                        <td>".$info->PhilHealthNo."</td>
-                        <td>".$info->TIN."</td>
-                        <td>".$info->VL."</td>
-                        <td>".$info->SL."</td>
-                        <td>".$info->emailAddress."</td>
-                        <td>".$info->birthDate."</td>
-                        <td>".$info->contactNo."</td>
-                        <td>".$info->sex."</td>
-                        <td><img src='".$info->picture."' width='20' height='25'/></td>
-                        
                       </tr>
                       ";
                   }

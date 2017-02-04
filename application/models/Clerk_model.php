@@ -182,8 +182,9 @@ class Clerk_model extends CI_Model{
 	    $absentDeduction = round(($absences * $dailyRate),2);
 
 	    //PERA deduction
-	    $peraDailyRate = $pera/22;
+	    $peraDailyRate = round(($pera/22),2);
 	    $peraDeduction = round(($absences * $peraDailyRate),2);
+	    $peraCurrent = $pera - $peraDeduction;
 	    //----------------------------------------------------------------
 		$grossPay = ($basicPay + $pera) - ($lateDeduction) - ($absentDeduction) - ($uTimeDeduction) - ($peraDeduction);
 
@@ -204,7 +205,9 @@ class Clerk_model extends CI_Model{
 
 		$taxableIncome = $grossPay - ($pHealthContrib + $gsis + 100);
 
-		if($mStatusDep == 'ME1S1'){
+		$withholdingTax = 0;
+		if($taxableIncome >= 0){
+			if($mStatusDep == 'ME1S1'){
 			$wTax = $this->db->query("SELECT ME1S1, exemption, status
 								FROM withholdingtax
 								WHERE ME1S1 <= '".$taxableIncome."'
@@ -214,51 +217,61 @@ class Clerk_model extends CI_Model{
 			$withholdingTable = $wTax->row(0)->ME1S1;
 			$exemption = $wTax->row(1)->exemption;
 			$status = $wTax->row(2)->status;
-		}
-		else if($mStatusDep == 'ME2S2'){
-			$wTax = $this->db->query("SELECT ME2S2, exemption, status
-								FROM withholdingtax
-								WHERE ME2S2 <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'monthly%'
-								ORDER BY ME2S2 DESC LIMIT 1");
-			$withholdingTable = $wTax->row(0)->ME2S2;
-			$exemption = $wTax->row(1)->exemption;
-			$status = $wTax->row(2)->status;
-		}
-		else if($mStatusDep == 'ME3S3'){
-			$wTax = $this->db->query("SELECT ME3S3, exemption, status
-								FROM withholdingtax
-								WHERE ME3S3 <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'monthly%'
-								ORDER BY ME3S3 DESC LIMIT 1");
-			$withholdingTable = $wTax->row(0)->ME3S3;
-			$exemption = $wTax->row(1)->exemption;
-			$status = $wTax->row(2)->status;
-		}
-		else if($mStatusDep == 'ME4S4'){
-			$wTax = $this->db->query("SELECT ME4S4, exemption, status
-								FROM withholdingtax
-								WHERE ME4S4 <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'monthly%'
-								ORDER BY ME4S4 DESC LIMIT 1");
-			$withholdingTable = $wTax->row(0)->ME4S4;
-			$exemption = $wTax->row(1)->exemption;
-			$status = $wTax->row(2)->status;
-		}
-		else{
-			$wTax = $this->db->query("SELECT SME, exemption, status
-								FROM withholdingtax
-								WHERE SME <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'monthly%'
-								ORDER BY SME DESC LIMIT 1");
-			$withholdingTable = $wTax->row(0)->SME;
-			$exemption = $wTax->row(1)->exemption;
-			$status = $wTax->row(2)->status;
+			}
+			else if($mStatusDep == 'ME2S2'){
+				$wTax = $this->db->query("SELECT ME2S2, exemption, status
+					FROM withholdingtax
+					WHERE ME2S2 <= '".$taxableIncome."'
+					AND compensationLevel LIKE 'monthly%'
+					ORDER BY ME2S2 DESC LIMIT 1");
+				$withholdingTable = $wTax->row(0)->ME2S2;
+				$exemption = $wTax->row(1)->exemption;
+				$status = $wTax->row(2)->status;
+			}
+			else if($mStatusDep == 'ME3S3'){
+				$wTax = $this->db->query("SELECT ME3S3, exemption, status
+					FROM withholdingtax
+					WHERE ME3S3 <= '".$taxableIncome."'
+					AND compensationLevel LIKE 'monthly%'
+					ORDER BY ME3S3 DESC LIMIT 1");
+				$withholdingTable = $wTax->row(0)->ME3S3;
+				$exemption = $wTax->row(1)->exemption;
+				$status = $wTax->row(2)->status;
+			}
+			else if($mStatusDep == 'ME4S4'){
+				$wTax = $this->db->query("SELECT ME4S4, exemption, status
+					FROM withholdingtax
+					WHERE ME4S4 <= '".$taxableIncome."'
+					AND compensationLevel LIKE 'monthly%'
+					ORDER BY ME4S4 DESC LIMIT 1");
+				$withholdingTable = $wTax->row(0)->ME4S4;
+				$exemption = $wTax->row(1)->exemption;
+				$status = $wTax->row(2)->status;
+			}
+			else{
+				$wTax = $this->db->query("SELECT SME, exemption, status
+					FROM withholdingtax
+					WHERE SME <= '".$taxableIncome."'
+					AND compensationLevel LIKE 'monthly%'
+					ORDER BY SME DESC LIMIT 1");
+				$withholdingTable = $wTax->row(0)->SME;
+				$exemption = $wTax->row(1)->exemption;
+				$status = $wTax->row(2)->status;
+			}
+
+			$withholdingTax = round(((($taxableIncome - $withholdingTable) * $status) + $exemption),2);
 		}
 
-		$withholdingTax = round(((($taxableIncome - $withholdingTable) * $status) + $exemption),2);
+		$loanAmount = 0;
+		foreach($amtTP as $amt){
+			$loanAmount += $amt;
+		}
 
-		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP);
+		$totalDeductions = ($pHealthContrib + $gsis + $withholdingTax + 100 + $loanAmount);
+
+		$netPay =($grossPay) - ($totalDeductions);
+
+		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
 	}
 
 	public function timeAdjPayroll(){
