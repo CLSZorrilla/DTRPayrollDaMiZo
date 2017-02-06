@@ -19,7 +19,7 @@
           <thead>
             <tr>
               <?php
-                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Action');
+                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Generated');
                   foreach($tHeader as $tHead){
                     echo '<th>'.$tHead.'</th>';
                   };
@@ -37,9 +37,14 @@
                         <td>".$info->positionName."</td>
                         <td>".$info->deptName."</td>
                         <td>".$info->name."</td>
-                        <td><a href=".$base_url."Clerk/payroll_computation/".$info->empID." id='payroll' class='btn btn-primary'>Process Payroll</a></td>
-                      </tr>
-                      ";
+                        <td>";
+                        if($info->generated == 'FALSE'){ ?> 
+                        <a href="<?php echo base_url(); ?>Clerk/payroll_computation/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
+                        <?php } else {
+                           echo $info->pslipdate;
+                         }
+                    echo "</td>
+                      </tr>"; 
                   }
             ?>
           </tbody>

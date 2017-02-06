@@ -8,7 +8,7 @@ class Clerk_model extends CI_Model{
 	}
 
 	public function get_emp_list(){
-		$this->db->select('employee.empID, employee.password,employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture', FALSE);
+		$this->db->select('employee.empID, employee.password,employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.pslipdate, employee.generated', FALSE);
 		$this->db->from('employee');
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
@@ -32,11 +32,18 @@ class Clerk_model extends CI_Model{
 		$dep = $basicInfo->row(2)->noOfDependents;
 		$mStatusDep = substr($basicInfo->row(1)->maritalStatus,0,1)."E".$dep."S".$dep;
 
+		//get startTime and endTime
+		$seTime = $this->db->query('SELECT startTime, endTime FROM company_profile WHERE id = 1');
+
+		$sTime = $seTime->row(0)->startTime;
+
+		$sTimeAdd = date_create(date("H:i", strtotime("$sTime")));
+		$eTime = date_format(date_add($sTimeAdd,date_interval_create_from_date_string("9 hours")), "H:i");
 
 		//# of days late
 		$cMonth = date('m');
 		$year = date('Y');
-		$damLateResult = $this->db->query('SELECT timediff(timeIn, "08:00:00") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
+		$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
 							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
@@ -66,16 +73,16 @@ class Clerk_model extends CI_Model{
 			$minsLate += substr($dLatePMin[$key],3,2);	
 		}
 
-		$totalLate = ($hrsLate + $minsLate)/60;
+		$totalLate = round((($hrsLate + $minsLate)/60),2);
 
-		$dailyRate = $basicPay/22;
-		$hourlyRate = $dailyRate/8;
+		$dailyRate = round(($basicPay/22),2);
+		$hourlyRate = round(($dailyRate/8),2);
 
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
 		//Undertime Deduction
 		$uTime= $this->db->query("SELECT 
-			timediff(timeDiff(amOut,'08:00:00'),
+			timediff(timeDiff(amOut,'".$sTime."'),
 			addTime(
 			CASE
 				WHEN timeDiff(amOut, '12:00:00') < 0 THEN '00:00:00'
@@ -94,8 +101,8 @@ class Clerk_model extends CI_Model{
 					ELSE timeDiff(pmIn, '13:00:00')
 				END,
 				CASE
-					WHEN timeDiff(timeOut,'17:00:00') < 0 THEN '00:00:00'
-					ELSE timeDiff(timeOut, '17:00:00')
+					WHEN timeDiff(timeOut,'".$eTime."') < 0 THEN '00:00:00'
+					ELSE timeDiff(timeOut, '".$eTime."')
 				END))
 			END as pmWorked
 
@@ -134,7 +141,7 @@ class Clerk_model extends CI_Model{
 			}
 		}
 
-		$totalUtime = ($hrsUtime + $minsUtime)/60;
+		$totalUtime = round((($hrsUtime + $minsUtime)/60),2);
 
 		$uTimeDeduction = 0;
 
@@ -186,7 +193,7 @@ class Clerk_model extends CI_Model{
 	    $peraDeduction = round(($absences * $peraDailyRate),2);
 	    $peraCurrent = $pera - $peraDeduction;
 	    //----------------------------------------------------------------
-		$grossPay = ($basicPay + $pera) - ($lateDeduction) - ($absentDeduction) - ($uTimeDeduction) - ($peraDeduction);
+		$grossPay = ($basicPay + $pera) - (($lateDeduction) + ($absentDeduction) + ($uTimeDeduction) + ($peraDeduction));
 
 		//Philhealth
 		$pHealthResult = $this->db->query("SELECT employeeshare
@@ -195,7 +202,7 @@ class Clerk_model extends CI_Model{
 											AND '".$grossPay."'<=endRange");
 		
 		if($grossPay != 0){
-		$pHealthContrib = $pHealthResult->row(0)->employeeshare; //Depending on salary bracket 
+			$pHealthContrib = $pHealthResult->row(0)->employeeshare; //Depending on salary bracket 
 		}
 		else{
 			$pHealthContrib = 0;
@@ -269,20 +276,34 @@ class Clerk_model extends CI_Model{
 
 		$totalDeductions = ($pHealthContrib + $gsis + $withholdingTax + 100 + $loanAmount);
 
-		$netPay =($grossPay) - ($totalDeductions);
+		$netPay =round(($grossPay) - ($totalDeductions),2);
 
-		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
+		return array($basicInfo, $taxableIncome, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
 	}
 
-	public function timeAdjPayroll(){
-		$eid = $this->input->post('eid');
-		//$sTime = $this->input->post('startTime');
-		//$eTime = $this->input->post('endTime');
-		//$aray = get_payroll_info($eid);
-		try{
-			//echo $eid." ".$sTime." ".$eTime;
-		echo json_encoder(get_payroll_info($eid));
-		}catch(Exception $e){echo "porn";}
+	public function save_Payslip(){
+		$eid = $this->input->post('eid', TRUE);
+		$monthlySalary = $this->input->post('monthlySalary', TRUE);
+		$pera = $this->input->post('pera', TRUE);
+		$grossPay = $this->input->post('grossPay', TRUE);
+		$philHealth = $this->input->post('philHealth', TRUE);
+		$pagIbig = $this->input->post('pagIbig', TRUE);
+		$gsis = $this->input->post('gsis', TRUE);
+		$tax = $this->input->post('tax', TRUE);
+		$netPay = $this->input->post('netPay', TRUE);
+
+
+		$this->db->query("INSERT into payslip(empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay) VALUES ('".$eid."', '".$monthlySalary."','".$pera."','".$grossPay."','".$philHealth."','".$pagIbig."','".$gsis."','".$tax."','".$netPay."')");
+		/*$payslipNo = $this->db->insert_id;
+		echo $payslipNo;*/
+			for($i=0;$this->input->post('arayMasakit1['.$i.']')!=null&& $this->input->post('arayMasakit2['.$i.']')!=null;$i++){
+				$arayMasakit1[$i]=$this->input->post('arayMasakit1['.$i.']');
+				$arayMasakit2[$i]=$this->input->post('arayMasakit2['.$i.']');
+
+				$this->db->query("INSERT into paysliploan(deductionName, amount) VALUES ('".$arayMasakit1[$i]."', '".$arayMasakit2[$i]."')");
+			}
+
+		$this->db->query("UPDATE employee SET generated = 'TRUE' WHERE empID LIKE '".$eid."' AND generated LIKE '%FALSE%'");
 	}
 }
 

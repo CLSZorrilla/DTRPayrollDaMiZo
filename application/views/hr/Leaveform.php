@@ -1,113 +1,129 @@
 <?php
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
-	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Employee ID:','Full Name','Position', 'Department','Vacation Leave','Sick Leave','Leave Type:','Starting Date','End Date','Approval Date:','Remarks:');
-	$dName=array('empID', 'fName' ,'pos' ,'dept' ,'vl','sl','leaveType','startDate','endDate','appDate','note');
-	$dType=array('text','text','dropdown','dropdown','text','text','dropdown', 'date' ,'date','date','text');
+	$lAttrib=array('class' => 'control-label col-md-4');
+	$labels=array('Employee ID:','Full Name:','Position:', 'Department:','Vacation Leave:','Sick Leave:','Starting Date:','End Date:','Leave Type:','Approval Date:','Remarks:');
+	$dName=array('empID', 'fName' ,'pos' ,'dept' ,'vl','sl','startDate','endDate','leaveType','appDate','note');
+	$dType=array('text','text','dropdown','dropdown','text','text', 'date' ,'date','dropdown','date','text');
 ?>
 
 
 <div>
 	<ol class="breadcrumb">
 		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href="#">Leave</a></li>
-		<li><a href="#">Leave Credits</a></li>	
+		<li class="active">Leave</li>
 	</ol>
 </div>
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<div class="row Title">
-			<h4>Deduct Leave Credits</h4>
+			<h4>LEAVE</h4>
 			<hr />
 		</div>
-		
+	
+		<div class="panel panel-default" style="margin:0px 15px;">
+		<div class="panel-heading">Deduct Leave Credits</div>
 		<?php echo form_open_multipart("leave", $attributes); ?>
 
-		<?php foreach($labels as $key => $label){
-			switch($dType[$key]){
-				case 'dropdown':
-		?>
-		<div class="form-group">
-			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+		<div class="panel-body">
+			<?php foreach($labels as $key => $label){
+				switch($dType[$key]){
+					case 'dropdown':
+			?>
+			<div class="form-group col-lg-6">
+				<?php echo form_label($label, $dName[$key], $lAttrib); ?>
+				<div class="col-md-8">
 					<?php if($dName[$key] == 'leaveType'): ?>
-					<select name="leaveType" class="form-control">
-						<?php
-							foreach ($leaveType as $lType) {
-								echo "
-									<option value=".$lType->leaveID.">".$lType->leaveName."</option>
-								";
-							}
-						?>
-			        </select>
-			    	<?php elseif($dName[$key] == 'pos'): ?>
-			        <select id="pos" disabled>
-			        	<option value="#">Fill up employee ID field</option>
-			        </select>
-			    <?php elseif($dName[$key] == 'dept'): ?>
-			        <select id="dept" disabled>
-			        	<option value="#">Fill up employee ID field</option>
-			        </select>
-			    	<?php endif; ?>
+						<select name="leaveType" class="form-control">
+							<?php
+								foreach ($leaveType as $lType) {
+									echo "
+										<option value=".$lType->leaveID.">".$lType->leaveName."</option>
+									";
+								}
+							?>
+				        </select>
+				    <?php elseif($dName[$key] == 'pos'): ?>
+				        <select id="pos" class="form-control" disabled>
+				        	<option value="#">Fill up employee ID field</option>
+				        </select>
+				    <?php elseif($dName[$key] == 'dept'): ?>
+				        <select id="dept" class="form-control" disabled>
+				        	<option value="#">Fill up employee ID field</option>
+				        </select>
+				    <?php endif; ?>
+				</div>
 			</div>
-		</div>
-		<?php
-				break;
-				default:
-		?>
-		<div class="form-group">
-			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
-				<?php
-					if($dName[$key] == 'fName' || $dName[$key] == 'vl' || $dName[$key] == 'sl'){
-						echo form_input(array(
-							'class' => 'form-control text-box single-line',
-							'name' => $dName[$key],
-							'id' => $dName[$key],
-							'placeholder' => $label,
-							'type' => $dType[$key],
-							'readonly' => 'true'
-						));
-					}
-					else if($dName[$key] == 'appDate'){
-						echo form_input(array(
-							'class' => 'form-control text-box single-line',
-							'name' => $dName[$key],
-							'id' => $dName[$key],
-							'type' => $dType[$key],
-							'value' => date("Y-m-d"),
-							'readonly' => 'true'
-						));
-					}
-					else{
-						echo form_input(array(
-							'class' => 'form-control text-box single-line',
-							'name' => $dName[$key],
-							'id' => $dName[$key],
-							'placeholder' => $label,
-							'type' => $dType[$key],	
-						));
-					}
-
-
-					echo form_error($dName[$key], '<div class="alert alert-danger alert-dismissable fade in"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
-				?>
+			<?php
+					break;
+					default:
+			?>
+			<div class="form-group col-lg-6">
+				<?php echo form_label($label, $dName[$key], $lAttrib); ?>
+				<div class="col-md-8">
+					<?php
+						if($dName[$key] == 'fName' || $dName[$key] == 'vl' || $dName[$key] == 'sl'){
+							echo form_input(array(
+								'class' => 'form-control text-box single-line',
+								'name' => $dName[$key],
+								'id' => $dName[$key],
+								'placeholder' => $label,
+								'type' => $dType[$key],
+								'readonly' => 'true'
+							));
+						}
+						else if($dName[$key] == 'appDate'){
+							echo form_input(array(
+								'class' => 'form-control text-box single-line',
+								'name' => $dName[$key],
+								'id' => $dName[$key],
+								'type' => $dType[$key],
+								'value' => date("Y-m-d"),
+								'readonly' => 'true'
+							));
+						}
+						else{
+							echo form_input(array(
+								'class' => 'form-control text-box single-line',
+								'name' => $dName[$key],
+								'id' => $dName[$key],
+								'placeholder' => $label,
+								'type' => $dType[$key],	
+							));
+						}
+					?>
+				</div>
+				<div class="col-md-offset-4 col-md-8">
+					<?php
+						echo form_error($dName[$key], '<div class="alert alert-danger alert-dismissable fade in" style="width:280px;overflow:hidden;margin:15px 0px 0px;"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+					?>
+				</div>
 			</div>
-		</div>
 			<?php
 				}
 			}
 			?>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
+		</div>
+		<div class="panel-footer">
+			<div style="overflow: hidden;">
 				<?php
-				echo form_submit(array(
-					'class' =>'btn btn-primary',
-					'name' =>'submit',
-					'value' => 'Register'
-					));
+					echo form_submit(array(
+						'class' =>'btn btn-default pull-right',
+						'type' =>'reset',
+						'value' => 'Reset',
+						'style' => 'width:100px;margin:5px;'
+						));
+					echo form_submit(array(
+						'class' =>'btn btn-primary pull-right',
+						'name' =>'submit',
+						'value' => 'Send',
+						'id' => 'submit',
+						'style' => 'width:100px;margin:5px;'
+						));
 				?>
 			</div>
+		</div>
+		</div>
+		</div>
 		</div>
 	</div>
 </div>

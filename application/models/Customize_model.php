@@ -9,26 +9,32 @@ class Customize_model extends CI_Model{
 	public function update_company($img){
 		$data=array(
 			'name'=>$this->input->post('name', TRUE),
+			'abbre'=>$this->input->post('abbre',TRUE),
 			'description'=>$this->input->post('desc',TRUE),
 			'address'=>$this->input->post('address',TRUE),
 			'contactNo'=>$this->input->post('contactNo',TRUE),
 			'startTime'=>$this->input->post('start_time',TRUE),
 			'endTime'=>$this->input->post('end_time',TRUE),
 			'colorTheme'=>$this->input->post('color_theme',TRUE),
-			'logo'=>$img
+			'logo'=>$img,
 		);
-		
-		$insert_data = $this->db->insert('company_profile', $data);
+		$query = $this->db->update('company_profile', $data);
 
-		return $insert_data;
+		return $query;
 	}
 	
 	public function get_company(){
-		$this->db->select('id, name, description, address, contactNo, startTime, endTime, colorTheme, logo', FALSE);
-		$this->db->from('company_profile');
-		$query = $this->db->get();
+		$query = $this->db->query('SELECT * FROM company_profile WHERE id = 1');
 
 		return $query;
+	}
+	
+	public function get_logo(){
+		$logo = $this->db->select('logo')
+                  ->get_where('company_profile', array('id' => 1))
+                  ->row()
+                  ->logo;
+		return $logo;
 	}
 }
 ?>

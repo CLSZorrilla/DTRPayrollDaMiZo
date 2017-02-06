@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 class Deduction_model extends CI_Model{
 	public function __construct(){
@@ -40,6 +40,7 @@ class Deduction_model extends CI_Model{
 			'amount' => $this->input->post('amt'),
 			'mtp' => $this->input->post('mtp'),
 			'monthsLeft' => $this->input->post('mtp'),
+			'dateApplied' => Date('Y-m-d'),
 			'status' => 'on-going'
 		);
 

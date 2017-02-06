@@ -1,11 +1,11 @@
 <?php
 	$attributes=array('id'=>'create_user_form', 'class'=>'form-horizontal');
-	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Employee ID:','Password:','Confirm Password:','User Type:','Position:','Department:','Last Name:','First Name:', 'Middle Name:','Profile Picture:','Address:', 'Marital Status:', 'Dependents' ,'Email Address:', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Vacation Leave:', 'Sick Leave');
-	$dName=array('empID','pword','cpword','uType','positionCode','deptCode','lName', 'fName', 'mName', 'pPicture','address', 'maritalStatus', 'dependents' ,'emailAdd', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'vLeave', 'sLeave');
-	$dType=array('text','password','password','dropdown','dropdown','dropdown', 'text', 'text', 'text', 'image','text', 'dropdown', 'number' ,'email', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'text', 'text');
+	$lAttrib=array('class' => 'control-label col-md-5');
+	$labels=array('Employee ID:','Profile Picture:','Password:','Confirm Password:','Position:','Department:','First Name:','Last Name:', 'Middle Name:','User Type:','Email Address:','Address:', 'Marital Status:', 'Dependents', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Vacation Leave:', 'Sick Leave');
+	$dName=array('empID', 'pPicture','pword','cpword','positionCode','deptCode', 'fName','lName', 'mName','uType','emailAdd','address', 'maritalStatus', 'dependents', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'vLeave', 'sLeave');
+	$dType=array('text', 'image','password','password','dropdown','dropdown', 'text', 'text', 'text','dropdown','email','text', 'dropdown', 'number', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'text', 'text');
 	if(!empty($id)){
-		$EForm=array($empID, $password, $password, $uType ,$posName, $deptCode, $lName, $fname, $mname, ' ', $address, $maritalStatus, $emailAddress, $birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $vLeave, $sLeave);
+		$EForm=array($empID, ' ', $password, $password,$posName, $deptCode, $fname, $lName, $mname, $uType, $emailAddress, $address, $maritalStatus, $birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $vLeave, $sLeave);
 	}
 ?>
 
@@ -13,38 +13,38 @@
 	<ol class="breadcrumb">
 		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
 		<li><a href="#">Maintenance</a></li>
-		<li><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage Users</a></li>
-		<?php if(!empty($id)):?>
-			<li class="active">Edit Users</li>
-		<?php  else:?>
-			<li class="active">Create Users</li>
-		<?php endif; ?>
+		<li class="active"><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage User</a></li>
 	</ol>
 </div>
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<div class="row Title">
-			<?php if(!empty($id)):?>
-			<h4>EDIT USERS</h4>
-			<?php  else:?>
-			<h4>CREATE USERS</h4>
-			<?php endif; ?>
+			<h4>MANAGE USER</h4>
 			<hr />
 		</div>
 		
+		<div class="panel panel-default" style="margin:0px 15px;">
+		<div class="panel-heading">
+			<?php if(!empty($id)):?>
+				Edit User
+			<?php  else:?>
+				Create User
+			<?php endif; ?>
+		</div>
 		<?php if(!empty($id)): ?>
 		<?php echo form_open_multipart("employee/editUserAcct/", $attributes); ?>
 		<?php else: ?>
 		<?php echo form_open_multipart("employee/createUserAcct/", $attributes); ?>
 		<?php endif; ?>
 
+		<div class="panel-body">
 		<?php foreach($labels as $key => $label){
 			switch($dType[$key]){
 				case 'dropdown':
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 			<?php
 				if($dName[$key]=='positionCode'){?>
 					<select name="positions" class="form-control">
@@ -149,9 +149,9 @@
 				break;
 				case 'radio':
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6" style="height: 34px;">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<?php
 					if($dName[$key] == 'sex'){
 						if(!empty($id)){
@@ -190,9 +190,9 @@
 				break;
 				case 'image':
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6" style="height: 34px;">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 			<?php
 				echo form_upload('pic','Profile Picture');
 			?>
@@ -207,9 +207,9 @@
 				break;
 				default:
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<?php
 					if(!empty($id)){
 						echo form_input(array(
@@ -251,24 +251,39 @@
 				}
 			}
 			?>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
+		</div>
+		<div class="panel-footer">
+			<div style="overflow: hidden;">
 				<?php
 				if(!empty($id)){
 					echo form_submit(array(
-					'class' =>'btn btn-primary',
-					'name' =>'submit',
-					'value' => 'Update',
-					'id' => 'submit'
-					));
+						'class' =>'btn btn-default pull-right',
+						'type' =>'reset',
+						'value' => 'Reset',
+						'style' => 'width:100px;margin:5px;'
+						));
+					echo form_submit(array(
+						'class' =>'btn btn-primary pull-right',
+						'name' =>'submit',
+						'value' => 'Update',
+						'id' => 'submit',
+						'style' => 'width:100px;margin:5px;'
+						));
 				}
 				else{
 					echo form_submit(array(
-					'class' =>'btn btn-primary',
-					'name' =>'submit',
-					'value' => 'Register',
-					'id' => 'submit'
-					));
+						'class' =>'btn btn-default pull-right',
+						'type' =>'reset',
+						'value' => 'Reset',
+						'style' => 'width:100px;margin:5px;'
+						));
+					echo form_submit(array(
+						'class' =>'btn btn-primary pull-right',
+						'name' =>'submit',
+						'value' => 'Register',
+						'id' => 'submit',
+						'style' => 'width:100px;margin:5px;'
+						));
 				}
 				
 				?>

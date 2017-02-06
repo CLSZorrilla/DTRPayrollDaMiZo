@@ -1,9 +1,10 @@
+<?php include "nav_customize.php";?>
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="TitleBar row">
 		<div class="navbar-header col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<a class="navbar-brand navbar-link" href="#">
-				<img src="<?php echo base_url();?>assets/images/LTO-logo.png" alt="Logo" />
-				<p>LAND TRANSPORTATION OFFICE</p>
+			<a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>main/home_view">
+				<img src="<?php echo $company['logo']; ?>" height="100" width="100" alt="Logo" />
+				<p><?php echo $company['name']; ?></p></a>
 			</a>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -28,7 +29,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="MenuBar row">
+	<div class="MenuBar row" style="Background-color:<?php echo $company['colorTheme']; ?>;">
 			<ul>
 				<a href="<?php echo base_url(); ?>main/home_view">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
@@ -63,12 +64,12 @@
 				</a>
 				<a href="<?php echo base_url(); ?>leave">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-					<span class="glyphicon glyphicon-minus-sign"></span><br/>Leave Management
+					<span class="glyphicon glyphicon-minus-sign"></span><br/>Leave
 					</li>
 				</a>
 				<a href="<?php echo base_url(); ?>Deduction/dMgmt">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-					<span class="glyphicon glyphicon-minus-sign"></span><br/>Deduction Management
+					<span class="glyphicon glyphicon-minus-sign"></span><br/>Deduction
 					</li>
 				</a>
 				<?php } ?>

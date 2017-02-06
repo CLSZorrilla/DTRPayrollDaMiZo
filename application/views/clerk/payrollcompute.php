@@ -44,7 +44,13 @@
 			<h4>Salary Computation</h4>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
+		<?php  
+			foreach($pInfoRes[1] as $pres){
+				echo $pres."<br/>";
+			}
 
+			echo $pInfoRes[1];
+		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 		<div class="row">
 	        <div class="col-lg-6">
@@ -223,47 +229,12 @@
 </div>
 <script type="text/javascript">
 	var eid = $('#eid').val();
-	var fullName = $('#fName').val();
-	var taxStatus = $('#tStatus').val();
-	var pos = $('#position').val();
-	var dependents = $('#dept').val();
-	var basicPay = $('#bPay').val();
-	var grossPay = $('#gPay').val();
-	var pera = $('#pera').val();
-	var phealth = $('#pHealth').val();
-	var gsis = $('#gsis').val();
-	var pagibig = $('#pagIbig').val();
-	var wtax = $('#wTax').val();
-	var tDeduct = <?php echo $totalDeduction; ?>;
-	var netpay = $('#netpay').val();
-
-	var doc = new jsPDF();
-		var specialElementHandlers = {
-			'#editor': function (element, renderer) {
-				return true;
-			}
-		};
 
 	$('#generate').click(function(){
-		/*var printPayslip = window.open('<?php echo base_url(); ?>Clerk/viewpayslip?fname='+fullName+
-			'&bpay='+basicPay+
-			'&gpay='+grossPay+
-			'&pera='+pera+
-			'&phealth='+phealth+
-			'&gsis='+gsis+
-			'&pagibig='+pagibig+
-			'&wtax='+wtax+
-			'&tdeduct='+tDeduct+
-			'&netpay='+netpay, '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0,resizable=0');*/
+		var printPayslip = window.open('<?php echo base_url(); ?>Clerk/viewpayslip/'+eid, '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0,resizable=0');
+		
 
-		v
+  		window.location.href ="<?php echo base_url(); ?>Clerk";
 
-		 doc.fromHTML($('#compute').html(), 15, 15, {
-        'width': 170,
-            'elementHandlers': specialElementHandlers
-        });
-		 doc.save('sample-file.pdf');
-
-		 alert("haha");
 	})
 </script>

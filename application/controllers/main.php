@@ -9,7 +9,7 @@ class Main extends CI_Controller{
 		$config['allowed_types'] = 'gif|jpg|png';
 		$this->load->library('upload', $config);
 	}
-
+	
 	public function index(){
 		if($this->session->userdata('username')){
 			redirect('main/home_view');
@@ -78,72 +78,54 @@ class Main extends CI_Controller{
 		redirect('main');
 
 	}
-	
 	public function customize(){
-		$this->load->model('Customize_model');
 
+		$this->load->model('Customize_model');
+	
 		if($this->input->server('REQUEST_METHOD') == 'POST'){
-			$config = array(
-				array(
-					'field' => 'name',
-					'label' => 'Company Name',
-					'rules' => 'required'
-					),
-				array(
-					'field' => 'desc',
-					'label' => 'Description',
-					'rules' => 'required'
-					),
-				array(
-					'field' => 'address',
-					'label' => 'Company Address',
-					'rules' => 'required'
-					),
-				array(
-					'field' => 'start_time',
-					'label' => 'Start Time',
-					'rules' => 'required'
-					),
-				array(
-					'field' => 'end_time',
-					'label' => 'End Time',
-					'rules' => 'required'
-					)
+			//update company profile
+			$this->form_validation->set_rules('name', 'Company Name','required');
+			$this->form_validation->set_rules('abbre', 'Abbrebviation','required');
+			$this->form_validation->set_rules('desc', 'Description','required');
+			$this->form_validation->set_rules('address', 'Address','required');
+			$this->form_validation->set_rules('contactNo', 'Contact Number','required');
+			$this->form_validation->set_rules('start_time', 'Start Time','required');
+			$this->form_validation->set_rules('end_time', 'End Time','required');
+			$this->form_validation->set_rules('color_theme', 'Color Theme','required');
+			//$this->form_validation->set_rules('logo', 'Logo','required');
+			
+			if($this->form_validation->run() == FALSE || !$this->upload->do_upload('logo')){
+				
+				$data = array(
+					'error' => validation_errors()
 				);
 
-			$this->form_validation->set_rules($config);
-			
-			if($this->form_validation->run() == FALSE || ! $this->upload->do_upload('logo')){
-				$data = array(
+				$pic = $this->Customize_model->get_logo();
+				$this->Customize_model->update_company($pic);
+				
+				redirect('main/Customize');
+				
+				// $data['cForm']="hr/Customize";
+				// $data['pictureError'] = $this->upload->display_errors();
 
-					'error' => validation_errors(),
-
-					);
-
-				$data['customize']="hr/Customize";
-				$data['pictureError'] = $this->upload->display_errors();
-
-				$this->load->view('Suview', $data);
+				// $this->load->view('Suview', $data);
 			}
 			else{
 				$file_data = $this->upload->data();
 
 				$imgPath = base_url().'companyLogo/'.$file_data['file_name'];
-	
-				$this->Customize_model->insert_companyProfile($imgPath);
+				$this->Customize_model->update_company($imgPath);
 				
-				redirect('main/home_view');
-
+				redirect('main/Customize');
 			}
 		}
 		else{		
+			//display company profile
 			$data['customize'] = "hr/Customize";
-
 			$data['cinfo'] = $this->Customize_model->get_company();
-
+			
 			$this->load->view('Suview', $data);
 		}
-
 	}
 }
 
