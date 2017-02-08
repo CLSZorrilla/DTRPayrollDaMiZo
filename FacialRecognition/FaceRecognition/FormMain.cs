@@ -15,7 +15,7 @@ namespace FaceRecognition
 {
     public partial class FormMain : Form
     {
-        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, theme, abbre;
+        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, r_start, end, r_end, theme, abbre, basis;
         public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
@@ -218,7 +218,7 @@ namespace FaceRecognition
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            if (txtEmpID.Text == "") { btnCapture.Enabled = false; }
+            if (txtEmpID.Text == "" || txtEmpID.Text.Length < 10) { btnCapture.Enabled = false; }
             else
             { btnCapture.Enabled = true; }
                 searchEmployee();
@@ -234,14 +234,17 @@ namespace FaceRecognition
             if (dataReader.Read())
             {
                 abbre = (dataReader["abbre"]).ToString();
-                start = (dataReader["startTime"]).ToString();
-                end = (dataReader["endTime"]).ToString();
                 theme = (dataReader["colorTheme"]).ToString();
                 picLogo.ImageLocation = dataReader["logo"].ToString();
+                basis = (dataReader["timeBasis"]).ToString();
+                start = (dataReader["startTime"]).ToString();
+                r_start = (dataReader["startRange"]).ToString();
+                end = (dataReader["endTime"]).ToString();
+                r_end = (dataReader["endRange"]).ToString();
             }
         }
 
-        //get values from employee tbl
+        
         private void searchEmployee()
         {
             Timer3.Stop();
@@ -296,16 +299,32 @@ namespace FaceRecognition
             DateTime _start = DateTime.Parse(start);
             DateTime _end = DateTime.Parse(end);
 
-            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 59); //1PM
+            switch (basis)
+            {
+                case "Flexible":
+                    _start = DateTime.Parse(r_start);
+                    _end = DateTime.Parse(r_end);
+                    break;
+
+                case "Regular":
+                    _start = DateTime.Parse(start);
+                    _end = DateTime.Parse(end);
+                    break;
+
+                default:
+                    MessageBox.Show("Invalid time basis.");
+                    break;
+
+            }
+
+            DateTime dtr_start = _start.Add(new TimeSpan(-2, 0, 0));
+            DateTime dtr_end = _end.Add(new TimeSpan(2, 0, 0));
+
+            DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 0, 59); //1PM
             
             int minsLate1 = 0, minsLate2 = 0, x = 0, y = 0, g = 0, f = 0;
             float to_deduct1 = 0, condition = 0;
             TimeSpan timeLate;
-
-            DateTime two = DateTime.Now.AddHours(2);
-            DateTime dtr_start, dtr_end;
-            dtr_start = _start.AddHours(2);
-            dtr_end = _start.AddHours(10);
 
             if (currentDate < dtr_start || currentDate > dtr_end)
             {
@@ -320,13 +339,13 @@ namespace FaceRecognition
                 if (AlreadyExist == "0")//timeIn
                 {
                     count = "1";
-                    if (currentDate <= _start)
+                    if (currentDate <= _start.Add(new TimeSpan(0, 0, 59)))
                     {
                         MessageBox.Show("Time In: " + time_only);
                     }
                     else //late
                     {
-                        MessageBox.Show("Time In: " + time_only);
+                        MessageBox.Show("LateTime In: " + time_only);
 
                         //count minutes late
                         timeLate = currentDate - _start;
@@ -377,7 +396,7 @@ namespace FaceRecognition
                                 }
                                 else //late
                                 {
-                                    MessageBox.Show("PM In: " + time_only);
+                                    MessageBox.Show("LatePM In: " + time_only);
 
                                     //count minutes late
                                     timeLate = currentDate - dt1300;
