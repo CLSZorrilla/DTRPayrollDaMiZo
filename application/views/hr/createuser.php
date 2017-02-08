@@ -105,8 +105,7 @@
 				else if ($dName[$key]=='maritalStatus'){
 					$options = array(
 						'Married'   => 'Married',
-						'Widowed'   => 'Widowed',
-						'Separated' => 'Separated',
+						'Widowed'   => 'Widowed'
 						'Divorced'  => 'Divorced',
 						'Single'  	=> 'Single'
 					);

@@ -29,7 +29,7 @@
 			</ul>
 		</div>
 	</div>
-	<div class="MenuBar row" style="Background-color:<?php echo $company['colorTheme']; ?>;">
+	<div class="MenuBar row" style="background-color:<?php echo $company['colorTheme']; ?>;">
 			<ul>
 				<a href="<?php echo base_url(); ?>main/home_view">
 					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">

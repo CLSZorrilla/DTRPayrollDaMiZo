@@ -30,8 +30,16 @@ class Clerk_model extends CI_Model{
 		$basicPay = $basicInfo->row(3)->step_1;
 		$pera = $basicInfo->row(4)->pera;
 		$dep = $basicInfo->row(2)->noOfDependents;
-		$mStatusDep = substr($basicInfo->row(1)->maritalStatus,0,1)."E".$dep."S".$dep;
-
+		$mStat = substr($basicInfo->row(1)->maritalStatus,0,1);
+		$mStatusDep;
+		if($dep > 0){
+			$mStatusDep = "ME".$dep."S".$dep;
+		}
+		else{
+			$mStatusDep = "SME";
+		}
+		
+		//--------------------------------------------------------------
 		//get startTime and endTime
 		$seTime = $this->db->query('SELECT startTime, endTime FROM company_profile WHERE id = 1');
 
@@ -40,7 +48,8 @@ class Clerk_model extends CI_Model{
 		$sTimeAdd = date_create(date("H:i", strtotime("$sTime")));
 		$eTime = date_format(date_add($sTimeAdd,date_interval_create_from_date_string("9 hours")), "H:i");
 
-		//# of days late
+		//---------------------------------------------------------------
+		//hours late
 		$cMonth = date('m');
 		$year = date('Y');
 		$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
@@ -80,6 +89,7 @@ class Clerk_model extends CI_Model{
 
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
+		//--------------------------------------------------------------------
 		//Undertime Deduction
 		$uTime= $this->db->query("SELECT 
 			timediff(timeDiff(amOut,'".$sTime."'),
@@ -145,7 +155,8 @@ class Clerk_model extends CI_Model{
 
 		$uTimeDeduction = 0;
 
-		$uTimeDeduction = round(($numOfDays - $totalUtime) * ($hourlyRate),2); 
+		$uTimeDeduction = round(($numOfDays - $totalUtime) * ($hourlyRate),2);
+		//----------------------------------------------------------------
 		//Additional Deductions
 		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
 
@@ -164,7 +175,7 @@ class Clerk_model extends CI_Model{
 		foreach($amt as $key => $amtToPay){
 			array_push($amtTP, (($amt[$key])/$mtp[$key]));		
 		}
-
+		//----------------------------------------------------------------
 		//# of absences
 		$iter = 24*60*60; //segundo sa isang araw
 	    $weekEndcount = 0;
@@ -187,7 +198,7 @@ class Clerk_model extends CI_Model{
 
 	    $absences = $weekDays - $daysWorked;
 	    $absentDeduction = round(($absences * $dailyRate),2);
-
+	    //----------------------------------------------------------------
 	    //PERA deduction
 	    $peraDailyRate = round(($pera/22),2);
 	    $peraDeduction = round(($absences * $peraDailyRate),2);
@@ -195,6 +206,7 @@ class Clerk_model extends CI_Model{
 	    //----------------------------------------------------------------
 		$grossPay = ($basicPay + $pera) - (($lateDeduction) + ($absentDeduction) + ($uTimeDeduction) + ($peraDeduction));
 
+		//----------------------------------------------------------------
 		//Philhealth
 		$pHealthResult = $this->db->query("SELECT employeeshare
 											FROM philhealth
@@ -208,9 +220,11 @@ class Clerk_model extends CI_Model{
 			$pHealthContrib = 0;
 		}
 		$gsis = round(($grossPay * 0.09),2); //9% of Gross pay
+
+		//----------------------------------------------------------------
 		//Withholding Tax
 
-		$taxableIncome = $grossPay - ($pHealthContrib + $gsis + 100);
+		$taxableIncome = round($grossPay - ($pHealthContrib + $gsis + 100),2);
 
 		$withholdingTax = 0;
 		if($taxableIncome >= 0){
@@ -278,32 +292,37 @@ class Clerk_model extends CI_Model{
 
 		$netPay =round(($grossPay) - ($totalDeductions),2);
 
-		return array($basicInfo, $taxableIncome, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
+		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
 	}
 
 	public function save_Payslip(){
-		$eid = $this->input->post('eid', TRUE);
-		$monthlySalary = $this->input->post('monthlySalary', TRUE);
-		$pera = $this->input->post('pera', TRUE);
-		$grossPay = $this->input->post('grossPay', TRUE);
-		$philHealth = $this->input->post('philHealth', TRUE);
-		$pagIbig = $this->input->post('pagIbig', TRUE);
-		$gsis = $this->input->post('gsis', TRUE);
-		$tax = $this->input->post('tax', TRUE);
-		$netPay = $this->input->post('netPay', TRUE);
+		$data = array(
+			'empID' => $this->input->post('eid', TRUE),
+			'basicpay' => $this->input->post('monthlySalary', TRUE),
+			'pera' => $this->input->post('pera', TRUE),
+			'grosspay' => $this->input->post('grossPay', TRUE),
+			'philhealth' => $this->input->post('philHealth', TRUE),
+			'pagibig' => $this->input->post('pagIbig', TRUE),
+			'gsis' => $this->input->post('gsis', TRUE),
+			'tax' => $this->input->post('tax', TRUE),
+			'netpay' => $this->input->post('netPay', TRUE)
+			);
+		
+		$insert_data = $this->db->insert('payslip', $data);
 
+		/*$this->db->query("INSERT into payslip(empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay) VALUES ('".$eid."', '".$monthlySalary."','".$pera."','".$grossPay."','".$philHealth."','".$pagIbig."','".$gsis."','".$tax."','".$netPay."')");*/
 
-		$this->db->query("INSERT into payslip(empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay) VALUES ('".$eid."', '".$monthlySalary."','".$pera."','".$grossPay."','".$philHealth."','".$pagIbig."','".$gsis."','".$tax."','".$netPay."')");
-		/*$payslipNo = $this->db->insert_id;
-		echo $payslipNo;*/
-			for($i=0;$this->input->post('arayMasakit1['.$i.']')!=null&& $this->input->post('arayMasakit2['.$i.']')!=null;$i++){
-				$arayMasakit1[$i]=$this->input->post('arayMasakit1['.$i.']');
-				$arayMasakit2[$i]=$this->input->post('arayMasakit2['.$i.']');
+		$payslipNo = $this->db->insert_id();
 
-				$this->db->query("INSERT into paysliploan(deductionName, amount) VALUES ('".$arayMasakit1[$i]."', '".$arayMasakit2[$i]."')");
+		for($i=0;$this->input->post('dName['.$i.']')!=null&& $this->input->post('dAmt['.$i.']')!=null;$i++){
+				$dName[$i]=$this->input->post('dName['.$i.']');
+				$dAmt[$i]=$this->input->post('dAmt['.$i.']');
+
+				$this->db->query("INSERT into paysliploan(payslipNo, deductionName, amount) VALUES ('".$payslipNo."','".$dName[$i]."', '".$dAmt[$i]."')");
 			}
 
-		$this->db->query("UPDATE employee SET generated = 'TRUE' WHERE empID LIKE '".$eid."' AND generated LIKE '%FALSE%'");
+		$pslipDate = Date("Y-m-d");
+		$this->db->query('UPDATE employee SET generated = "TRUE", pslipdate = "'.$pslipDate.'" WHERE empID LIKE "'.$data['empID'].'" AND generated LIKE "%FALSE%"');
 	}
 }
 

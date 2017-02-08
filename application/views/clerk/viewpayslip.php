@@ -111,8 +111,8 @@
     							<td><?php echo $deductData[3]; ?></td>
     						</tr>
                             <script>
-                                var arayMasakit1 = Array();
-                                var arayMasakit2 = Array();
+                                var dName = Array();
+                                var dAmt = Array();
                             </script>
                              <?php foreach($pInfoRes[5] as $key => $data):?>
                             <tr>
@@ -120,8 +120,8 @@
                                 <td><?php echo round($pInfoRes[6][$key],2)?></td>
                             </tr>
                             <script>
-                                arayMasakit1.push("<?php echo $pInfoRes[5][$key] ?>");
-                                arayMasakit2.push("<?php echo round($pInfoRes[6][$key],2)?>");
+                                dName.push("<?php echo $pInfoRes[5][$key] ?>");
+                                dAmt.push("<?php echo round($pInfoRes[6][$key],2)?>");
                             </script>
                             <?php endforeach; ?>
     					</tbody>
@@ -184,10 +184,10 @@
         ({
             type: "POST",
             url:"<?php echo base_url(); ?>" + "Clerk/savePayslip",
-            data:{eid,monthlySalary,pera,grossPay,philHealth,pagIbig,gsis,tax,netPay,arayMasakit1,arayMasakit2},
+            data:{eid,monthlySalary,pera,grossPay,philHealth,pagIbig,gsis,tax,netPay,dName,dAmt},
             cache: false,
             success: function(r){
-                alert(r);
+                window.close();
             },
             error: function(r){
                 alert("Fail");

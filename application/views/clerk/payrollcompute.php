@@ -45,11 +45,11 @@
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
 		<?php  
-			foreach($pInfoRes[1] as $pres){
+			/*foreach($pInfoRes[1] as $pres){
 				echo $pres."<br/>";
-			}
+			}*/
 
-			echo $pInfoRes[1];
+			//echo $pInfoRes[1];
 		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 		<div class="row">
@@ -212,7 +212,7 @@
 	                    <h3>TOTAL NETPAY:</h3>
 	                </div>
 	                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-	                    <input type="text" name="" value="<?php echo $netPay; ?>" class="form-control text-box single-line" id="netpay" placeholder="Total Netpay">
+	                    <input type="text" name="" value="<?php echo $netPay; ?>" class="form-control text-box single-line" id="netpay" placeholder="Total Netpay" readonly>
 	                </div>
 	        		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 	                  <button type="button" id="generate" class="btn btnPayroll" style="margin:5px 0px;width:inherit;">Generate</button>
@@ -229,12 +229,17 @@
 </div>
 <script type="text/javascript">
 	var eid = $('#eid').val();
+	var printPayslip;
 
 	$('#generate').click(function(){
-		var printPayslip = window.open('<?php echo base_url(); ?>Clerk/viewpayslip/'+eid, '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0,resizable=0');
+		printPayslip = window.open('<?php echo base_url(); ?>Clerk/viewpayslip/'+eid, '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0,resizable=0');
 		
-
-  		window.location.href ="<?php echo base_url(); ?>Clerk";
-
+		/*if(printPayslip.closed){
+			$("#generate").prop("disabled",false);
+		}
+		else{
+			$("#generate").prop("disabled",true);
+		}*/
+  		//window.location.href ="<?php echo base_url(); ?>Clerk";
 	})
 </script>
