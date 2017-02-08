@@ -318,7 +318,8 @@ namespace FaceRecognition
             }
 
             DateTime dtr_start = _start.Add(new TimeSpan(-2, 0, 0));
-            DateTime dtr_end = _end.Add(new TimeSpan(2, 0, 0));
+            DateTime dtr_end = _end;
+            //DateTime dtr_end = _end.Add(new TimeSpan(2, 0, 0));
 
             DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 0, 59); //1PM
             

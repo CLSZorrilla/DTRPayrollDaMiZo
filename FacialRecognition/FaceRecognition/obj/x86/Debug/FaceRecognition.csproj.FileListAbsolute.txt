@@ -83,3 +83,4 @@ C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debu
 C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
 C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
