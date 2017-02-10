@@ -15,7 +15,7 @@ namespace FaceRecognition
 {
     public partial class FormMain : Form
     {
-        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, r_start, end, r_end, theme, abbre, basis;
+        public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, r_end, theme, abbre, basis;
         public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
@@ -238,7 +238,6 @@ namespace FaceRecognition
                 picLogo.ImageLocation = dataReader["logo"].ToString();
                 basis = (dataReader["timeBasis"]).ToString();
                 start = (dataReader["startTime"]).ToString();
-                r_start = (dataReader["startRange"]).ToString();
                 end = (dataReader["endTime"]).ToString();
                 r_end = (dataReader["endRange"]).ToString();
             }
@@ -291,31 +290,25 @@ namespace FaceRecognition
         private void btnCapture_Click(object sender, EventArgs e)
         {
             DateTime currentDate = DateTime.Now;
+            DayOfWeek day = DateTime.Now.DayOfWeek;
             string militaryTime = currentDate.ToString("HH:mm tt");
             string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
 
-            //convert official time to DateTime
-            DateTime _start = DateTime.Parse(start);
-            DateTime _end = DateTime.Parse(end);
-
+            string basis_end = "";
+            
             switch (basis)
             {
                 case "Flexible":
-                    _start = DateTime.Parse(r_start);
-                    _end = DateTime.Parse(r_end);
-                    break;
-
+                    basis_end = r_end; break;
                 case "Regular":
-                    _start = DateTime.Parse(start);
-                    _end = DateTime.Parse(end);
-                    break;
-
+                    basis_end = end; break;
                 default:
-                    MessageBox.Show("Invalid time basis.");
-                    break;
-
+                    MessageBox.Show("Invalid time basis.");break;
             }
+
+            DateTime _start = DateTime.Parse(start);
+            DateTime _end = DateTime.Parse(basis_end);
 
             DateTime dtr_start = _start.Add(new TimeSpan(-1, 0, 0));
             DateTime dtr_end = _end.Add(new TimeSpan(1, 0, 0));
@@ -326,9 +319,13 @@ namespace FaceRecognition
             float to_deduct1 = 0, condition = 0;
             TimeSpan timeLate;
 
-            if (currentDate < dtr_start || currentDate > dtr_end)
+            if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
             {
-                MessageBox.Show("out of office hours!");
+                MessageBox.Show("Its Weekend!");
+            }
+            else if (currentDate < dtr_start || currentDate > dtr_end)
+            {
+                MessageBox.Show("Out of office hours!");
             }
             else
             {
@@ -345,7 +342,7 @@ namespace FaceRecognition
                     }
                     else //late
                     {
-                        MessageBox.Show("LateTime In: " + time_only);
+                        MessageBox.Show("Time In: " + time_only);
 
                         //count minutes late
                         timeLate = currentDate - _start;
@@ -396,7 +393,7 @@ namespace FaceRecognition
                                 }
                                 else //late
                                 {
-                                    MessageBox.Show("LatePM In: " + time_only);
+                                    MessageBox.Show("PM In: " + time_only);
 
                                     //count minutes late
                                     timeLate = currentDate - dt1300;
