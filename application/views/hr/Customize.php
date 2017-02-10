@@ -1,9 +1,9 @@
 <?php
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-2');
-	$labels=array('Company Name', 'Abbreviation', 'Description','Address', 'Contact Number','Start Time','End Time','Color Theme','Company Logo');
-	$dName=array('name', 'abbre', 'desc','address','contactNo', 'start_time', 'end_time', 'color_theme', 'logo');
-	$dType=array('text','text','text','text','text','text','text','color','image');
+	$labels=array('Company Name', 'Abbreviation', 'Description','Address', 'Contact Number','Time Basis','Start Time','End Time','Color Theme','Company Logo');
+	$dName=array('name', 'abbre', 'desc','address','contactNo','timeBasis','start_time', 'end_time', 'color_theme', 'logo');
+	$dType=array('text','text','text','text','text','radio','text','text','color','image');
 	
 	$id = 1;
 	$cForm=array(
@@ -12,6 +12,7 @@
 		$cinfo->row(3)->description,
 		$cinfo->row(4)->address,
 		$cinfo->row(5)->contactNo,
+		'',
 		$cinfo->row(6)->startTime,
 		$cinfo->row(7)->endTime,
 		$cinfo->row(8)->colorTheme,
@@ -41,7 +42,7 @@
 		<div class="form-group">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
 			<div class="col-md-10">
-				<input id="src" type="file" value="asdfghjkl" name="logo" />
+				<input id="src" type="file" name="logo" />
 				<br />
 				<img src="<?php echo $cForm[$key]; ?>" height="100" width="100" id="target" />
 				<br /><br />
@@ -50,6 +51,30 @@
 					echo $pictureError;
 				}
 			?>
+			</div>
+		</div>
+		<?php
+				break;
+				case 'radio':
+		?>
+		<div class="form-group">
+			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
+			<div class="col-md-10">
+				<input type='radio' name=<?php echo $dName[$key]; ?> id="flexi" value='Flexible'>Flexible Time
+	  			<input type='radio' name=<?php echo $dName[$key];  ?> id="regular" value='Regular' checked> Regular Time
+			</div>
+			<br />
+			<div class="col-md-10">
+				<select name="sRange" id="sRange">
+					<option value="07:00:00">07:00</option>
+					<option value="08:00:00">08:00</option>
+					<option value="09:00:00">09:00</option>
+				</select>
+				<select name="eRange" id="eRange">
+					<option value="08:00:00">08:00</option>
+					<option value="09:00:00">09:00</option>
+					<option value="11:00:00">11:00</option>
+				</select>
 			</div>
 		</div>
 		<?php
@@ -109,6 +134,36 @@
 	</div>
 </div>
 <script type="text/javascript">
+if ($("#regular").prop("checked", true)) {
+            $("#start_time").show();
+            $('label[for="start_time"]').show();
+            $("#end_time").show();
+            $('label[for="end_time"]').show();
+            $("#sRange").hide();
+            $("#eRange").hide();
+
+}
+
+$('input:radio[name="timeBasis"]').change(
+    function(){
+        if (this.checked && this.value == 'Flexible') {
+            $("#start_time").hide();
+            $('label[for="start_time"]').hide();
+            $("#end_time").hide();
+            $('label[for="end_time"]').hide();
+            $("#sRange").show();
+            $("#eRange").show();
+        }
+        else if (this.checked && this.value == 'Regular') {
+            $("#start_time").show();
+            $('label[for="start_time"]').show();
+            $("#end_time").show();
+            $('label[for="end_time"]').show();
+            $("#sRange").hide();
+            $("#eRange").hide();
+
+        }
+    });
 $('#contactNo').mask("999-9999", {placeholder:" "});
 $('#start_time').mask("99:99", {completed: function(){
 	var sTime = $('#start_time').val();

@@ -91,6 +91,8 @@ class Main extends CI_Controller{
 			$this->form_validation->set_rules('contactNo', 'Contact Number','required');
 			$this->form_validation->set_rules('start_time', 'Start Time','required');
 			$this->form_validation->set_rules('end_time', 'End Time','required');
+			$this->form_validation->set_rules('sRange', 'Start Range','required');
+			$this->form_validation->set_rules('eRange', 'End Range','required');
 			$this->form_validation->set_rules('color_theme', 'Color Theme','required');
 			//$this->form_validation->set_rules('logo', 'Logo','required');
 			

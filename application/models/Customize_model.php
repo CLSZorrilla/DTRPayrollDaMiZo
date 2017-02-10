@@ -7,17 +7,35 @@ class Customize_model extends CI_Model{
 	}
 	
 	public function update_company($img){
-		$data=array(
-			'name'=>$this->input->post('name', TRUE),
-			'abbre'=>$this->input->post('abbre',TRUE),
-			'description'=>$this->input->post('desc',TRUE),
-			'address'=>$this->input->post('address',TRUE),
-			'contactNo'=>$this->input->post('contactNo',TRUE),
-			'startTime'=>$this->input->post('start_time',TRUE),
-			'endTime'=>$this->input->post('end_time',TRUE),
-			'colorTheme'=>$this->input->post('color_theme',TRUE),
-			'logo'=>$img,
-		);
+		if($this->input->post('timeBasis',TRUE) == 'Flexible'){
+			$data=array(
+				'name'=>$this->input->post('name', TRUE),
+				'abbre'=>$this->input->post('abbre',TRUE),
+				'description'=>$this->input->post('desc',TRUE),
+				'address'=>$this->input->post('address',TRUE),
+				'contactNo'=>$this->input->post('contactNo',TRUE),
+				'startRange'=>$this->input->post('sRange',TRUE),
+				'endRange'=>$this->input->post('eRange',TRUE),
+				'colorTheme'=>$this->input->post('color_theme',TRUE),
+				'timeBasis' => $this->input->post('timeBasis',TRUE),
+				'logo'=>$img,
+			);
+		}
+		else if($this->input->post('timeBasis',TRUE) == 'Regular'){
+			$data=array(
+				'name'=>$this->input->post('name', TRUE),
+				'abbre'=>$this->input->post('abbre',TRUE),
+				'description'=>$this->input->post('desc',TRUE),
+				'address'=>$this->input->post('address',TRUE),
+				'contactNo'=>$this->input->post('contactNo',TRUE),
+				'startTime'=>$this->input->post('start_time',TRUE),
+				'endTime'=>$this->input->post('end_time',TRUE),
+				'colorTheme'=>$this->input->post('color_theme',TRUE),
+				'timeBasis' => $this->input->post('timeBasis',TRUE),
+				'logo'=>$img,
+			);
+		}
+		
 		$query = $this->db->update('company_profile', $data);
 
 		return $query;

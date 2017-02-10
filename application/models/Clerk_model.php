@@ -26,6 +26,10 @@ class Clerk_model extends CI_Model{
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
 		$this->db->join('salarygrade', 'positions.salaryGrade=salarygrade.salaryGrade');
 
+		$timeBasis = $this->db->query("SELECT timeBasis FROM company_profile");
+
+		$tbasis = $timeBasis->row(0)->timeBasis;
+
 		$basicInfo = $this->db->get();
 		$basicPay = $basicInfo->row(3)->step_1;
 		$pera = $basicInfo->row(4)->pera;
@@ -41,21 +45,40 @@ class Clerk_model extends CI_Model{
 		
 		//--------------------------------------------------------------
 		//get startTime and endTime
-		$seTime = $this->db->query('SELECT startTime, endTime FROM company_profile WHERE id = 1');
+		$seTime = $this->db->query('SELECT startTime, endTime, startRange, endRange FROM company_profile WHERE id = 1');
 
 		$sTime = $seTime->row(0)->startTime;
 
 		$sTimeAdd = date_create(date("H:i", strtotime("$sTime")));
 		$eTime = date_format(date_add($sTimeAdd,date_interval_create_from_date_string("9 hours")), "H:i");
 
+		$sRange = $seTime->row(2)->startRange;
+		$eRange = $seTime->row(3)->endRange;
+
 		//---------------------------------------------------------------
 		//hours late
 		$cMonth = date('m');
 		$year = date('Y');
-		$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
+		if($tbasis == 'Flexible'){
+			$damLateResult = $this->db->query('SELECT 
+					CASE
+						WHEN timediff(timeIn, "'.$eRange.'") < 0 THEN "00:00:00" 
+						ELSE timediff(timeIn, "'.$eRange.'") 
+					END as timeIn, amOut, 
+					CASE 
+						WHEN timediff(pmIn, "13:00:00") < 0 THEN "00:00:00" 
+						ELSE timediff(pmIn, "13:00:00") 
+					END as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
 							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
+		}
+		else if($tbasis == 'Regular'){
+			$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
+							FROM timelog 
+							WHERE empID LIKE "'.$eid.'"
+							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
+		}
 
 		$dLatetimeIn = array();
 		$dLateAMout = array();
@@ -91,7 +114,45 @@ class Clerk_model extends CI_Model{
 
 		//--------------------------------------------------------------------
 		//Undertime Deduction
-		$uTime= $this->db->query("SELECT 
+
+		if($tbasis == 'Flexible'){
+			$uTime= $this->db->query("SELECT 
+			timeDiff(timeDiff(amOut,timeIn), 
+			CASE 
+				WHEN timeDiff(amOut,'12:00:00') < 0 THEN '00:00:00' 
+				ELSE timeDiff(amOut,'12:00:00') 
+			END) as amWorked,
+
+			CASE
+				WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
+				ELSE timeDiff(timeDiff(CASE
+								WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+								ELSE addTime(timeIn, '09:00:00')
+								END,'13:00:00'
+							),addTime(CASE
+								WHEN timeDiff(pmIn,'13:00:00') <= 0 THEN '00:00:00'
+								ELSE timeDiff(pmIn,'13:00:00')
+								END, 
+								CASE 
+									WHEN timeDiff(CASE
+										WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+										ELSE addTime(timeIn, '09:00:00')
+										END,timeOut) < 0 THEN '00:00:00'
+									ELSE timeDiff(CASE
+										WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+										ELSE addTime(timeIn, '09:00:00')
+										END,timeOut)
+								END)
+						)
+			END as pmWorked
+
+			FROM `timelog`
+			WHERE empID LIKE '".$eid."'
+			AND substr(logdate,6,2) LIKE '".$cMonth."'
+				");
+		}
+		else if($tbasis == 'Regular'){
+			$uTime= $this->db->query("SELECT 
 			timediff(timeDiff(amOut,'".$sTime."'),
 			addTime(
 			CASE
@@ -117,7 +178,11 @@ class Clerk_model extends CI_Model{
 			END as pmWorked
 
 			FROM `timelog`
+			WHERE empID LIKE '".$eid."'
+			AND substr(logdate,6,2) LIKE '".$cMonth."'
 				");
+		}
+		
 
 		$numOfDays = $uTime->num_rows()*8;
 		$amWorked = array();
@@ -173,7 +238,7 @@ class Clerk_model extends CI_Model{
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, (($amt[$key])/$mtp[$key]));		
+			array_push($amtTP, round((($amt[$key])/$mtp[$key])),2);		
 		}
 		//----------------------------------------------------------------
 		//# of absences
@@ -208,13 +273,13 @@ class Clerk_model extends CI_Model{
 
 		//----------------------------------------------------------------
 		//Philhealth
-		$pHealthResult = $this->db->query("SELECT employeeshare
+		$pHealthResult = $this->db->query("SELECT employeeShare
 											FROM philhealth
 											WHERE '".$grossPay."'>=startRange
 											AND '".$grossPay."'<=endRange");
 		
 		if($grossPay != 0){
-			$pHealthContrib = $pHealthResult->row(0)->employeeshare; //Depending on salary bracket 
+			$pHealthContrib = $pHealthResult->row(0)->employeeShare; //Depending on salary bracket 
 		}
 		else{
 			$pHealthContrib = 0;
@@ -295,6 +360,38 @@ class Clerk_model extends CI_Model{
 		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
 	}
 
+	public function get_payrollsheet(){
+		$emp = $this->db->query('SELECT empID from employee');
+
+		$Results = array();
+		foreach($emp->result() as $eid){
+			array_push($Results,$this->get_payroll_info($eid->empID));
+		}
+		$StringFor="";
+		foreach ($Results as $key => $empData) {
+			$StringFor.="<tr>".$this->get_info($empData)."</tr>";
+		}
+		echo $StringFor;//print_r($Results[0][0]);
+	}
+
+	public function get_info($info){
+		$tableData = "<td>".$info[0]->row(0)->name."</td>
+				<td>"./*division.*/"</td>
+				<td>"./*division.*/"</td>
+				<td>".$info[0]->row(2)->positionName."</td>
+				<td>".$info[0]->row(7)->step_1."</td>
+				<td>".$info[8]."</td>
+				<td>".$info[1]."</td>
+				<td>".$info[2]."</td>
+				<td>100</td>
+				<td>".$info[3]."</td>
+				<td>".$info[4]."</td>";
+
+				foreach($info[5] as $deduction){
+					$tableData.="<td>".$deduction."</td>";
+				}
+		return $tableData;
+	}
 	public function save_Payslip(){
 		$data = array(
 			'empID' => $this->input->post('eid', TRUE),
@@ -309,8 +406,6 @@ class Clerk_model extends CI_Model{
 			);
 		
 		$insert_data = $this->db->insert('payslip', $data);
-
-		/*$this->db->query("INSERT into payslip(empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay) VALUES ('".$eid."', '".$monthlySalary."','".$pera."','".$grossPay."','".$philHealth."','".$pagIbig."','".$gsis."','".$tax."','".$netPay."')");*/
 
 		$payslipNo = $this->db->insert_id();
 

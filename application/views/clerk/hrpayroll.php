@@ -1,8 +1,4 @@
-  <?php
-    $base_url = base_url();
-  ?>
-
-  <div>
+<div>
     <ol class="breadcrumb">
       <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
       <li class="active">Payroll</li>
@@ -11,43 +7,39 @@
   <div class="BodyContainer">
     <div class="BodyContent">
       <div class="row Title">
-      <h4>Employee List</h4>
+      <h4><b>E</b>mployee <b>L</b>ist</h4>
       </div>
-
+      <b>From</b>
+      <input type="date" id="periodDateS" /> <b>to</b>
+      <input type="date" id="periodDateE" />
+      <button class="btn btn-primary" id="genPaySheet" >Generate</button>
       <div class="table-responsive">
-        <table class="table table-striped MaintenanceTable">
-          <thead>
-            <tr>
-              <?php
-                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Generated');
-                  foreach($tHeader as $tHead){
-                    echo '<th>'.$tHead.'</th>';
-                  };
-
-                ?>
-            </tr>
-          </thead>
-          <tbody>
-            <?php 
-                  foreach($uinfo as $info){
-                    echo "
-                      <tr>
-                        <td>".$info->empID."</td>
-                        <td>".$info->acctType."</td>
-                        <td>".$info->positionName."</td>
-                        <td>".$info->deptName."</td>
-                        <td>".$info->name."</td>
-                        <td>";
-                        if($info->generated == 'FALSE'){ ?> 
-                        <a href="<?php echo base_url(); ?>Clerk/payroll_computation/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
-                        <?php } else {
-                           echo $info->pslipdate;
-                         }
-                    echo "</td>
-                      </tr>"; 
-                  }
-            ?>
-          </tbody>
+        <table class="table table-striped MaintenanceTable" style="font-size:11px;white-space:nowrap;">
+        <thead>
+          <tr>
+            <th rowspan="2" valign="middle">Name</th>
+            <th rowspan="2">Division</th>
+            <th rowspan="2">Service</th>
+            <th rowspan="2">Position</th>
+            <th colspan="3">Earnings</th>
+            <th colspan="6">Deductions</th>
+            <th rowspan="2"><b>Total Netpay</b></th>
+          </tr>
+          <tr>
+            <th>Monthly Salary</th>
+            <th>PERA</th>
+            <th>Gross Earnings</th>
+            <th>PhilHealth</th>
+            <th>Pagibig Fund</th>
+            <th>GSIS Integ.</th>
+            <th>WT</th>
+            <th>Additional Deductions</th>
+            <th>Total Deductions</th>
+          </tr>
+        </thead>
+        <tbody id="pInfo">
+        </tbody>
+      </table>
         </table>
       </div>
     </div>
@@ -66,7 +58,49 @@
         "bLengthChange": false,
         "ordering": true,
         "aaSorting": [[0, 'desc']],
+        buttons: [
+          'excel'
+        ],
         responsive: true
       });
+    });
+
+    $(function(){
+      var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate();
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+
+      $('#periodDateS').attr('max', maxDate);
+      $('#periodDateE').attr('max', maxDate);
+    });
+
+    $('#periodDateS').change(function(){
+      var minDate = $('#periodDateS').val();
+
+      $('#periodDateE').attr('min', minDate);
+    })
+    $('#genPaySheet').click(function(){
+      var periodDateS = $('#periodDateS').val();
+      var periodDateE = $('#periodDateE').val();
+      
+      $.ajax({
+        type: "POST",
+        url: "<?php echo base_url();?>Clerk/paysheet_compute",
+        data: {periodDateS,periodDateE},
+        success: function(msg){
+          $('#pInfo').html(msg);
+        },
+        error: function(msg) {
+          alert("Fail");
+       }
+     });
     });
   </script>

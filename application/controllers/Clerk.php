@@ -11,12 +11,12 @@ class Clerk extends CI_Controller{
 	public function index(){
 		$data['payrollEmpList'] = "clerk/hrpayroll";
 
-		$data['uinfo'] = $this->Clerk_model->get_emp_list();
+		$data['pInfoRes'] = $this->Clerk_model->get_payrollsheet();
 
 		$this->load->view('Suview', $data);
 	}
 
-	public function payroll_computation(){
+	public function payslip_compute(){
 		if($this->uri->segment(3)){
 			$data['payroll'] = "clerk/payrollcompute";
 
@@ -37,6 +37,11 @@ class Clerk extends CI_Controller{
 
 	public function savePayslip(){
 		$this->Clerk_model->save_Payslip();
+	}
+
+
+	public function paysheet_compute(){
+		$this->Clerk_model->get_payrollsheet();
 	}
 }
 

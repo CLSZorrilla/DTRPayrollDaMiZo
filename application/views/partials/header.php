@@ -7,6 +7,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/responsive.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.alerts.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-attendance.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/buttons.dataTables.min.css" />
 
 <script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery.dataTables.min.js"></script>
@@ -17,3 +18,5 @@
 <script src="<?php echo base_url();?>assets/js/jquery.alerts.js"></script>
 <script src="<?php echo base_url();?>assets/js/fullcalendar.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery.easy-autocomplete.js"></script>
+<script src="<?php echo base_url();?>assets/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.4/js/buttons.html5.min.js"></script>

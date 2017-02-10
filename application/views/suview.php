@@ -5,7 +5,7 @@
 </head>
 <div>
 	<div>
-		<?php $this->load->view('partials/nav');?>
+		
 	</div>
 </div>
 <div>
