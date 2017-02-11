@@ -1,6 +1,6 @@
 <div>
     <ol class="breadcrumb">
-      <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+      <li><a href="main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
       <li class="active">Payroll</li>
     </ol>
   </div>
@@ -13,19 +13,12 @@
       <input type="date" id="periodDateS" /> <b>to</b>
       <input type="date" id="periodDateE" />
       <button class="btn btn-primary" id="genPaySheet" >Generate</button>
-      <div class="table-responsive">
-        <table class="table table-striped MaintenanceTable" style="font-size:11px;white-space:nowrap;">
+      <div class="table-responsive" id="tableDiv">
+        <table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'>
         <thead>
           <tr>
-            <th rowspan="2" valign="middle">Name</th>
-            <th rowspan="2">Division</th>
-            <th rowspan="2">Service</th>
-            <th rowspan="2">Position</th>
-            <th colspan="3">Earnings</th>
-            <th colspan="6">Deductions</th>
-            <th rowspan="2"><b>Total Netpay</b></th>
-          </tr>
-          <tr>
+            <th>Name</th>
+            <th>Position</th>
             <th>Monthly Salary</th>
             <th>PERA</th>
             <th>Gross Earnings</th>
@@ -34,15 +27,16 @@
             <th>GSIS Integ.</th>
             <th>WT</th>
             <th>Additional Deductions</th>
-            <th>Total Deductions</th>
+            <th>Total NetPay</th>
           </tr>
         </thead>
-        <tbody id="pInfo">
+        <tbody id='pInfo'>
         </tbody>
       </table>
-        </table>
       </div>
     </div>
+  </div>
+  <div id="hideMyPower" style="display: none;">
   </div>
   <div class="Footer">
     <div class="pull-right">
@@ -58,10 +52,11 @@
         "bLengthChange": false,
         "ordering": true,
         "aaSorting": [[0, 'desc']],
+        responsive: true,
+        dom: 'Bfrtip',
         buttons: [
           'excel'
-        ],
-        responsive: true
+        ]
       });
     });
 
@@ -69,7 +64,7 @@
       var dtToday = new Date();
       
       var month = dtToday.getMonth() + 1;
-      var day = dtToday.getDate();
+      var day = dtToday.getDate()-1;
       var year = dtToday.getFullYear();
       if(month < 10)
           month = '0' + month.toString();
@@ -86,21 +81,88 @@
       var minDate = $('#periodDateS').val();
 
       $('#periodDateE').attr('min', minDate);
-    })
+    });
     $('#genPaySheet').click(function(){
       var periodDateS = $('#periodDateS').val();
       var periodDateE = $('#periodDateE').val();
-      
+
+      if(periodDateS == "" || periodDateE == ""){
+        alert("Input date range");
+      }
+      else{
+        $.ajax({
+          type: "POST",
+          url: "<?php echo base_url();?>Clerk/paysheet_compute",
+          data: {periodDateS,periodDateE},
+          success: function(msg){
+            $('.MaintenanceTable').DataTable().destroy();
+
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#pInfo').html(msg);
+            $('#hideMyPower').html($('#tableRes td').html());
+            //alert($('#tableRes td').html());
+            $('#tableRes').remove();
+
+            $('.MaintenanceTable').DataTable({
+              "pageLength": 10,
+              "pagingType": "full",
+              "bFilter": true,
+              "bLengthChange": false,
+              "ordering": true,
+              "aaSorting": [[0, 'desc']],
+              responsive: false,
+              dom: 'Bfrtip',
+              buttons: [
+              'excel'
+              ]
+            });
+          },
+          error: function(msg) {
+            alert("Fail");
+          }
+        });
+      }    
+    });
+
+    function passHeader(msg){
+      msg1 = msg.replace("</tr>").split("<tr>");
+      for(var x=0;x<msg1.length;x++){
+        //alert(msg[x]);
+        var stringMs = msg1[x].replace("</td>","").split("<td>");
+        var headAppend = "";
+        //alert(stringMs.toString());
+        for(var i=12;i<stringMs.length;i++){
+          //alert(stringMs[i]);
+          var tempStr = stringMs[i].replace("</td>","").replace("undefined","");
+          tempStr= tempStr.substring(0,tempStr.indexOf("..!.."));
+          var regex = new RegExp(tempStr);
+          if(!$('#pHeader').html().match(regex))
+          headAppend+= "<th>"+tempStr+"</th>";
+        }
+        $('#pHeader').html($('#pHeader').html()+headAppend);
+        //if(headAppend!=""&&headAppend!=null)
+        //alert(headAppend);
+      }
+      return msg;//.replace(/[>].*\.\.!\.\./igm,">");
+    }
+
+
+    $(document).on("click",".dt-buttons a",function(e){
+      var pslipdata = JSON.parse($('#hideMyPower').html());
+
+      alert(pslipdata);
       $.ajax({
         type: "POST",
-        url: "<?php echo base_url();?>Clerk/paysheet_compute",
-        data: {periodDateS,periodDateE},
-        success: function(msg){
-          $('#pInfo').html(msg);
+        url:"<?php echo base_url(); ?>Clerk/paysheet_save",
+        data:{pslipdata},
+        dataType:"json",
+        cache: false,
+        success:function(r){
+          alert("Success");
         },
-        error: function(msg) {
+        error:function(r){
           alert("Fail");
-       }
-     });
+        }
+      });
     });
   </script>

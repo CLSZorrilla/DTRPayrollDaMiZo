@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 30, 2017 at 02:59 AM
+-- Generation Time: Feb 11, 2017 at 07:43 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -23,29 +23,60 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `company_profile`
+--
+
+CREATE TABLE IF NOT EXISTS `company_profile` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `abbre` varchar(10) NOT NULL,
+  `description` varchar(150) NOT NULL,
+  `address` varchar(100) NOT NULL,
+  `contactNo` varchar(15) NOT NULL,
+  `startTime` varchar(10) NOT NULL,
+  `endTime` varchar(10) NOT NULL,
+  `startRange` varchar(10) NOT NULL,
+  `endRange` varchar(10) NOT NULL,
+  `colorTheme` varchar(15) NOT NULL,
+  `logo` varchar(255) DEFAULT NULL,
+  `timeBasis` varchar(10) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `company_profile`
+--
+
+INSERT INTO `company_profile` (`id`, `name`, `abbre`, `description`, `address`, `contactNo`, `startTime`, `endTime`, `startRange`, `endRange`, `colorTheme`, `logo`, `timeBasis`) VALUES
+(1, 'Opisina ni Wilmar', 'OW', 'Transportation Sector', 'LTO Compound,East Ave., Quezon City East ', '361-1325', '07:00', '16:00', '07:00:00', '09:00:00', '#2f98bb', 'http://[::1]/payroll/companyLogo/LTO-logo.png', 'Regular');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `deductions`
 --
 
 CREATE TABLE IF NOT EXISTS `deductions` (
+  `deductionNo` int(4) NOT NULL AUTO_INCREMENT,
   `empID` varchar(255) NOT NULL,
   `fullName` varchar(255) NOT NULL,
   `deductionName` varchar(255) NOT NULL,
   `amount` float NOT NULL,
-  `interest` varchar(255) NOT NULL,
   `mtp` int(5) NOT NULL,
   `monthsLeft` int(5) NOT NULL,
+  `dateApplied` varchar(50) NOT NULL,
   `status` varchar(255) NOT NULL,
+  PRIMARY KEY (`deductionNo`),
   KEY `empID` (`empID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `deductions`
 --
 
-INSERT INTO `deductions` (`empID`, `fullName`, `deductionName`, `amount`, `interest`, `mtp`, `monthsLeft`, `status`) VALUES
-('13-037-071', 'Carinan, Wilmar Paul Abella', 'Loyola Plan', 15000, '10.00%', 12, 12, 'on-going'),
-('13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Healthcard', 10000, '10.00%', 12, 12, 'on-going'),
-('13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Landbank Loan', 20000, '10.00%', 6, 6, 'on-going');
+INSERT INTO `deductions` (`deductionNo`, `empID`, `fullName`, `deductionName`, `amount`, `mtp`, `monthsLeft`, `dateApplied`, `status`) VALUES
+(5, '13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Landbank Loan', 15000, 6, 6, '2017-02-04', 'on-going'),
+(7, '13-037-064', 'Dayaon, Froinand Bugaoisan', 'Housing Loan', 100000, 24, 24, '2017-02-06', 'on-going');
 
 -- --------------------------------------------------------
 
@@ -98,25 +129,72 @@ CREATE TABLE IF NOT EXISTS `employee` (
   `TIN` varchar(14) NOT NULL,
   `VL` float NOT NULL,
   `SL` float NOT NULL,
+  `toDeduct` float NOT NULL,
+  `basicPay` float NOT NULL,
   `picture` varchar(255) NOT NULL,
   `pictureTrained` varchar(255) NOT NULL,
   `TrainedFaces` int(10) NOT NULL,
   `activated` varchar(10) NOT NULL,
+  `generated` varchar(10) NOT NULL,
+  `pslipdate` varchar(25) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `empID` (`empID`),
   KEY `positionCode` (`positionCode`),
   KEY `deptCode` (`deptCode`),
   KEY `positionCode_2` (`positionCode`),
   KEY `positionCode_3` (`positionCode`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
 
 --
 -- Dumping data for table `employee`
 --
 
-INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `status`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`) VALUES
-(3, '13-037-048', '155a638f9b4153658918d05d255d2a1a0259ff34584ab63e3caa225f8d647191c14e5ba316a0f326182e390c2d6693c7375326156cab05b126744e469807bf54SYbywsoz7s4iS8zyMaG2DUx4Fl69LFUr', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Married', 0, 'CLSZorrilla@gmail.com', '1995-12-28', '0936-312-9137', 'Male', 'Contractual', '2017-06-06', '159752416-5465', '161564651-6516', '111555685-1231', 1.25, 1.25, 'http://[::1]/payroll//uploads/WIN_20161027_11_33_08_Pro.jpg', '/TrainedFaces/face1.bmp', 1, 'TRUE'),
-(10, '13-037-071', '449a2d4271765549129f22dbaf365d56bd63dcbc2a65a76498d6a5494df60a537456cb0d888fca2a084dc1e478a053c82a399b50882a6153de0cfb4166465cbcK/NnnbGrgFNxpnc1hSXezPhxzPfAz0GZ', 'Payroll Clerk', 1, 1, 2000, 'Carinan', 'Wilmar Paul', 'Abella', 'Pasay City', 'Married', 1, 'wpcarinan@gmail.com', '1995-02-10', '0936-312-9137', 'Male', 'Contractual', '2017-06-06', '159753167-4822', '154871515-4518', '216843584-1515', 1.25, 1.25, '', '', 0, 'TRUE');
+INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `status`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `toDeduct`, `basicPay`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`, `generated`, `pslipdate`) VALUES
+(1, '13-037-048', '35b92d78dec9dc7714f3f91c5699bda9dbf312a366e3009edf1959bf90485c2e8c1ab9c8f32e794637afe00f846b958d926b1a5cb179518e906ebc654f76f29e/nAZebnQugglnv+GfLVA0uQLdOdJpUyE', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Single', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 1.192, 0.25, 0, 0, 'http://[::1]/payroll//uploads/', '/TrainedFaces/face1.bmp', 1, 'TRUE', 'FALSE', ''),
+(6, '13-037-064', '6798c42464fb485f744fd784842b0ae552298073acccb9a3d0f51b33f35db2e7ce910f78c5c3b0689749427a72acdefbfe4dcccd9cd341aebda200675471cff4Q+tk7PQ/Ih3wcspGka0yG5oDx2HUHWA1', 'Payroll Clerk', 1, 1, 2000, 'Dayaon', 'Froinand', 'Bugaoisan', 'Imus, Cavite', 'Married', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '151654153-4651', '651681546-5456', '651681548-1548', 1.25, 1.25, 0, 0, 'http://[::1]/payroll//uploads/Screenshot_(154).png', '', 0, 'TRUE', 'FALSE', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `holiday`
+--
+
+CREATE TABLE IF NOT EXISTS `holiday` (
+  `holidayId` int(11) NOT NULL AUTO_INCREMENT,
+  `holidayName` varchar(255) NOT NULL,
+  `holidayDate` varchar(255) NOT NULL,
+  `holidayType` varchar(255) NOT NULL,
+  PRIMARY KEY (`holidayId`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=24 ;
+
+--
+-- Dumping data for table `holiday`
+--
+
+INSERT INTO `holiday` (`holidayId`, `holidayName`, `holidayDate`, `holidayType`) VALUES
+(1, 'New Year''s Day', '01/01/2017', 'Regular'),
+(2, 'New Year''s Day (Observed)', '01/02/2017', 'Regular'),
+(3, 'Chinese New Year', '01/28/2017', 'Special Non-working'),
+(4, 'People Power Anniversary', '02/25/2017', 'Observance'),
+(5, 'Araw ng Kagitingan', '04/09/2017', 'Regular'),
+(6, 'Maundy Thursday', '04/13/2017', 'Regular'),
+(7, 'Good Friday', '04/14/2017', 'Regular'),
+(8, 'Black Saturday', '04/15/2017', 'Special Non-Working'),
+(9, 'Easter Sunday', '04/16/2017', 'Observance'),
+(10, 'Labor Day', '05/01/2017', 'Regular'),
+(11, 'Independence Day', '06/12/2017', 'Regular'),
+(12, 'Eid-Ul-Fitr', '06/27/2017', '-'),
+(13, 'Ninoy Aquino Day', '08/21/2017', 'Special Non-Working'),
+(14, 'National Heroes Day', '08/28/2017', 'Regular'),
+(15, 'Eid Al-Adha', '09/01/2017', '-'),
+(16, 'Public Holiday', '10/31/2017', 'Special Non-Working'),
+(17, 'All Saints Day', '11/01/2017', 'Special Non-Working'),
+(18, 'All Souls Day', '11/02/2017', 'Observance'),
+(19, 'Bonifacio Day', '11/30/2017', 'Regular'),
+(20, 'Christmas Eve', '12/24/2017', 'Observance'),
+(21, 'Christmas Day', '12/25/2017', 'Regular'),
+(22, 'Rizal Day', '12/30/2017', 'Regular'),
+(23, 'New Year''s Eve', '12/31/2017', 'Special Non-Working');
 
 -- --------------------------------------------------------
 
@@ -158,15 +236,51 @@ CREATE TABLE IF NOT EXISTS `leavehistory` (
   `remarks` varchar(255) NOT NULL,
   PRIMARY KEY (`leaveNo`),
   KEY `empID` (`empID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `leavehistory`
 --
 
 INSERT INTO `leavehistory` (`leaveNo`, `empID`, `leaveType`, `startingDate`, `endDate`, `noOfDays`, `approvalDate`, `remarks`) VALUES
-(5, '13-037-048', 1, '2017-01-22', '2017-01-23', 1, '2017-01-22', ''),
-(6, '13-037-048', 2, '2017-01-27', '2017-01-28', 1, '2017-01-27', 'Nothing');
+(8, '13-037-048', 2, '2017-02-03', '2017-02-04', 1, '2017-02-03', 'preggy');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `payslip`
+--
+
+CREATE TABLE IF NOT EXISTS `payslip` (
+  `payslipNo` int(5) NOT NULL AUTO_INCREMENT,
+  `empID` varchar(50) NOT NULL,
+  `basicpay` int(7) NOT NULL,
+  `pera` int(7) NOT NULL,
+  `grosspay` int(7) NOT NULL,
+  `philhealth` int(7) NOT NULL,
+  `pagibig` int(7) NOT NULL,
+  `gsis` int(7) NOT NULL,
+  `tax` int(7) NOT NULL,
+  `netpay` varchar(10) NOT NULL,
+  `startPeriod` date NOT NULL,
+  `endPeriod` date NOT NULL,
+  PRIMARY KEY (`payslipNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paysliploan`
+--
+
+CREATE TABLE IF NOT EXISTS `paysliploan` (
+  `psl_id` int(11) NOT NULL AUTO_INCREMENT,
+  `payslipNo` int(5) NOT NULL,
+  `deductionName` varchar(255) NOT NULL,
+  `amount` int(11) NOT NULL,
+  PRIMARY KEY (`psl_id`),
+  KEY `payslipNo` (`payslipNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -308,22 +422,26 @@ CREATE TABLE IF NOT EXISTS `timelog` (
   `pmIn` varchar(10) NOT NULL,
   `timeOut` varchar(10) NOT NULL,
   `countInOut` int(11) NOT NULL,
-  `onTime_AM` tinyint(1) NOT NULL,
-  `onTime_PM` tinyint(1) NOT NULL,
   `hrsWorked` int(10) NOT NULL,
   `minsWorked` int(10) NOT NULL,
-  `toDeduct` float NOT NULL,
   PRIMARY KEY (`logno`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=22 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
 
 --
 -- Dumping data for table `timelog`
 --
 
-INSERT INTO `timelog` (`logno`, `empID`, `logdate`, `timeIn`, `amOut`, `pmIn`, `timeOut`, `countInOut`, `onTime_AM`, `onTime_PM`, `hrsWorked`, `minsWorked`, `toDeduct`) VALUES
-(17, '13-037-048', '2017-01-29', '07:30', '12:30', '13:30', '16:30', 4, 1, 0, 8, 0, 0),
-(19, '13-037-048', '2017-01-30', '08:30', '12:00', '13:05', '17:00', 4, 0, 0, 7, 25, 0),
-(21, '13-037-048', '2017-01-31', '08:00', '12:30', '13:00', '17:30', 4, 0, 0, 9, 0, 0);
+INSERT INTO `timelog` (`logno`, `empID`, `logdate`, `timeIn`, `amOut`, `pmIn`, `timeOut`, `countInOut`, `hrsWorked`, `minsWorked`) VALUES
+(1, '13-037-048', '2017-02-01', '07:30', '12:30', '13:30', '17:30', 4, 9, 30),
+(2, '13-037-048', '2017-02-02', '08:30', '12:30', '13:30', '17:00', 4, 7, 30),
+(3, '13-037-048', '2017-02-03', '09:30', '12:20', '13:00', '17:00', 0, 0, 0),
+(6, '13-037-048', '2017-02-06', '08:30', '10:00', '13:30', '17:00', 0, 0, 0),
+(7, '13-037-048', '2017-02-07', '08:00', '12:30', '13:00', '16:00', 0, 0, 0),
+(8, '13-037-048', '2017-02-08', '08:00', '12:45', '13:10', '16:45', 0, 0, 0),
+(9, '13-037-048', '2017-02-09', '07:00', '11:30', '12:45', '16:00', 0, 0, 0),
+(10, '13-037-048', '2017-02-10', '07:30', '12:45', '13:00', '15:00', 0, 0, 0),
+(14, '13-037-048', '2017-02-13', '07:30', '12:00', '13:30', '16:30', 4, 8, 8),
+(15, '13-037-048', '2017-02-14', '07:00', '12:00', '13:30', '17:00', 4, 8, 8);
 
 -- --------------------------------------------------------
 
@@ -387,23 +505,11 @@ INSERT INTO `withholdingtax` (`compensationLevel`, `exemption`, `status`, `Z`, `
 --
 
 --
--- Constraints for table `deductions`
---
-ALTER TABLE `deductions`
-  ADD CONSTRAINT `deduc_emp_eid` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
-
---
 -- Constraints for table `employee`
 --
 ALTER TABLE `employee`
   ADD CONSTRAINT `emp.dept.deptcode` FOREIGN KEY (`deptCode`) REFERENCES `department` (`deptCode`),
   ADD CONSTRAINT `emp.pos.poscode` FOREIGN KEY (`positionCode`) REFERENCES `positions` (`positionCode`);
-
---
--- Constraints for table `leavehistory`
---
-ALTER TABLE `leavehistory`
-  ADD CONSTRAINT `leaveHistory_employee` FOREIGN KEY (`empID`) REFERENCES `employee` (`empID`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

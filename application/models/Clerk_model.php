@@ -31,7 +31,9 @@ class Clerk_model extends CI_Model{
 		$tbasis = $timeBasis->row(0)->timeBasis;
 
 		$basicInfo = $this->db->get();
-		$basicPay = $basicInfo->row(3)->step_1;
+		$basicPay = $basicInfo->row(6)->step_1;
+		$name = $basicInfo->row(3)->name;
+		$position = $basicInfo->row(2)->positionName;
 		$pera = $basicInfo->row(4)->pera;
 		$dep = $basicInfo->row(2)->noOfDependents;
 		$mStat = substr($basicInfo->row(1)->maritalStatus,0,1);
@@ -55,6 +57,9 @@ class Clerk_model extends CI_Model{
 		$sRange = $seTime->row(2)->startRange;
 		$eRange = $seTime->row(3)->endRange;
 
+		$sDRange = $this->input->post('periodDateS');
+		$eDRange = $this->input->post('periodDateE');
+
 		//---------------------------------------------------------------
 		//hours late
 		$cMonth = date('m');
@@ -71,13 +76,13 @@ class Clerk_model extends CI_Model{
 					END as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
-							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
+							AND logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'"');
 		}
 		else if($tbasis == 'Regular'){
 			$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
 							FROM timelog 
 							WHERE empID LIKE "'.$eid.'"
-							AND substr(logdate,6,2) LIKE "'.$cMonth.'"');
+							AND logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'"');
 		}
 
 		$dLatetimeIn = array();
@@ -148,7 +153,7 @@ class Clerk_model extends CI_Model{
 
 			FROM `timelog`
 			WHERE empID LIKE '".$eid."'
-			AND substr(logdate,6,2) LIKE '".$cMonth."'
+			AND logdate BETWEEN '".$sDRange."' AND '".$eDRange."'
 				");
 		}
 		else if($tbasis == 'Regular'){
@@ -179,7 +184,7 @@ class Clerk_model extends CI_Model{
 
 			FROM `timelog`
 			WHERE empID LIKE '".$eid."'
-			AND substr(logdate,6,2) LIKE '".$cMonth."'
+			AND logdate BETWEEN '".$sDRange."' AND '".$eDRange."'
 				");
 		}
 		
@@ -220,7 +225,7 @@ class Clerk_model extends CI_Model{
 
 		$uTimeDeduction = 0;
 
-		$uTimeDeduction = round(($numOfDays - $totalUtime) * ($hourlyRate),2);
+		$uTimeDeduction = round(($numOfDays - ($totalUtime+$totalLate)) * ($hourlyRate),2);
 		//----------------------------------------------------------------
 		//Additional Deductions
 		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
@@ -238,7 +243,7 @@ class Clerk_model extends CI_Model{
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, round((($amt[$key])/$mtp[$key])),2);		
+			array_push($amtTP, (($amt[$key])/$mtp[$key]));		
 		}
 		//----------------------------------------------------------------
 		//# of absences
@@ -297,7 +302,7 @@ class Clerk_model extends CI_Model{
 			$wTax = $this->db->query("SELECT ME1S1, exemption, status
 								FROM withholdingtax
 								WHERE ME1S1 <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'monthly%'
+								AND compensationLevel LIKE 'semi%'
 								ORDER BY ME1S1 DESC LIMIT 1");
 
 			$withholdingTable = $wTax->row(0)->ME1S1;
@@ -308,7 +313,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME2S2, exemption, status
 					FROM withholdingtax
 					WHERE ME2S2 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'monthly%'
+					AND compensationLevel LIKE 'semi%'
 					ORDER BY ME2S2 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME2S2;
 				$exemption = $wTax->row(1)->exemption;
@@ -318,7 +323,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME3S3, exemption, status
 					FROM withholdingtax
 					WHERE ME3S3 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'monthly%'
+					AND compensationLevel LIKE 'semi%'
 					ORDER BY ME3S3 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME3S3;
 				$exemption = $wTax->row(1)->exemption;
@@ -328,7 +333,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME4S4, exemption, status
 					FROM withholdingtax
 					WHERE ME4S4 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'monthly%'
+					AND compensationLevel LIKE 'semi%'
 					ORDER BY ME4S4 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME4S4;
 				$exemption = $wTax->row(1)->exemption;
@@ -338,7 +343,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT SME, exemption, status
 					FROM withholdingtax
 					WHERE SME <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'monthly%'
+					AND compensationLevel LIKE 'semi%'
 					ORDER BY SME DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->SME;
 				$exemption = $wTax->row(1)->exemption;
@@ -357,7 +362,7 @@ class Clerk_model extends CI_Model{
 
 		$netPay =round(($grossPay) - ($totalDeductions),2);
 
-		return array($basicInfo, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
 	}
 
 	public function get_payrollsheet(){
@@ -367,29 +372,35 @@ class Clerk_model extends CI_Model{
 		foreach($emp->result() as $eid){
 			array_push($Results,$this->get_payroll_info($eid->empID));
 		}
+
 		$StringFor="";
 		foreach ($Results as $key => $empData) {
 			$StringFor.="<tr>".$this->get_info($empData)."</tr>";
 		}
-		echo $StringFor;//print_r($Results[0][0]);
+		
+		echo $StringFor;
+
+		echo "<tr id='tableRes'><td>".json_encode($Results)."</td></tr>";
 	}
 
 	public function get_info($info){
-		$tableData = "<td>".$info[0]->row(0)->name."</td>
-				<td>"./*division.*/"</td>
-				<td>"./*division.*/"</td>
-				<td>".$info[0]->row(2)->positionName."</td>
-				<td>".$info[0]->row(7)->step_1."</td>
-				<td>".$info[8]."</td>
+		$tableData = "<td>".$info[0]."</td>
 				<td>".$info[1]."</td>
 				<td>".$info[2]."</td>
+				<td>".$info[11]."</td>
+				<td>".$info[4]."</td>
+				<td>".$info[5]."</td>
 				<td>100</td>
-				<td>".$info[3]."</td>
-				<td>".$info[4]."</td>";
+				<td>".$info[6]."</td>
+				<td>".$info[7]."</td>
+				<td><table><tr>";
 
-				foreach($info[5] as $deduction){
-					$tableData.="<td>".$deduction."</td>";
+				foreach($info[8] as $key => $deductionName){
+					$tableData.="<td> ".$deductionName." - <br/>".$info[9][$key]."<br/></td>";
 				}
+
+				$tableData.="</tr></table></td><td>".$info[10]."</td>";
+
 		return $tableData;
 	}
 	public function save_Payslip(){
@@ -418,6 +429,12 @@ class Clerk_model extends CI_Model{
 
 		$pslipDate = Date("Y-m-d");
 		$this->db->query('UPDATE employee SET generated = "TRUE", pslipdate = "'.$pslipDate.'" WHERE empID LIKE "'.$data['empID'].'" AND generated LIKE "%FALSE%"');
+	}
+
+	public function save_paysheet(){
+		$data = json_decode($this->input->post('pslipdata'));
+
+		$this->db->insert('payslip', $data);
 	}
 }
 

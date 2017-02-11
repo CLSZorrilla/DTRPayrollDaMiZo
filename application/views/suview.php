@@ -5,9 +5,10 @@
 </head>
 <div>
 	<div>
-		
+		<?php $this->load->view('partials/nav');?>
 	</div>
 </div>
+<body>
 <div>
 <?php 
 
@@ -93,5 +94,5 @@ else if(isSet($customize)){
 }
 ?>
 </div>
-
+</body>
 </html>

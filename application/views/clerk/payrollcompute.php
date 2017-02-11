@@ -16,7 +16,7 @@
 				$pInfoRes[0]->row(5)->maritalStatus,
 				$pInfoRes[0]->row(6)->noOfDependents);
 
-	$earnData =array($pInfoRes[0]->row(7)->step_1,
+	$earnData =array((($pInfoRes[0]->row(7)->step_1)/2),
 				$pInfoRes[8],
 				$pInfoRes[1],
 				);
@@ -44,13 +44,6 @@
 			<h4>Salary Computation</h4>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
-		<?php  
-			/*foreach($pInfoRes[1] as $pres){
-				echo $pres."<br/>";
-			}*/
-
-			//echo $pInfoRes[1];
-		?>
 		<?php echo form_open_multipart("employee/createUserAcct", $attributes); ?>
 		<div class="row">
 	        <div class="col-lg-6">

@@ -38,9 +38,7 @@
         </div>
 
         <!-- LOGIN FORM -->
-        <?php if($this->session->flashdata('login_failed')): ?>
-        <?php echo $this->session->flashdata('login_failed'); ?>
-        <?php endif; ?>
+        <div id="error"></div>
         <div class = "form">
             <br>
             <?php 
@@ -124,6 +122,6 @@
 </body>
 <script src = "<?php echo base_url(); ?>assets/js/index.js"></script>
 <script>
-$('#uid').mask("99-999-999")
+$('#uid').mask("99-999-999");
 </script>
 </html>
