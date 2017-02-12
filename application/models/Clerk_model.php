@@ -250,8 +250,8 @@ class Clerk_model extends CI_Model{
 		//# of absences
 		$iter = 24*60*60; //segundo sa isang araw
 	    $weekEndcount = 0;
-	    $startDate = strtotime("2017-".$cMonth."-01");
-	    $endDate = strtotime("2017-".$cMonth."-31");
+	    $startDate = strtotime($sDRange);
+	    $endDate = strtotime($eDRange);
 
 	    for($i = $startDate; $i <= $endDate; $i=$i+$iter)
 	    {
@@ -261,9 +261,16 @@ class Clerk_model extends CI_Model{
 	    	}
 	    }
 
-	    $dInMonth=cal_days_in_month(CAL_GREGORIAN,$cMonth,$year);
+	    //$dInMonth=cal_days_in_month(CAL_GREGORIAN,substr($sDRange,5,2),substr($sDRange,0,4));
 
-	    $weekDays = $dInMonth - $weekEndcount;
+	    $datetime1 = date_create($sDRange);
+		$datetime2 = date_create($eDRange);
+		$interval = date_diff($datetime1, $datetime2);
+		$interval2 = $interval->format('%a');
+
+		$daysInRange = $interval2+1;
+
+	    $weekDays = $daysInRange - $weekEndcount;
 
 	    $daysWorked = count($dLatetimeIn);
 
@@ -368,7 +375,7 @@ class Clerk_model extends CI_Model{
 		}
 
 		$pagIbig = 100;
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
+		return array($name,$position,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
 	}
 
 	public function get_payrollsheet(){

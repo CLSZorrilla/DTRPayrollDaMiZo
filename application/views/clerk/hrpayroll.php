@@ -124,7 +124,7 @@
       }    
     });
 
-    function passHeader(msg){
+    /*function passHeader(msg){
       msg1 = msg.replace("</tr>").split("<tr>");
       for(var x=0;x<msg1.length;x++){
         //alert(msg[x]);
@@ -144,7 +144,7 @@
         //alert(headAppend);
       }
       return msg;//.replace(/[>].*\.\.!\.\./igm,">");
-    }
+    }*/
 
 
     $(document).on("click",".dt-buttons a",function(e){

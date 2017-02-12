@@ -7,24 +7,20 @@
 }
 
 body {
-    width: 100%;
-    /* max-width: 1378px; */
-	min-height:100%;
-    margin: 0 auto;
     font-family: Century gothic, sans-serif;
-	
-	background: url(../images/bg-login.jpg) center center no-repeat;
-	background-attachment: fixed;
-	background-size: cover;
-	background-repeat: no-repeat;
-	
+    background: url(../images/bg-login.jpg);
     background-color: #666666;
 	background-blend-mode:multiply;
-	
-    background-size: 100%;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    background-size: cover;
     padding-top: 20%;
+}
+
+@media only screen and (min-width: 768px) {
+    body{
+        background: url(../images/bg-login.jpg) center;
+        background-color: #666666;
+        background-size: cover;
+    }
 }
 
 html {
@@ -89,6 +85,14 @@ input:focus:-ms-input-placeholder {
 #button {
     width: inherit;
     text-align: center;
+    padding:0px 30px;
+
+    /* Vertically Aligned */
+    position:absolute;
+    left:50%;
+    top:45%;
+    transform: translate(-50%, -45%);
+    /* Vertically Aligned */
 }
 
 #login {
@@ -147,17 +151,21 @@ input:focus:-ms-input-placeholder {
 }
 
 .modal-log-cont {
-    width: 600px;
     height: auto;
     background: #fff;
     margin: 0px auto;
-    padding-bottom: 10px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     z-index: 2;
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
+    /* Vertically Aligned */
+    position:absolute;
+    left:50%;
+    top:45%;
+    transform: translate(-50%, -45%);
+    /* Vertically Aligned */
 }
 
 .modal-head {
@@ -211,8 +219,8 @@ input:focus:-ms-input-placeholder {
 }
 
 .form {
-    background: #fafafa;
     height: auto;
+    margin:10px 0px;
 }
 
 .form img {
@@ -241,9 +249,7 @@ input:focus:-ms-input-placeholder {
 
 .form form input {
     border-radius: 2px;
-    margin-left: 20px;
     padding: 2px;
-    width: 250px;
     height: 40px;
     display: block;
     font-size: 12px;
@@ -252,27 +258,36 @@ input:focus:-ms-input-placeholder {
     letter-spacing: .5px;
     background: #f0efef;
     border: 1px solid #e6e6e6;
-    margin-top: 30px;
     -webkit-transition: all 0.3s ease-in-out;
       -moz-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
+}
+
+@media only screen and (max-width: 425px) {
+    .form form input {
+        width: 250px;
+    }
 }
 
 .form form input:focus {
     border-bottom: 2px solid #2e6da4;
 }
 
+@media only screen and (min-width: 768px) {
+    input {
+        max-width: 100% !important;
+    }
+}
+
 .submit-b {
     background: #fff;
-    margin-top: 30px;
     border-top: 1px solid #e0e0e0;
-    height: 30px;
+    height: 40px;
 }
 
 .submit-b #l-submit {
     border: 1px solid transparent;
     background: #337ab7;
-    width: 143px;
     height: 39px;
     color: #fff;
     position: absolute;
@@ -284,22 +299,28 @@ input:focus:-ms-input-placeholder {
 .submit-b #close {
     border: 1px solid transparent;
     background: #25282e;
-    width: 143px;
     height: 39px;
     color: #fff;
     position: absolute;
     font-weight: 100;
     font-size: 12px;
     cursor: pointer;
-    margin-left: 143px;
 }
 
 .instruction {
-    float: right;
-    width: 280px;
-    margin-top: 50px;
     font-size: 12px;
+    margin:10px 0px;
+    /*
+    float: right;
+    margin-top: 50px;
     margin-right: 20px;
+    */
+}
+
+@media only screen and (min-width: 1024px) {
+    .instruction{
+        float:right;
+    }
 }
 
 .instruction h5 {
