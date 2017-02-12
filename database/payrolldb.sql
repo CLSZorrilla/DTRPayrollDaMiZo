@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2017 at 07:43 PM
+-- Generation Time: Feb 12, 2017 at 07:33 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `deductions` (
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`deductionNo`),
   KEY `empID` (`empID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
 --
 -- Dumping data for table `deductions`
@@ -76,7 +76,8 @@ CREATE TABLE IF NOT EXISTS `deductions` (
 
 INSERT INTO `deductions` (`deductionNo`, `empID`, `fullName`, `deductionName`, `amount`, `mtp`, `monthsLeft`, `dateApplied`, `status`) VALUES
 (5, '13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Landbank Loan', 15000, 6, 6, '2017-02-04', 'on-going'),
-(7, '13-037-064', 'Dayaon, Froinand Bugaoisan', 'Housing Loan', 100000, 24, 24, '2017-02-06', 'on-going');
+(7, '13-037-064', 'Dayaon, Froinand Bugaoisan', 'Housing Loan', 100000, 24, 24, '2017-02-06', 'on-going'),
+(9, '13-037-048', 'Zorrilla, Christian Lorenz Salac', 'Healthcard Loan', 10000, 12, 12, '2017-02-12', 'on-going');
 
 -- --------------------------------------------------------
 
@@ -143,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
   KEY `deptCode` (`deptCode`),
   KEY `positionCode_2` (`positionCode`),
   KEY `positionCode_3` (`positionCode`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `employee`
@@ -151,7 +152,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
 
 INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `status`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `toDeduct`, `basicPay`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`, `generated`, `pslipdate`) VALUES
 (1, '13-037-048', '35b92d78dec9dc7714f3f91c5699bda9dbf312a366e3009edf1959bf90485c2e8c1ab9c8f32e794637afe00f846b958d926b1a5cb179518e906ebc654f76f29e/nAZebnQugglnv+GfLVA0uQLdOdJpUyE', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Single', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 1.192, 0.25, 0, 0, 'http://[::1]/payroll//uploads/', '/TrainedFaces/face1.bmp', 1, 'TRUE', 'FALSE', ''),
-(6, '13-037-064', '6798c42464fb485f744fd784842b0ae552298073acccb9a3d0f51b33f35db2e7ce910f78c5c3b0689749427a72acdefbfe4dcccd9cd341aebda200675471cff4Q+tk7PQ/Ih3wcspGka0yG5oDx2HUHWA1', 'Payroll Clerk', 1, 1, 2000, 'Dayaon', 'Froinand', 'Bugaoisan', 'Imus, Cavite', 'Married', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '151654153-4651', '651681546-5456', '651681548-1548', 1.25, 1.25, 0, 0, 'http://[::1]/payroll//uploads/Screenshot_(154).png', '', 0, 'TRUE', 'FALSE', '');
+(10, '13-037-064', '86d9357f56e77a7392c2c11808eb4a2dc0a94d403943cbc95a5d0f60e263651bd1df372ab671830b3938921fdd568b3263c109b038c807829448b02e3f01e074sbyhurM8rKNeapvqI0GUkJIYtoHgBGpb', 'Payroll Clerk', 0, 1, 0, 'Dayaon', 'Froinand', 'Bugaoisan', 'Imus, Cavite', 'Married', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '151654153-4651', '651681546-5456', '651681548-1548', 1.25, 1.25, 0, 0, '', '', 0, 'TRUE', '', '');
 
 -- --------------------------------------------------------
 

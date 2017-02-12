@@ -181,6 +181,7 @@ class Employee extends CI_Controller{
 			$data['vLeave'] = $row->VL;
 			$data['sLeave'] = $row->SL;
 			$data['uType'] = $row->acctType;
+			$data['dependents'] = $row->noOfDependents;
 			$data['cUserForm']="hr/Createuser";
 			$data['positions'] = $this->Emp_model->load_pos();
 			$data['department'] = $this->Emp_model->load_dept();

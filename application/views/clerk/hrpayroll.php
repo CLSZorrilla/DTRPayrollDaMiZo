@@ -148,20 +148,20 @@
 
 
     $(document).on("click",".dt-buttons a",function(e){
-      var pslipdata = JSON.parse($('#hideMyPower').html());
+      var pslipdata = $('#hideMyPower').html();
+      var periodDateS = $('#periodDateS').val();
+      var periodDateE = $('#periodDateE').val();
 
-      alert(pslipdata);
       $.ajax({
         type: "POST",
         url:"<?php echo base_url(); ?>Clerk/paysheet_save",
-        data:{pslipdata},
-        dataType:"json",
+        data:{pslipdata,periodDateS,periodDateE},
         cache: false,
         success:function(r){
-          alert("Success");
+          alert(r);
         },
         error:function(r){
-          alert("Fail");
+          alert("System Error");
         }
       });
     });

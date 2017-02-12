@@ -72,6 +72,10 @@ class Emp_model extends CI_Model{
                 'key' => '2a$07$vY6x3F45HQSAiOs6N5wMuOwZQ7pUPoSUTBkU'
         )
 		);
+
+		$acctQuery = $this->db->query('SELECT activated FROM employee');
+		$acctStatus = $acctQuery->row(0)->activated;
+
 		$encrypted_pass= $this->encryption->encrypt($this->input->post('pword'));
 		$data=array(
 			'empID'=>$this->input->post('empID',TRUE),
@@ -84,7 +88,7 @@ class Emp_model extends CI_Model{
 			'mname'=>$this->input->post('mName',TRUE),
 			'address'=>$this->input->post('address',TRUE),
 			'maritalStatus'=>$this->input->post('maritalStatus',TRUE),
-			'noOfDependets'=>$this->input->post('dependents',TRUE),
+			'noOfDependents'=>$this->input->post('dependents',TRUE),
 			'emailAddress'=>$this->input->post('emailAdd',TRUE),
 			'birthDate'=>$this->input->post('birthDate',TRUE),
 			'contactNo'=>$this->input->post('cNo',TRUE),
@@ -96,6 +100,7 @@ class Emp_model extends CI_Model{
 			'TIN'=>$this->input->post('tin',TRUE),
 			'VL'=>$this->input->post('vLeave',TRUE),
 			'SL'=>$this->input->post('sLeave',TRUE),
+			'activated'=>$acctStatus
 		);
 
 

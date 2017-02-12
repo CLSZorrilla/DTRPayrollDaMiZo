@@ -5,7 +5,7 @@
 	$dName=array('empID', 'pPicture','pword','cpword','positionCode','deptCode', 'fName','lName', 'mName','uType','emailAdd','address', 'maritalStatus', 'dependents', 'birthDate', 'cNo', 'sex', 'type','dateHired', 'gsisNo', 'phNo', 'tin', 'vLeave', 'sLeave');
 	$dType=array('text', 'image','password','password','dropdown','dropdown', 'text', 'text', 'text','dropdown','email','text', 'dropdown', 'number', 'date', 'text', 'radio', 'radio' ,'date', 'text', 'text', 'text', 'text', 'text');
 	if(!empty($id)){
-		$EForm=array($empID, ' ', $password, $password,$posName, $deptCode, $fname, $lName, $mname, $uType, $emailAddress, $address, $maritalStatus, $birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $vLeave, $sLeave);
+		$EForm=array($empID,'', $password, $password,$posName, $deptCode, $fname, $lName, $mname, $uType, $emailAddress, $address, $maritalStatus,$dependents ,$birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $vLeave, $sLeave);
 	}
 ?>
 
@@ -105,7 +105,7 @@
 				else if ($dName[$key]=='maritalStatus'){
 					$options = array(
 						'Married'   => 'Married',
-						'Widowed'   => 'Widowed'
+						'Widowed'   => 'Widowed',
 						'Divorced'  => 'Divorced',
 						'Single'  	=> 'Single'
 					);

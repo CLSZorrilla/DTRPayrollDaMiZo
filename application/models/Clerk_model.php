@@ -26,13 +26,10 @@ class Clerk_model extends CI_Model{
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
 		$this->db->join('salarygrade', 'positions.salaryGrade=salarygrade.salaryGrade');
 
-		$timeBasis = $this->db->query("SELECT timeBasis FROM company_profile");
-
-		$tbasis = $timeBasis->row(0)->timeBasis;
-
 		$basicInfo = $this->db->get();
 		$basicPay = $basicInfo->row(6)->step_1;
 		$name = $basicInfo->row(3)->name;
+		$eid = $basicInfo->row(0)->empID;
 		$position = $basicInfo->row(2)->positionName;
 		$pera = $basicInfo->row(4)->pera;
 		$dep = $basicInfo->row(2)->noOfDependents;
@@ -44,6 +41,10 @@ class Clerk_model extends CI_Model{
 		else{
 			$mStatusDep = "SME";
 		}
+
+		$timeBasis = $this->db->query("SELECT timeBasis FROM company_profile");
+
+		$tbasis = $timeBasis->row(0)->timeBasis;
 		
 		//--------------------------------------------------------------
 		//get startTime and endTime
@@ -243,7 +244,7 @@ class Clerk_model extends CI_Model{
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, (($amt[$key])/$mtp[$key]));		
+			array_push($amtTP, round(($amt[$key]/$mtp[$key]),2));		
 		}
 		//----------------------------------------------------------------
 		//# of absences
@@ -362,7 +363,12 @@ class Clerk_model extends CI_Model{
 
 		$netPay =round(($grossPay) - ($totalDeductions),2);
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions);
+		if($netPay<=0){
+			$netPay = 0;
+		}
+
+		$pagIbig = 100;
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
 	}
 
 	public function get_payrollsheet(){
@@ -396,7 +402,7 @@ class Clerk_model extends CI_Model{
 				<td><table><tr>";
 
 				foreach($info[8] as $key => $deductionName){
-					$tableData.="<td> ".$deductionName." - <br/>".$info[9][$key]."<br/></td>";
+					$tableData.="<td><b>".$deductionName."</b>- <br/>".$info[9][$key]."</td>";
 				}
 
 				$tableData.="</tr></table></td><td>".$info[10]."</td>";
@@ -432,9 +438,35 @@ class Clerk_model extends CI_Model{
 	}
 
 	public function save_paysheet(){
-		$data = json_decode($this->input->post('pslipdata'));
+		try{
+			$data = json_decode($this->input->post('pslipdata'));
 
-		$this->db->insert('payslip', $data);
+			$sPeriod = $this->input->post('periodDateS');
+			$ePeriod = $this->input->post('periodDateE');
+
+			$checkPSheet = $this->db->query("SELECT startPeriod, endPeriod FROM payslip WHERE startPeriod LIKE '".$sPeriod."' OR  endPeriod LIKE '".$ePeriod."'");
+
+			$checkPSheetResult = $checkPSheet->num_rows();
+
+			if($checkPSheetResult > 0){
+				echo "Payroll sheet for the given period has already been generated\n\n Saving a copy instead";
+			}
+			else{
+				foreach($data as $d){
+			 		$this->db->query("INSERT INTO `payslip`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$sPeriod."','".$ePeriod."')");
+
+					$paysheetNo = $this->db->insert_id();
+
+					foreach($d[8] as $key => $data){
+			 			$this->db->query("INSERT INTO `paysliploan`(`payslipNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
+			 		}
+			 	}
+
+			 	echo "Successfully saved to database";
+			}
+		}catch(Exception $e){
+			print_r ($e);
+		}
 	}
 }
 

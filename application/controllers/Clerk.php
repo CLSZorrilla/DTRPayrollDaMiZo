@@ -45,7 +45,7 @@ class Clerk extends CI_Controller{
 	}
 
 	public function paysheet_save(){
-		$this->Clerk_model->save_payrollsheet();
+		$this->Clerk_model->save_paysheet();
 	}
 }
 
