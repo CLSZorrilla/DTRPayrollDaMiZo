@@ -129,28 +129,30 @@ class Clerk_model extends CI_Model{
 				ELSE timeDiff(amOut,'12:00:00') 
 			END) as amWorked,
 
-			CASE
-				WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
-				ELSE timeDiff(timeDiff(CASE
-								WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
-								ELSE addTime(timeIn, '09:00:00')
-								END,'13:00:00'
-							),addTime(CASE
-								WHEN timeDiff(pmIn,'13:00:00') <= 0 THEN '00:00:00'
-								ELSE timeDiff(pmIn,'13:00:00')
-								END, 
-								CASE 
-									WHEN timeDiff(CASE
-										WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
-										ELSE addTime(timeIn, '09:00:00')
-										END,timeOut) < 0 THEN '00:00:00'
-									ELSE timeDiff(CASE
-										WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
-										ELSE addTime(timeIn, '09:00:00')
-										END,timeOut)
-								END)
-						)
-			END as pmWorked
+				CASE
+					WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
+					ELSE timeDiff(timeDiff(CASE
+									WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+									ELSE addTime(timeIn, '09:00:00')
+									END,'13:00:00')
+								,addTime(
+									CASE
+										WHEN timeDiff(pmIn,'13:00:00') < 0 THEN '00:00:00'
+										ELSE timeDiff(pmIn,'13:00:00')
+									END, 
+									CASE 
+										WHEN timeDiff(
+											CASE
+												WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+												ELSE addTime(timeIn, '09:00:00')
+											END,timeOut) < 0 THEN '00:00:00'
+										ELSE timeDiff(CASE
+											WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+											ELSE addTime(timeIn, '09:00:00')
+											END,timeOut)
+									END)
+							)
+				END as pmWorked
 
 			FROM `timelog`
 			WHERE empID LIKE '".$eid."'
@@ -375,7 +377,7 @@ class Clerk_model extends CI_Model{
 		}
 
 		$pagIbig = 100;
-		return array($name,$position,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
+		return array($name,$position,$hrsUtime,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
 	}
 
 	public function get_payrollsheet(){
