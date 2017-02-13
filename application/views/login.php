@@ -11,11 +11,9 @@
 <html lang = "en">
 <head>
     <?php $this->load->view('partials/header');?>
-    <script src="<?php echo base_url();?>assets/js/jquery.maskedinput.min.js"></script>
     <meta charset = "UTF-8">
     <meta name = "viewport" content = "width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-login.css">
-    <script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>
 </head>
 
 <body>
@@ -107,11 +105,6 @@
                 echo form_close();
             ?>
         </div>
-        <!--
-        <div class = "submit-b">
-            <button id = "l-submit">Pasok na!</button>
-        </div>
-        -->
     </div>
 </div>
 

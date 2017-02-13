@@ -224,11 +224,11 @@ class Clerk_model extends CI_Model{
 			}
 		}
 
-		$totalUtime = round((($hrsUtime + $minsUtime)/60),2);
+		$totalHrsWorked = round((($hrsUtime + $minsUtime)/60),2);
 
 		$uTimeDeduction = 0;
 
-		$uTimeDeduction = round(($numOfDays - ($totalUtime+$totalLate)) * ($hourlyRate),2);
+		$uTimeDeduction = round(($numOfDays - ($totalHrsWorked+$totalLate)) * ($hourlyRate),2);
 		//----------------------------------------------------------------
 		//Additional Deductions
 		$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
@@ -377,7 +377,7 @@ class Clerk_model extends CI_Model{
 		}
 
 		$pagIbig = 100;
-		return array($name,$position,$hrsUtime,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid);
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, ($totalHrsWorked." Hours"));
 	}
 
 	public function get_payrollsheet(){
@@ -414,7 +414,9 @@ class Clerk_model extends CI_Model{
 					$tableData.="<td><b>".$deductionName."</b>- <br/>".$info[9][$key]."</td>";
 				}
 
-				$tableData.="</tr></table></td><td>".$info[10]."</td>";
+				$tableData.="</tr></table></td><td>".$info[10]."</td>
+												<td>".$info[15]."</td>
+												<td>".$info[16]."</td>";
 
 		return $tableData;
 	}
@@ -453,16 +455,16 @@ class Clerk_model extends CI_Model{
 			$sPeriod = $this->input->post('periodDateS');
 			$ePeriod = $this->input->post('periodDateE');
 
-			$checkPSheet = $this->db->query("SELECT startPeriod, endPeriod FROM payslip WHERE startPeriod LIKE '".$sPeriod."' OR  endPeriod LIKE '".$ePeriod."'");
+			$checkPSheet = $this->db->query("SELECT startPeriod, endPeriod FROM payslip WHERE (('".$sPeriod."' BETWEEN startPeriod AND endPeriod) OR ('".$ePeriod."' BETWEEN startPeriod AND endPeriod)) OR '".$sPeriod."' LIKE startPeriod OR '".$ePeriod."' LIKE endPeriod");
 
 			$checkPSheetResult = $checkPSheet->num_rows();
 
 			if($checkPSheetResult > 0){
-				echo "Payroll sheet for the given period has already been generated\n\n Saving a copy instead";
+				echo "Fail";
 			}
 			else{
 				foreach($data as $d){
-			 		$this->db->query("INSERT INTO `payslip`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$sPeriod."','".$ePeriod."')");
+			 		$this->db->query("INSERT INTO `payslip`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`,`absences`,`hoursWorked`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$sPeriod."','".$ePeriod."')");
 
 					$paysheetNo = $this->db->insert_id();
 
@@ -471,7 +473,7 @@ class Clerk_model extends CI_Model{
 			 		}
 			 	}
 
-			 	echo "Successfully saved to database";
+			 	echo "Success";
 			}
 		}catch(Exception $e){
 			print_r ($e);

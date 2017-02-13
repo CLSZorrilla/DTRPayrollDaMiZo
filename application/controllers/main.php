@@ -58,9 +58,6 @@ class Main extends CI_Controller{
 
 					);
 				$this->session->set_userdata($user_data);
-
-				$this->session->set_flashdata('login_success', 'You are now logged in');
-
 				
 				redirect('main/home_view');
 			}
@@ -74,6 +71,7 @@ class Main extends CI_Controller{
 	public function logout(){
 
 		$this->session->sess_destroy();
+		$this->session->unset_userdata('aType');
 
 		redirect('main');
 

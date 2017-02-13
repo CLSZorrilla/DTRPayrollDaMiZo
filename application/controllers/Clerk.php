@@ -30,9 +30,11 @@ class Clerk extends CI_Controller{
 	}
 
 	public function viewpayslip(){
-		$data['pInfoRes'] = $this->Clerk_model->get_payroll_info($this->uri->segment(3));
+		$data['hrpayslip'] = 'Clerk/hrpayslip';
+
+		$data['uinfo'] = $this->Clerk_model->get_emp_list();
 		
-		$this->load->view('clerk/viewpayslip', $data);
+		$this->load->view('Suview', $data);
 	}
 
 	public function savePayslip(){

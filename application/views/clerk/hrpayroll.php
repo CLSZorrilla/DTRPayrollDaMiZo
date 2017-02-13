@@ -28,6 +28,8 @@
             <th>WT</th>
             <th>Additional Deductions</th>
             <th>Total NetPay</th>
+            <th># of Absences</th>
+            <th>Hours Worked</th>
           </tr>
         </thead>
         <tbody id='pInfo'>
@@ -45,6 +47,10 @@
   </div>
   <script type="text/javascript">
     $(document).ready(function () {
+
+      var periodDateS = $('#periodDateS').val();
+      var periodDateE = $('#periodDateE').val();
+
       $('.MaintenanceTable').DataTable({
         "pageLength": 10,
         "pagingType": "full",
@@ -52,11 +58,7 @@
         "bLengthChange": false,
         "ordering": true,
         "aaSorting": [[0, 'desc']],
-        responsive: true,
-        dom: 'Bfrtip',
-        buttons: [
-          'excel'
-        ]
+        responsive: true
       });
     });
 
@@ -97,7 +99,7 @@
           success: function(msg){
             $('.MaintenanceTable').DataTable().destroy();
 
-            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th># of Absences</th><th>Hours Worked</th></tr></thead><tbody id='pInfo'></tbody></table>");
             $('#pInfo').html(msg);
             $('#hideMyPower').html($('#tableRes td').html());
             //alert($('#tableRes td').html());
@@ -113,7 +115,7 @@
               responsive: false,
               dom: 'Bfrtip',
               buttons: [
-              'excel'
+                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS+"to"+periodDateE+"Payroll Sheet"}
               ]
             });
           },
@@ -123,29 +125,6 @@
         });
       }    
     });
-
-    /*function passHeader(msg){
-      msg1 = msg.replace("</tr>").split("<tr>");
-      for(var x=0;x<msg1.length;x++){
-        //alert(msg[x]);
-        var stringMs = msg1[x].replace("</td>","").split("<td>");
-        var headAppend = "";
-        //alert(stringMs.toString());
-        for(var i=12;i<stringMs.length;i++){
-          //alert(stringMs[i]);
-          var tempStr = stringMs[i].replace("</td>","").replace("undefined","");
-          tempStr= tempStr.substring(0,tempStr.indexOf("..!.."));
-          var regex = new RegExp(tempStr);
-          if(!$('#pHeader').html().match(regex))
-          headAppend+= "<th>"+tempStr+"</th>";
-        }
-        $('#pHeader').html($('#pHeader').html()+headAppend);
-        //if(headAppend!=""&&headAppend!=null)
-        //alert(headAppend);
-      }
-      return msg;//.replace(/[>].*\.\.!\.\./igm,">");
-    }*/
-
 
     $(document).on("click",".dt-buttons a",function(e){
       var pslipdata = $('#hideMyPower').html();
@@ -158,7 +137,12 @@
         data:{pslipdata,periodDateS,periodDateE},
         cache: false,
         success:function(r){
-          alert(r);
+          if(r == 'Success'){
+            swal("Good job!", "Successfully saved to database. Saving a copy", "success")
+          }
+          else if(r == 'Fail'){
+             swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");
+          }
         },
         error:function(r){
           alert("System Error");

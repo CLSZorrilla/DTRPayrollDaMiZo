@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2017 at 07:33 PM
+-- Generation Time: Feb 13, 2017 at 06:57 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `company_profile` (
 --
 
 INSERT INTO `company_profile` (`id`, `name`, `abbre`, `description`, `address`, `contactNo`, `startTime`, `endTime`, `startRange`, `endRange`, `colorTheme`, `logo`, `timeBasis`) VALUES
-(1, 'Opisina ni Wilmar', 'OW', 'Transportation Sector', 'LTO Compound,East Ave., Quezon City East ', '361-1325', '07:00', '16:00', '07:00:00', '09:00:00', '#2f98bb', 'http://[::1]/payroll/companyLogo/LTO-logo.png', 'Regular');
+(1, 'Land Transportation Office', 'LTO', 'Transportation Sector', 'LTO Compound,East Ave., Quezon City East ', '361-1325', '07:00', '16:00', '07:00:00', '09:00:00', '#1261d8', 'http://[::1]/payroll/companyLogo/LTO-logo.png', 'Flexible');
 
 -- --------------------------------------------------------
 
@@ -151,7 +151,7 @@ CREATE TABLE IF NOT EXISTS `employee` (
 --
 
 INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `status`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `toDeduct`, `basicPay`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`, `generated`, `pslipdate`) VALUES
-(1, '13-037-048', '35b92d78dec9dc7714f3f91c5699bda9dbf312a366e3009edf1959bf90485c2e8c1ab9c8f32e794637afe00f846b958d926b1a5cb179518e906ebc654f76f29e/nAZebnQugglnv+GfLVA0uQLdOdJpUyE', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Single', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 1.192, 0.25, 0, 0, 'http://[::1]/payroll//uploads/', '/TrainedFaces/face1.bmp', 1, 'TRUE', 'FALSE', ''),
+(1, '13-037-048', '35b92d78dec9dc7714f3f91c5699bda9dbf312a366e3009edf1959bf90485c2e8c1ab9c8f32e794637afe00f846b958d926b1a5cb179518e906ebc654f76f29e/nAZebnQugglnv+GfLVA0uQLdOdJpUyE', 'HR', 0, 1, 2000, 'Zorrilla', 'Christian Lorenz', 'Salac', 'Cubao, Quezon City', 'Single', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 1.192, 0.25, 0, 0, 'http://[::1]/payroll//uploads/', '/TrainedFaces/face1.bmp', 1, 'TRUE', '', ''),
 (10, '13-037-064', '86d9357f56e77a7392c2c11808eb4a2dc0a94d403943cbc95a5d0f60e263651bd1df372ab671830b3938921fdd568b3263c109b038c807829448b02e3f01e074sbyhurM8rKNeapvqI0GUkJIYtoHgBGpb', 'Payroll Clerk', 0, 1, 0, 'Dayaon', 'Froinand', 'Bugaoisan', 'Imus, Cavite', 'Married', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', 'Regular', '2017-06-06', '151654153-4651', '651681546-5456', '651681548-1548', 1.25, 1.25, 0, 0, '', '', 0, 'TRUE', '', '');
 
 -- --------------------------------------------------------
@@ -263,10 +263,20 @@ CREATE TABLE IF NOT EXISTS `payslip` (
   `gsis` int(7) NOT NULL,
   `tax` int(7) NOT NULL,
   `netpay` varchar(10) NOT NULL,
+  `absences` int(5) NOT NULL,
+  `hoursWorked` varchar(12) NOT NULL,
   `startPeriod` date NOT NULL,
   `endPeriod` date NOT NULL,
   PRIMARY KEY (`payslipNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+
+--
+-- Dumping data for table `payslip`
+--
+
+INSERT INTO `payslip` (`payslipNo`, `empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `absences`, `hoursWorked`, `startPeriod`, `endPeriod`) VALUES
+(15, '13-037-048', 9478, 2000, 10971, 125, 100, 987, 1138, '5287.45', 0, '54.58 Hours', '2017-02-01', '2017-02-12'),
+(16, '13-037-064', 9478, 0, 6031, 75, 100, 543, 0, '1146.94', 8, '0 Hours', '2017-02-01', '2017-02-12');
 
 -- --------------------------------------------------------
 
@@ -281,7 +291,16 @@ CREATE TABLE IF NOT EXISTS `paysliploan` (
   `amount` int(11) NOT NULL,
   PRIMARY KEY (`psl_id`),
   KEY `payslipNo` (`payslipNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=25 ;
+
+--
+-- Dumping data for table `paysliploan`
+--
+
+INSERT INTO `paysliploan` (`psl_id`, `payslipNo`, `deductionName`, `amount`) VALUES
+(22, 15, 'Landbank Loan', 2500),
+(23, 15, 'Healthcard Loan', 833),
+(24, 16, 'Housing Loan', 4167);
 
 -- --------------------------------------------------------
 
@@ -426,7 +445,7 @@ CREATE TABLE IF NOT EXISTS `timelog` (
   `hrsWorked` int(10) NOT NULL,
   `minsWorked` int(10) NOT NULL,
   PRIMARY KEY (`logno`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=16 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Dumping data for table `timelog`
@@ -440,9 +459,7 @@ INSERT INTO `timelog` (`logno`, `empID`, `logdate`, `timeIn`, `amOut`, `pmIn`, `
 (7, '13-037-048', '2017-02-07', '08:00', '12:30', '13:00', '16:00', 0, 0, 0),
 (8, '13-037-048', '2017-02-08', '08:00', '12:45', '13:10', '16:45', 0, 0, 0),
 (9, '13-037-048', '2017-02-09', '07:00', '11:30', '12:45', '16:00', 0, 0, 0),
-(10, '13-037-048', '2017-02-10', '07:30', '12:45', '13:00', '15:00', 0, 0, 0),
-(14, '13-037-048', '2017-02-13', '07:30', '12:00', '13:30', '16:30', 4, 8, 8),
-(15, '13-037-048', '2017-02-14', '07:00', '12:00', '13:30', '17:00', 4, 8, 8);
+(10, '13-037-048', '2017-02-10', '07:30', '12:45', '13:00', '15:00', 0, 0, 0);
 
 -- --------------------------------------------------------
 

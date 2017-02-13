@@ -46,16 +46,6 @@ class Emp_model extends CI_Model{
 		return $insert_data;
 	}
 
-	public function check_data(){
-	    $query = $this->db->get_where('employee', array('empID' => $this->input->post('empID')));
-	    if($query->num_rows() == '1'){
-	    	echo json_encode( array('res' => 'false') );
-	    }
-	    else{
-	    	echo json_encode( array('res' => 'true') );
-	    }
-	}
-
 	public function get_picture(){
 
 		$this->db->select('picture');
@@ -172,7 +162,7 @@ class Emp_model extends CI_Model{
 
 	public function get_current_attendance($uid){
 
-		$cDate = date("y-m-d");
+		$cDate = date("Y-m-d");
 		$this->db->select('timeIn, amOut, pmIn, timeOut');
 		$query = $this->db->get_where('timelog', array('logdate' => $cDate, 'empID' => $uid));
 

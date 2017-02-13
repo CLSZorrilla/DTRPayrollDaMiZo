@@ -92,6 +92,14 @@ else if(isSet($customize)){
 		redirect('main');
 	}
 }
+else if(isSet($hrpayslip)){
+	if($this->session->userdata('aType') == 'Payroll Clerk'){
+		$this->load->view($hrpayslip);
+	}
+	else{
+		redirect('main');
+	}
+}
 ?>
 </div>
 </body>
