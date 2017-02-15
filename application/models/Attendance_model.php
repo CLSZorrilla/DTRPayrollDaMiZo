@@ -26,7 +26,7 @@ class Attendance_model extends CI_Model{
 
 		$tIn = array();
 		foreach($timeIn as $key => $attendance){
-			if($timeIn[$key] > '08:00:00'){
+			if($timeIn[$key] > '09:00:00'){
 				array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false, 'color' => 'red'));
 			}
 			else{

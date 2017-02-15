@@ -1,6 +1,6 @@
 <?php
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
-	$lAttrib=array('class' => 'control-label col-md-2');
+	$lAttrib=array('class' => 'control-label col-md-5');
 	$labels=array('Company Name', 'Abbreviation', 'Description','Address', 'Contact Number','Time Basis','Start Time','End Time','Color Theme','Company Logo');
 	$dName=array('name', 'abbre', 'desc','address','contactNo','timeBasis','start_time', 'end_time', 'color_theme', 'logo');
 	$dType=array('text','text','text','text','text','radio','text','text','color','image');
@@ -20,28 +20,30 @@
 		);
 ?>
 
-<div>
-	<ol class="breadcrumb">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href="#">System Settings</a></li>	
-	</ol>
-</div>
 <div class="BodyContainer">
 	<div class="BodyContent">
-		<div class="row Title">
-			<h4>Customization of System</h4>
+		<ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">System Settings</a></li>	
+		</ol>
+    	<div class="row" id="Title">
+			<h4>SYSTEM SETTINGS</h4>
 			<hr />
 		</div>
 		
+		<div class="panel panel-default" style="margin:0px 15px;">
+		<div class="panel-heading">System Customization</div>
 		<?php echo form_open_multipart("main/customize", $attributes); ?>
 
+
+		<div class="panel-body">
 		<?php foreach($labels as $key => $label){
 			switch($dType[$key]){
 				case 'image':
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<input id="src" type="file" name="logo" />
 				<br />
 				<img src="<?php echo $cForm[$key]; ?>" height="100" width="100" id="target" />
@@ -57,14 +59,14 @@
 				break;
 				case 'radio':
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6" style="height: 34px;">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<input type='radio' name=<?php echo $dName[$key]; ?> id="flexi" value='Flexible'>Flexible Time
 	  			<input type='radio' name=<?php echo $dName[$key];  ?> id="regular" value='Regular' checked> Regular Time
 			</div>
 			<br />
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<select name="sRange" id="sRange">
 					<option value="07:00:00">07:00</option>
 					<option value="08:00:00">08:00</option>
@@ -81,9 +83,9 @@
 				break;
 				default:
 		?>
-		<div class="form-group">
+		<div class="form-group col-lg-6">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
-			<div class="col-md-10">
+			<div class="col-md-7">
 				<?php
 					if($dName[$key]=='end_time'){
 						echo form_input(array(
@@ -115,8 +117,7 @@
 				}
 			}
 			?>
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
+			<div class="col-lg-6 col-lg-offset-6" style="padding: 10px 70px 5px 0px;">
 				<?php
 				echo form_submit(array(
 					'class' =>'btn btn-primary',

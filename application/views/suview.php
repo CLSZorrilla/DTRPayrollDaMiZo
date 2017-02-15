@@ -3,12 +3,8 @@
 <head>
 	<?php $this->load->view('partials/header');?>
 </head>
-<div>
-	<div>
-		<?php $this->load->view('partials/nav');?>
-	</div>
-</div>
 <body>
+<?php $this->load->view('partials/nav');?>
 <div>
 <?php 
 
@@ -102,5 +98,6 @@ else if(isSet($hrpayslip)){
 }
 ?>
 </div>
+<?php $this->load->view('partials/footer');?>
 </body>
 </html>

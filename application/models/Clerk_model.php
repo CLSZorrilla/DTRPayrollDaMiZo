@@ -27,11 +27,19 @@ class Clerk_model extends CI_Model{
 		$this->db->join('salarygrade', 'positions.salaryGrade=salarygrade.salaryGrade');
 
 		$basicInfo = $this->db->get();
-		$basicPay = $basicInfo->row(6)->step_1;
+		if($this->uri->segment(1) == 'Clerk'){
+			$basicPay = ($basicInfo->row(6)->step_1)/2;
+			$pera = ($basicInfo->row(4)->pera)/2;
+		}
+		else if($this->uri->segment(1) == 'Clerk' && $this->uri->segment(2) == 'viewpayslip'){
+			$basicPay = $basicInfo->row(6)->step_1;
+			$pera = $basicInfo->row(4)->pera;
+		}
+		
 		$name = $basicInfo->row(3)->name;
 		$eid = $basicInfo->row(0)->empID;
 		$position = $basicInfo->row(2)->positionName;
-		$pera = $basicInfo->row(4)->pera;
+		
 		$dep = $basicInfo->row(2)->noOfDependents;
 		$mStat = substr($basicInfo->row(1)->maritalStatus,0,1);
 		$mStatusDep;
@@ -387,7 +395,7 @@ class Clerk_model extends CI_Model{
 		$VL = $leave->row(0)->VL;
 		$SL = $leave->row(1)->SL;
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,$numofLate);
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,($totalHrsWorked-$totalLate));
 	}
 
 	public function get_payrollsheet(){
@@ -469,7 +477,7 @@ class Clerk_model extends CI_Model{
 			$sPeriod = $this->input->post('periodDateS');
 			$ePeriod = $this->input->post('periodDateE');
 
-			$checkPSheet = $this->db->query("SELECT startPeriod, endPeriod FROM payslip WHERE (('".$sPeriod."' BETWEEN startPeriod AND endPeriod) OR ('".$ePeriod."' BETWEEN startPeriod AND endPeriod)) OR '".$sPeriod."' LIKE startPeriod OR '".$ePeriod."' LIKE endPeriod");
+			$checkPSheet = $this->db->query("SELECT startPeriod, endPeriod FROM paysheet WHERE (('".$sPeriod."' BETWEEN startPeriod AND endPeriod) OR ('".$ePeriod."' BETWEEN startPeriod AND endPeriod)) OR '".$sPeriod."' LIKE startPeriod OR '".$ePeriod."' LIKE endPeriod");
 
 			$checkPSheetResult = $checkPSheet->num_rows();
 
@@ -478,12 +486,12 @@ class Clerk_model extends CI_Model{
 			}
 			else{
 				foreach($data as $d){
-			 		$this->db->query("INSERT INTO `payslip`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`,`absences`,`hoursWorked`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$sPeriod."','".$ePeriod."')");
+			 		$this->db->query("INSERT INTO `paysheet`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`,`absences`,`hoursWorked`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$sPeriod."','".$ePeriod."')");
 
 					$paysheetNo = $this->db->insert_id();
 
 					foreach($d[8] as $key => $data){
-			 			$this->db->query("INSERT INTO `paysliploan`(`payslipNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
+			 			$this->db->query("INSERT INTO `paysheetloan`(`payslipNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
 			 		}
 			 	}
 
