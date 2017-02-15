@@ -118,6 +118,10 @@ class Clerk_model extends CI_Model{
 
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
+		$daysLate = $this->db->query('SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'"');
+
+		$numofLate = count($daysLate->row(0)->empID);
+
 		//--------------------------------------------------------------------
 		//Undertime Deduction
 
@@ -383,7 +387,7 @@ class Clerk_model extends CI_Model{
 		$VL = $leave->row(0)->VL;
 		$SL = $leave->row(1)->SL;
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL);
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,$numofLate);
 	}
 
 	public function get_payrollsheet(){
@@ -424,6 +428,7 @@ class Clerk_model extends CI_Model{
 												<td>".$info[15]."</td>
 												<td>".$info[16]."</td>
 												<td>".$info[17]."</td>
+												<td>".$info[20]."</td>
 												<td>".$info[18]."</td>
 												<td>".$info[19]."</td>";
 
