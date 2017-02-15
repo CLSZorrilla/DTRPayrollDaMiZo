@@ -377,7 +377,13 @@ class Clerk_model extends CI_Model{
 		}
 
 		$pagIbig = 100;
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, ($totalHrsWorked." Hours"));
+
+		$leave = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
+
+		$VL = $leave->row(0)->VL;
+		$SL = $leave->row(1)->SL;
+
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL);
 	}
 
 	public function get_payrollsheet(){
@@ -416,7 +422,10 @@ class Clerk_model extends CI_Model{
 
 				$tableData.="</tr></table></td><td>".$info[10]."</td>
 												<td>".$info[15]."</td>
-												<td>".$info[16]."</td>";
+												<td>".$info[16]."</td>
+												<td>".$info[17]."</td>
+												<td>".$info[18]."</td>
+												<td>".$info[19]."</td>";
 
 		return $tableData;
 	}

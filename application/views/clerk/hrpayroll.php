@@ -29,7 +29,10 @@
             <th>Additional Deductions</th>
             <th>Total NetPay</th>
             <th># of Absences</th>
+            <th>Days Worked</th>
             <th>Hours Worked</th>
+            <th>Vacation Leave</th>
+            <th>Sick Leave</th>
           </tr>
         </thead>
         <tbody id='pInfo'>
@@ -99,7 +102,7 @@
           success: function(msg){
             $('.MaintenanceTable').DataTable().destroy();
 
-            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th># of Absences</th><th>Hours Worked</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th># of Absences</th><th>Days Worked</th><th>Hours Worked</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
             $('#pInfo').html(msg);
             $('#hideMyPower').html($('#tableRes td').html());
             //alert($('#tableRes td').html());

@@ -151,6 +151,23 @@ $('#empID').mask("99-999-999",{completed:function(){
 	});
 }});
 
+$(function(){
+      var dtToday = new Date();
+      
+      var month = dtToday.getMonth() + 1;
+      var day = dtToday.getDate()-1;
+      var year = dtToday.getFullYear();
+      if(month < 10)
+          month = '0' + month.toString();
+      if(day < 10)
+          day = '0' + day.toString();
+      
+      var maxDate = year + '-' + month + '-' + day;
+
+      $('#startDate').attr('min', maxDate);
+      $('#periodDateE').attr('max', maxDate);
+    });
+
 $('#cNo').mask("0999-999-9999", {placeholder:" "});
 $('#gsisNo').mask("999999999-9999");
 $('#phNo').mask("999999999-9999");

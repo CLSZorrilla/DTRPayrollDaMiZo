@@ -11,8 +11,6 @@ class Clerk extends CI_Controller{
 	public function index(){
 		$data['payrollEmpList'] = "clerk/hrpayroll";
 
-		//$data['pInfoRes'] = $this->Clerk_model->get_payrollsheet();
-
 		$this->load->view('Suview', $data);
 	}
 
