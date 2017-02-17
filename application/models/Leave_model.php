@@ -38,7 +38,7 @@ class Leave_model extends CI_Model{
 
 		$leaveSpanString = timespan(strtotime($this->input->post('startDate', TRUE)),strtotime($this->input->post('endDate', TRUE)));
 
-		$leaveSpan = trim($leaveSpanString, "DaySecondMonth");
+		$leaveSpan = trim($leaveSpanString, "DaysWeekSecondMonth");
 
 		echo $leaveSpan;
 
@@ -54,7 +54,7 @@ class Leave_model extends CI_Model{
 
 
 		if($this->input->post('leaveType') == '1'){
-			$this->db->query('UPDATE employee SET VL = VL-'.$leaveSpan.' WHERE empID LIKE "'.$data['empID'].'"');
+			$this->db->query('UPDATE employee SET VL = VL-'.$leaveSpan.' WHERE empID LIKE "'.$data['empID'].'"');		
 		}
 		else if($this->input->post('leaveType') == '2'){
 			$this->db->query('UPDATE employee SET SL = SL-'.$leaveSpan.' WHERE empID LIKE "'.$data['empID'].'"');

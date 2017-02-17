@@ -1,11 +1,6 @@
-	<div>
-		<ol class="breadcrumb">
-			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		</ol>
-	</div>
 	<div class="BodyContainer">
 		<div class="BodyContent">
-			<div class="row Title">
+			<div class="row" id="Title">
 				<h4>HOME</h4>
 			</div>
 			<div class="row">
@@ -33,15 +28,22 @@
 									<th><span>PM Time Out</span></th>
 								</tr>
 								<?php
-									foreach($cAttend as $cAtt){
-										echo "
-											<tr>
-												<td>".$cAtt->timeIn."</td>
-												<td>".$cAtt->amOut."</td>
-												<td>".$cAtt->pmIn."</td>
-												<td>".$cAtt->timeOut."</td>
-											</tr>
-										";
+									if($cAttend){
+										foreach($cAttend as $cAtt){
+											echo "
+												<tr>
+													<td>".$cAtt->timeIn."</td>
+													<td>".$cAtt->amOut."</td>
+													<td>".$cAtt->pmIn."</td>
+													<td>".$cAtt->timeOut."</td>
+												</tr>
+											";
+										}
+									}
+									else{
+										echo "<tr>
+										<td colspan='4'><font color='red'><b>NO ATTENDANCE YET</b></font></td>
+										</tr>";
 									}
 								?>
 							</table>
@@ -159,10 +161,5 @@
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="Footer">
-		<div class="pull-right">
-			<p>&copy; Copyright 2016 All Rights Reserved.</p>
 		</div>
 	</div>

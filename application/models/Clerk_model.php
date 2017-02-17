@@ -289,6 +289,26 @@ class Clerk_model extends CI_Model{
 	    $daysWorked = count($dLatetimeIn);
 
 	    $absences = $weekDays - $daysWorked;
+
+	    $leave = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
+
+		$VL = $leave->row(0)->VL;
+		$SL = $leave->row(1)->SL;
+
+		/*if($VL > 1){
+			if($absences>$VL){
+				$VLDeduct1 = $absences - substr($VL,0,1);
+				$VLDeduct2 = $absences - $VLDeduct1;		
+			}
+			else if($absences<$VL){
+				$VLDeduct1 = $VL - $absences;
+				$VLDeduct2 = $VL - $VLDeduct1;
+			}
+		}*/
+		
+
+		//$absences = $absences - $VLDeduct2;
+
 	    $absentDeduction = round(($absences * $dailyRate),2);
 	    //----------------------------------------------------------------
 	    //PERA deduction
@@ -390,13 +410,43 @@ class Clerk_model extends CI_Model{
 
 		$pagIbig = 100;
 
-		$leave = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
-
-		$VL = $leave->row(0)->VL;
-		$SL = $leave->row(1)->SL;
-
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,($totalHrsWorked-$totalLate));
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,$numofLate);
 	}
+
+	public function get_emp_pSheet($eid){
+		$this->db->select('employee.empID, positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, paysheet.empID, paysheet.basicpay, paysheet.pera, paysheet.grosspay, paysheet.philhealth, paysheet.pagibig, paysheet.gsis, paysheet.tax, paysheet.netpay,
+		paysheet.absences, paysheet.hoursWorked');
+		$this->db->from('employee');
+		$this->db->where('employee.empID' , $eid);
+		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
+		$this->db->join('paysheet', 'employee.empID=paysheet.empID');
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function save_payslip($eid){
+		
+		$data = array(
+			'empID' => $eid,
+			'basicpay' => $this->input->post('basicpay', TRUE),
+			'pera' => $this->input->post('pera', TRUE),
+			'grosspay' => $this->input->post('grosspay', TRUE),
+			'philhealth' => $this->input->post('philhealth', TRUE),
+			'pagibig' => $this->input->post('pagibig', TRUE),
+			'gsis' => $this->input->post('gsis', TRUE),
+			'tax' => $this->input->post('tax', TRUE),
+			'netpay' => $this->input->post('netpay', TRUE),
+			'absences' => $this->input->post('absences', TRUE),
+			'hoursWorked' => $this->input->post('hoursWorked', TRUE)
+			);
+		
+		$insert_data = $this->db->insert('payslip', $data);
+		print_r($insert_data);
+
+		return $insert_data;
+	}
+
 
 	public function get_payrollsheet(){
 		$emp = $this->db->query('SELECT empID from employee');
@@ -442,33 +492,6 @@ class Clerk_model extends CI_Model{
 
 		return $tableData;
 	}
-	public function save_Payslip(){
-		$data = array(
-			'empID' => $this->input->post('eid', TRUE),
-			'basicpay' => $this->input->post('monthlySalary', TRUE),
-			'pera' => $this->input->post('pera', TRUE),
-			'grosspay' => $this->input->post('grossPay', TRUE),
-			'philhealth' => $this->input->post('philHealth', TRUE),
-			'pagibig' => $this->input->post('pagIbig', TRUE),
-			'gsis' => $this->input->post('gsis', TRUE),
-			'tax' => $this->input->post('tax', TRUE),
-			'netpay' => $this->input->post('netPay', TRUE)
-			);
-		
-		$insert_data = $this->db->insert('payslip', $data);
-
-		$payslipNo = $this->db->insert_id();
-
-		for($i=0;$this->input->post('dName['.$i.']')!=null&& $this->input->post('dAmt['.$i.']')!=null;$i++){
-				$dName[$i]=$this->input->post('dName['.$i.']');
-				$dAmt[$i]=$this->input->post('dAmt['.$i.']');
-
-				$this->db->query("INSERT into paysliploan(payslipNo, deductionName, amount) VALUES ('".$payslipNo."','".$dName[$i]."', '".$dAmt[$i]."')");
-			}
-
-		$pslipDate = Date("Y-m-d");
-		$this->db->query('UPDATE employee SET generated = "TRUE", pslipdate = "'.$pslipDate.'" WHERE empID LIKE "'.$data['empID'].'" AND generated LIKE "%FALSE%"');
-	}
 
 	public function save_paysheet(){
 		try{
@@ -491,7 +514,7 @@ class Clerk_model extends CI_Model{
 					$paysheetNo = $this->db->insert_id();
 
 					foreach($d[8] as $key => $data){
-			 			$this->db->query("INSERT INTO `paysheetloan`(`payslipNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
+			 			$this->db->query("INSERT INTO `paysheetloan`(`paysheetNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
 			 		}
 			 	}
 

@@ -53,15 +53,19 @@ class Leave extends CI_Controller{
 
 			}
 			else{
-				if($this->input->post('leaveType') == '1' && $this->input->post('vl') == '0'){
-					echo "<script type=\"text/javascript\">alert('You have no vacation/sick leave credits left');</script>";
+				$leaveSpanString = timespan(strtotime($this->input->post('startDate', TRUE)),strtotime($this->input->post('endDate', TRUE)));
+
+				$leaveSpan = trim($leaveSpanString, "DaysWeekSecondMonth");
+
+				if($this->input->post('leaveType') == '1' && ($this->input->post('vl') == '0' || $this->input->post('vl') < $leaveSpan)){
+					echo "<script type=\"text/javascript\">alert('You have no vacation leave credits left');</script>";
 
 					$data['leaveType'] = $this->Leave_model->load_leave();
 					$data['leaveReq'] = "hr/Leaveform";
 
 					$this->load->view('Suview', $data);
 				}
-				else if($this->input->post('leaveType') == '2' && $this->input->post('sl') == '0'){
+				else if($this->input->post('leaveType') == '2' && ($this->input->post('sl') == '0' || $this->input->post('sl') < $leaveSpan)){
 
 					echo "<script type=\"text/javascript\">alert('You have no sick leave credits left');</script>";
 

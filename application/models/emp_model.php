@@ -163,8 +163,8 @@ class Emp_model extends CI_Model{
 	public function get_current_attendance($uid){
 
 		$cDate = date("Y-m-d");
-		$this->db->select('timeIn, amOut, pmIn, timeOut');
-		$query = $this->db->get_where('timelog', array('logdate' => $cDate, 'empID' => $uid));
+
+		$query = $this->db->query('SELECT timeIn,amOut,pmIn,timeOut FROM timelog WHERE logdate LIKE "'.$cDate.'" AND empID LIKE "'.$uid.'"');
 
 		return $query->result();
 	}

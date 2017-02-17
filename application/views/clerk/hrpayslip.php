@@ -38,8 +38,8 @@
                         <td>".$info->deptName."</td>
                         <td>".$info->name."</td>
                         <td>";
-                        if($info->generated == 'FALSE'){ ?> 
-                        <a href="<?php echo base_url(); ?>Clerk/payroll_computation/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
+                        if($info->generated == 2){ ?> 
+                        <a href="<?php echo base_url(); ?>Clerk/empPayslip/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
                         <?php } else {
                            echo $info->pslipdate;
                          }
@@ -69,4 +69,5 @@
         responsive: true
       });
     });
+
   </script>

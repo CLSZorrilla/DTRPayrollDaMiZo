@@ -251,6 +251,8 @@ ol.breadcrumb {
     margin:0px;
     list-style: none;
     border-radius: 4px;
+    background-color: white;
+    padding:0px;
 }
 ol.breadcrumb li{
     font-style:italic;
@@ -261,6 +263,9 @@ ol.breadcrumb li a {
 }
 div.BodyContainer {
 	Background-color:white;
+}
+div#Title {
+	padding-bottom: 10px;
 }
 div.BodyContent {
     margin:0px 115px;

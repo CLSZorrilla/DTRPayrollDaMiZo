@@ -1,8 +1,4 @@
 	<div>
-		<ol class="breadcrumb">
-			<li><a href="<?php echo base_url(); ?>main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-			<li class="active">Attendance</li>
-		</ol>
 	</div>
   <?php
     foreach($result as $res){
@@ -11,18 +7,17 @@
   ?>
 	<div class="BodyContainer">
 		<div class="BodyContent">
-			<div class="row Title">
+      <ol class="breadcrumb">
+        <li><a href="<?php echo base_url(); ?>main/home_view">Home</a></li>
+        <li class="active">Attendance</li>
+      </ol>
+			<div class="row" id="Title">
 				<h4>ATTENDANCE</h4>
 				<hr>
 
 				<div id="calendar"></div>
         <input type="hidden" name="country" value="Norway">
 			</div>
-		</div>
-	</div>
-	<div class="Footer">
-		<div class="pull-right">
-			<p>&copy; Copyright 2016 All Rights Reserved.</p>
 		</div>
 	</div>
 </body>

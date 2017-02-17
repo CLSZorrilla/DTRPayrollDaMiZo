@@ -1,13 +1,11 @@
-<div>
-    <ol class="breadcrumb">
-      <li><a href="main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-      <li class="active">Payroll</li>
-    </ol>
-  </div>
   <div class="BodyContainer">
     <div class="BodyContent">
-      <div class="row Title">
-      <h4><b>E</b>mployee <b>L</b>ist</h4>
+      <ol class="breadcrumb">
+        <li><a href="main/home_view">Home</a></li>
+        <li class="active">Payroll</li>
+      </ol>
+      <div class="row" id="Title">
+      <h4>EMPLOYEE LIST</h4>
       </div>
       <b>From</b>
       <input type="date" id="periodDateS" /> <b>to</b>
@@ -116,7 +114,7 @@
               "bLengthChange": false,
               "ordering": true,
               "aaSorting": [[0, 'desc']],
-              responsive: false,
+              responsive: true,
               dom: 'Bfrtip',
               buttons: [
                 { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS+"to"+periodDateE+"Payroll Sheet"}

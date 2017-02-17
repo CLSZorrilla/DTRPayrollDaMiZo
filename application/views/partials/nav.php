@@ -4,7 +4,7 @@
 		<div class="navbar-header col-xs-6 col-sm-6 col-md-6 col-lg-6">
 			<a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>main/home_view">
 				<img src="<?php echo $company['logo']; ?>" height="100" width="100" alt="Logo" />
-				<p><?php echo $company['name']; ?></p></a>
+				<p><?php echo strtoupper($company['name']); ?></p></a>
 			</a>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
