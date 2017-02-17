@@ -42,11 +42,6 @@
   </div>
   <div id="hideMyPower" style="display: none;">
   </div>
-  <div class="Footer">
-    <div class="pull-right">
-      <p>&copy; Copyright 2017 All Rights Reserved.</p>
-    </div>
-  </div>
   <script type="text/javascript">
     $(document).ready(function () {
 
@@ -144,7 +139,7 @@
           }
           else if(r == 'Fail'){
              swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");
-          }
+          }       
         },
         error:function(r){
           alert("System Error");

@@ -6,16 +6,13 @@
 	$dType=array('text','text','dropdown','dropdown','text','text', 'date' ,'date','dropdown','date','text');
 ?>
 
-
-<div>
-	<ol class="breadcrumb">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li class="active">Leave</li>
-	</ol>
-</div>
 <div class="BodyContainer">
 	<div class="BodyContent">
-		<div class="row Title">
+		<ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li class="active">Leave</li>
+		</ol>
+		<div class="row" id="Title">
 			<h4>LEAVE</h4>
 			<hr />
 		</div>

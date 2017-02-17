@@ -94,15 +94,8 @@
 		</div>
 </div>
 </div>
-<div class="Footer">
-	<div class="pull-right">
-		<p>&copy; Copyright 2017 All Rights Reserved.</p>
-	</div>
-</div>
 <script type="text/javascript">
 	$("#interest").mask("99.99%");
-
-	
 	$(document).ready(function(){
 		if($('#fName').val().length=3){
 			$.ajax({

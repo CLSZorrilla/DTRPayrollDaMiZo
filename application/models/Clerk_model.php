@@ -8,7 +8,7 @@ class Clerk_model extends CI_Model{
 	}
 
 	public function get_emp_list(){
-		$this->db->select('employee.empID, employee.password,employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.pslipdate, employee.generated', FALSE);
+		$this->db->select('employee.empID, employee.password,employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.generated', FALSE);
 		$this->db->from('employee');
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
 		$this->db->join('department', 'employee.deptCode=department.deptCode');
@@ -126,7 +126,7 @@ class Clerk_model extends CI_Model{
 
 		$lateDeduction = round(($totalLate * $hourlyRate),2);
 
-		$daysLate = $this->db->query('SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'"');
+		$daysLate = $this->db->query('SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'" AND (logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'")');
 
 		$numofLate = count($daysLate->row(0)->empID);
 
@@ -258,7 +258,7 @@ class Clerk_model extends CI_Model{
 		$amtTP = array();
 
 		foreach($amt as $key => $amtToPay){
-			array_push($amtTP, round(($amt[$key]/$mtp[$key]),2));		
+			array_push($amtTP, round((($amt[$key]/$mtp[$key])/2),2));		
 		}
 		//----------------------------------------------------------------
 		//# of absences
@@ -288,28 +288,36 @@ class Clerk_model extends CI_Model{
 
 	    $daysWorked = count($dLatetimeIn);
 
-	    $absences = $weekDays - $daysWorked;
+	    $absences = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"')->row(0)->absences;
+
+	    $absentQuery = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
+
+	    $absentDB = $absentQuery->row(0)->absences;
 
 	    $leave = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
 
 		$VL = $leave->row(0)->VL;
 		$SL = $leave->row(1)->SL;
 
-		/*if($VL > 1){
-			if($absences>$VL){
-				$VLDeduct1 = $absences - substr($VL,0,1);
-				$VLDeduct2 = $absences - $VLDeduct1;		
+		if($VL >= 1){
+			if($absentDB>$VL){
+				$VLDeduct1 = $absencesDB - substr($VL,0,1);
+				$VLDeduct2 = $absencesDB - $VLDeduct1;		
 			}
-			else if($absences<$VL){
-				$VLDeduct1 = $VL - $absences;
+			else if($absentDB<$VL){
+				$VLDeduct1 = $VL - $absencesDB;
 				$VLDeduct2 = $VL - $VLDeduct1;
 			}
-		}*/
+
+			$absences = $absentDB-$VLDeduct2;
+			$this->db->query('UPDATE employee SET VL = VL - "'.$VLDeduct2.'", absences = "'.$absences.'" WHERE empID LIKE "'.$eid.'"');
+		}
 		
+		$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
 
-		//$absences = $absences - $VLDeduct2;
+	    $absentDB2 = $absentQuery2->row(0)->absences;
 
-	    $absentDeduction = round(($absences * $dailyRate),2);
+	    $absentDeduction = round(($absentDB2 * $dailyRate),2);
 	    //----------------------------------------------------------------
 	    //PERA deduction
 	    $peraDailyRate = round(($pera/22),2);
@@ -410,7 +418,11 @@ class Clerk_model extends CI_Model{
 
 		$pagIbig = 100;
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL,$SL,$numofLate);
+		$leave2 = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
+
+		$VL2 = $leave2->row(0)->VL;
+		$SL2 = $leave2->row(1)->SL;
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
 	}
 
 	public function get_emp_pSheet($eid){
@@ -464,6 +476,8 @@ class Clerk_model extends CI_Model{
 		echo $StringFor;
 
 		echo "<tr id='tableRes'><td>".json_encode($Results)."</td></tr>";
+
+		return $Results;
 	}
 
 	public function get_info($info){
@@ -495,7 +509,7 @@ class Clerk_model extends CI_Model{
 
 	public function save_paysheet(){
 		try{
-			$data = json_decode($this->input->post('pslipdata'));
+			$data=json_decode($this->input->post('pslipdata'));
 
 			$sPeriod = $this->input->post('periodDateS');
 			$ePeriod = $this->input->post('periodDateE');
@@ -509,19 +523,26 @@ class Clerk_model extends CI_Model{
 			}
 			else{
 				foreach($data as $d){
-			 		$this->db->query("INSERT INTO `paysheet`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`,`absences`,`hoursWorked`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$sPeriod."','".$ePeriod."')");
+			 		$this->db->query("INSERT INTO `paysheet`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `absences`, `daysWorked`, `hoursWorked`, `numOfLate`, `VL`, `SL`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$d[17]."','".$d[20]."','".$d[18]."','".$d[19]."','".$sPeriod."','".$ePeriod."')");
 
 					$paysheetNo = $this->db->insert_id();
 
 					foreach($d[8] as $key => $data){
 			 			$this->db->query("INSERT INTO `paysheetloan`(`paysheetNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
 			 		}
+
+			 		$this->db->query('UPDATE employee SET 
+			 						generated = CASE
+			 										WHEN  generated = 1 THEN 1
+			 										WHEN generated = 2  THEN 1
+			 									END		
+			 						WHERE empID LIKE "'.$d[14].'"');
 			 	}
 
 			 	echo "Success";
 			}
 		}catch(Exception $e){
-			print_r ($e);
+			print_r("TESTING");
 		}
 	}
 }

@@ -9,15 +9,13 @@
 	}
 ?>
 
-<div>
-	<ol class="breadcrumb">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href="#">Maintenance</a></li>
-		<li class="active"><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage User</a></li>
-	</ol>
-</div>
 <div class="BodyContainer">
 	<div class="BodyContent">
+		<ol class="breadcrumb">
+			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			<li><a href="#">Maintenance</a></li>
+			<li class="active"><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage User</a></li>
+		</ol>
 		<div class="row Title">
 			<h4>MANAGE USER</h4>
 			<hr />
@@ -289,11 +287,6 @@
 				?>
 			</div>
 		</div>
-	</div>
-</div>
-<div class="Footer">
-	<div class="pull-right">
-		<p>&copy; Copyright 2017 All Rights Reserved.</p>
 	</div>
 </div>
 <script type="text/javascript">

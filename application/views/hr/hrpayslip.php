@@ -2,14 +2,12 @@
     $base_url = base_url();
   ?>
 
-  <div>
-    <ol class="breadcrumb">
-      <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-      <li class="active">Payroll</li>
-    </ol>
-  </div>
   <div class="BodyContainer">
     <div class="BodyContent">
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li class="active">Payroll</li>
+      </ol>
       <div class="row Title">
       <h4>Employee List</h4>
       </div>
@@ -41,7 +39,7 @@
                         if($info->generated == 2){ ?> 
                         <a href="<?php echo base_url(); ?>Clerk/empPayslip/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
                         <?php } else {
-                           echo "Not ready for processing";
+                           echo $info->pslipdate;
                          }
                     echo "</td>
                       </tr>"; 
@@ -50,11 +48,6 @@
           </tbody>
         </table>
       </div>
-    </div>
-  </div>
-  <div class="Footer">
-    <div class="pull-right">
-      <p>&copy; Copyright 2017 All Rights Reserved.</p>
     </div>
   </div>
   <script type="text/javascript">
