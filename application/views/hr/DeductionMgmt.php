@@ -1,12 +1,10 @@
-<div>
-	<ol class="breadcrumb">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href="#">Deduction Management</a></li>	
-	</ol>
-</div>
 <div class="BodyContainer">
 	<div class="BodyContent">
-		<div class="row Title">
+		<ol class="breadcrumb">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">Deduction Management</a></li>	
+		</ol>
+      	<div class="row" id="Title">
 			<h4>DEDUCTION MANAGEMENT</h4>
 			<hr />
 		</div>
@@ -73,24 +71,24 @@
 			?>
 			</div>
 		</div>
-		</div>
-		<div class="panel-footer">
-			<div style="overflow: hidden;">
+		<div class="form-group">
+			<div class="col-md-4 col-md-offset-2" style="padding: 10px 50px 5px 0px;">
 				<?php
-				echo form_submit(array(
-					'class' =>'btn btn-default pull-right',
-					'type' =>'reset',
-					'value' => 'Reset',
-					'style' => 'width:100px;margin:5px;'
-					));
-				echo form_submit(array(
-					'class' =>'btn btn-primary pull-right',
-					'name' =>'submit',
-					'value' => 'Register',
-					'style' => 'width:100px;margin:5px;'
-					));
+					echo form_submit(array(
+						'class' =>'btn btn-default pull-right',
+						'type' =>'reset',
+						'value' => 'Reset',
+						'style' => 'width:100px;margin:5px;'
+						));
+					echo form_submit(array(
+						'class' =>'btn btn-primary pull-right',
+						'name' =>'submit',
+						'value' => 'Register',
+						'style' => 'width:100px;margin:5px;'
+						));
 				?>
 			</div>
+		</div>
 		</div>
 		</form>
 		</div>

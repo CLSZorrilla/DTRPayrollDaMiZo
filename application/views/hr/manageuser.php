@@ -2,22 +2,21 @@
 		$base_url = base_url();
 	?>
 
-	<div>
-		<ol class="breadcrumb">
-			<li><a href="<?php echo $base_url; ?>main/home_view"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-			<li><a href="#">Maintenance</a></li>
-			<li class="active">Manage Users</li>
-		</ol>
-	</div>
 	<div class="BodyContainer">
 		<div class="BodyContent">
-			<div class="row Title">
+			<ol class="breadcrumb">
+				<li><a href="<?php echo $base_url; ?>main/home_view">Home</a></li>
+				<li><a href="#">Maintenance</a></li>
+				<li class="active">Manage Users</li>
+			</ol>
+      		<div class="row">
 				<h4>MANAGE USERS</h4>
+				<hr />
 			</div>
 			<div class="table-responsive">
 				<div class="col-sm-6 CreateNew">
 					<p class="pull-left" style="margin: 0px;">
-						<a href="<?php echo base_url(); ?>employee/createUserAcct">Create New <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+						<a href="<?php echo base_url(); ?>employee/createUserAcct">Create User <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
 					</p>
 				</div>
 					<table class="table table-striped MaintenanceTable">

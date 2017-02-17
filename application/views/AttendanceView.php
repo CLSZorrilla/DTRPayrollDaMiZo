@@ -1,5 +1,3 @@
-	<div>
-	</div>
   <?php
     foreach($result as $res){
       echo "<input type='hidden' id='calendarData' value='".$res."' />";
@@ -14,10 +12,9 @@
 			<div class="row" id="Title">
 				<h4>ATTENDANCE</h4>
 				<hr>
+      </div>
 
-				<div id="calendar"></div>
-        <input type="hidden" name="country" value="Norway">
-			</div>
+      <div id="calendar"></div>
 		</div>
 	</div>
 </body>

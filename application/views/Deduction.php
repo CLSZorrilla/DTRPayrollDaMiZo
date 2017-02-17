@@ -7,7 +7,7 @@
 	</div>
 	<div class="BodyContainer">
 		<div class="BodyContent">
-			<div class="row Title">
+      		<div class="row" id="Title">
 				<h4>DEDUCTION TABLES</h4>
 			</div>
 			<div class="row Pills">
@@ -308,12 +308,6 @@
 			</div>
 		</div>
 	</div>
-	<div class="Footer">
-		<div class="pull-right">
-			<p>&copy; Copyright 2016 All Rights Reserved.</p>
-		</div>
-	</div>
-	
 	<script type="text/javascript">
         $(document).ready(function () {
 			$('.dTable').DataTable({

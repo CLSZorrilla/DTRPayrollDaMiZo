@@ -31,16 +31,14 @@
 	$totalDeduction = $pInfoRes[9];
 ?>
 
-<div>
-	<ol class="breadcrumb">
-		<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-		<li><a href="<?php echo base_url(); ?>Clerk">Payroll</a></li>
-		<li class="active">Salary Computation</li>
-	</ol>
-</div>
 <div class="BodyContainer" id="compute" >
 	<div class="BodyContent">
-		<div class="row Title">
+		<ol class="breadcrumb">
+			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			<li><a href="<?php echo base_url(); ?>Clerk">Payroll</a></li>
+			<li class="active">Salary Computation</li>
+		</ol>
+      	<div class="row" id="Title">
 			<h4>Salary Computation</h4>
 			<h5>By default it is set to <b>MONTHLY</b> with an official time of <b>8am-5pm</b></h5>
 		</div>
