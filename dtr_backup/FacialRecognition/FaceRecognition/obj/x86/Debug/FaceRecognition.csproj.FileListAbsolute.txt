@@ -1,0 +1,88 @@
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.AddFace.resources
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\GenerateResource.read.1.tlog
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\GenerateResource.write.1.tlog
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+c:\users\velasco\documents\visual studio 2010\Projects\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+E:\Programming\FaceRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+E:\Programming\FaceRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\GenerateResource.write.1.tlog
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+E:\Programming\FaceRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\APV\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTR\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Downloads\Compressed\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\ChrisLorenz\Documents\_Facial Recognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceDetect.resources
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRPayrollDaMiZo\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
+C:\Users\theresa micoleta\Desktop\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Form1.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\theresa micoleta\Desktop\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\theresa micoleta\Desktop\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
