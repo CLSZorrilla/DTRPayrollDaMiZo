@@ -53,6 +53,16 @@
 						<span class="glyphicon glyphicon-calendar"></span><br/>Payslip
 					</li>
 				</a>
+				<a href="<?php echo base_url(); ?>leave">
+					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<span class="glyphicon glyphicon-minus-sign"></span><br/>Leave
+					</li>
+				</a>
+				<a href="<?php echo base_url(); ?>Deduction/dMgmt">
+					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<span class="glyphicon glyphicon-minus-sign"></span><br/>Deduction
+					</li>
+				</a>
 				<?php } ?>
 				<!--
 				<a href="Profile.php">
@@ -67,17 +77,8 @@
 						<span class="glyphicon glyphicon-wrench"></span><br/>Maintenance
 					</li>
 				</a>
-				<a href="<?php echo base_url(); ?>leave">
-					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-					<span class="glyphicon glyphicon-minus-sign"></span><br/>Leave
-					</li>
-				</a>
-				<a href="<?php echo base_url(); ?>Deduction/dMgmt">
-					<li class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-					<span class="glyphicon glyphicon-minus-sign"></span><br/>Deduction
-					</li>
-				</a>
 				<?php } ?>
+
 				
 			</ul>
 	</div>
