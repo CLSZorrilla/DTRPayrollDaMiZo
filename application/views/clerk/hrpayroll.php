@@ -86,7 +86,7 @@
       var periodDateE = $('#periodDateE').val();
 
       if(periodDateS == "" || periodDateE == ""){
-        alert("Input date range");
+        swal({title: "Ooops!",text: "Input a date range first", timer: 2000, showConfirmButton:false,type:"error",animation:"slide-from-bottom"});
       }
       else{
         $.ajax({
@@ -139,10 +139,10 @@
           }
           else if(r == 'Fail'){
              swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");
-          }       
+          }
         },
         error:function(r){
-          alert("System Error");
+          swal("Notice:","System Error Contact Administrator", "error");
         }
       });
     });

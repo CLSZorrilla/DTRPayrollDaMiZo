@@ -4,16 +4,23 @@ class Remittance extends CI_Controller{
 
 	public function __construct(){
 		parent::__construct();
+
+		$this->load->model('Remittance_model');
 	}
 
 	public function index(){
-		$data['remittance'] = "remittance";
+		$data['remittance'] = "hr/Remittance";
 
-		/*$data['uinfo'] = $this->Clerk_model->get_emp_list();*/
+		$data['loanNames'] = $this->Remittance_model->loadLoans();
 
 		$this->load->view('Suview', $data);
 
 	}
+
+	public function FilterCategory(){
+		$this->Remittance_model->filterCategory();
+	}
+
 }
 
 ?>

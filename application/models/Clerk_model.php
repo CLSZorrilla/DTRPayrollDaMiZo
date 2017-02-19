@@ -288,7 +288,9 @@ class Clerk_model extends CI_Model{
 
 	    $daysWorked = count($dLatetimeIn);
 
-	    $absences = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"')->row(0)->absences;
+	    $absences = $weekDays - $daysWorked;
+
+	    $updateAbsences = $this->db->query("UPDATE employee SET absences = '".$absences."' WHERE empID LIKE '".$eid."'");
 
 	    $absentQuery = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
 
@@ -307,6 +309,9 @@ class Clerk_model extends CI_Model{
 			else if($absentDB<$VL){
 				$VLDeduct1 = $VL - $absencesDB;
 				$VLDeduct2 = $VL - $VLDeduct1;
+			}
+			else if($absentDB = $VL){
+				$VLDeduct2 = $absentDB;
 			}
 
 			$absences = $absentDB-$VLDeduct2;
@@ -510,7 +515,6 @@ class Clerk_model extends CI_Model{
 	public function save_paysheet(){
 		try{
 			$data=json_decode($this->input->post('pslipdata'));
-
 			$sPeriod = $this->input->post('periodDateS');
 			$ePeriod = $this->input->post('periodDateE');
 
@@ -523,22 +527,26 @@ class Clerk_model extends CI_Model{
 			}
 			else{
 				foreach($data as $d){
-			 		$this->db->query("INSERT INTO `paysheet`(`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `absences`, `daysWorked`, `hoursWorked`, `numOfLate`, `VL`, `SL`, `startPeriod`, `endPeriod`) VALUES ('".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$d[17]."','".$d[20]."','".$d[18]."','".$d[19]."','".$sPeriod."','".$ePeriod."')");
-
-					$paysheetNo = $this->db->insert_id();
-
-					foreach($d[8] as $key => $data){
-			 			$this->db->query("INSERT INTO `paysheetloan`(`paysheetNo`, `deductionName`, `amount`) VALUES ('".$paysheetNo."','".$d[8][$key]."','".$d[9][$key]."')");
-			 		}
-
-			 		$this->db->query('UPDATE employee SET 
+					$this->db->query('UPDATE employee SET 
 			 						generated = CASE
-			 										WHEN  generated = 1 THEN 1
-			 										WHEN generated = 2  THEN 1
+			 										WHEN  generated = 1 THEN 2
+			 										WHEN (generated = 2 || generated = 0)  THEN 1
 			 									END		
 			 						WHERE empID LIKE "'.$d[14].'"');
-			 	}
+					$checkPeriod  = $this->db->query("SELECT generated FROM employee WHERE empID LIKE '".$d[14]."'");
 
+					$period = $checkPeriod->row(0)->generated;
+
+					$datePeriod = Date('YM');
+
+					$paysheetPeriod = $datePeriod."_".$period;
+
+			 		$this->db->query("INSERT INTO `paysheet`(`paysheetPeriod`,`empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `absences`, `daysWorked`, `hoursWorked`, `numOfLate`, `VL`, `SL`, `startPeriod`, `endPeriod`) VALUES ('".$paysheetPeriod."','".$d[14]."','".$d[2]."','".$d[11]."','".$d[4]."','".$d[5]."','".$d[13]."','".$d[6]."','".$d[7]."','".$d[10]."','".$d[15]."','".$d[16]."','".$d[17]."','".$d[20]."','".$d[18]."','".$d[19]."','".$sPeriod."','".$ePeriod."')");
+
+					foreach($d[8] as $key => $data){
+			 			$this->db->query("INSERT INTO `paysheetloan`(`paysheetPeriod`,`empID`,`deductionName`, `amount`) VALUES ('".$paysheetPeriod."','".$d[14]."','".$d[8][$key]."','".$d[9][$key]."')");
+			 		}	
+			 	}
 			 	echo "Success";
 			}
 		}catch(Exception $e){

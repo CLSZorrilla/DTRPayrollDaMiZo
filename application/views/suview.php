@@ -40,7 +40,7 @@
 					}
 				}
 				else if(isSet($leaveReq)){
-					if($this->session->userdata('aType') == 'HR'){
+					if($this->session->userdata('aType') == 'Payroll Clerk'){
 						$this->load->view($leaveReq);
 					}
 					else{
@@ -64,7 +64,7 @@
 					}
 				}
 				else if(isSet($dMgmt)){
-					if($this->session->userdata('aType') == 'HR'){
+					if($this->session->userdata('aType') == 'Payroll Clerk'){
 						$this->load->view($dMgmt);
 					}
 					else{
@@ -90,6 +90,14 @@
 				else if(isSet($hrpayslip)){
 					if($this->session->userdata('aType') == 'Payroll Clerk'){
 						$this->load->view($hrpayslip);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($remittance)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($remittance);
 					}
 					else{
 						redirect('main');
