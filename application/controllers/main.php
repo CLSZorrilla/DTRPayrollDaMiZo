@@ -23,6 +23,9 @@ class Main extends CI_Controller{
 		$eid = $this->session->userdata('username');
 		$cAttendance = $this->Emp_model->get_current_attendance($eid);
 		
+		$this->load->model('Holiday_model');
+		$data['hinfo'] = $this->Holiday_model->get_holiday()->result();
+
 		$data['cAttend'] = $cAttendance;
 
 		$this->load->view('Suview', $data);

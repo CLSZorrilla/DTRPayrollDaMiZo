@@ -89,7 +89,6 @@
 				"bFilter": true,
 				"bLengthChange": false,
 				"ordering": true,
-				"aaSorting": [[0, 'desc']],
 				responsive: true
 			});
 		});

@@ -4,9 +4,16 @@
 		<?php $this->load->view('partials/header');?>
 	</head>
 	<body>
-		<?php $this->load->view('partials/nav');?>
+		<?php 
+		if($this->session->userdata('aType') == 'Employee'){
+			$this->load->view('partials/nav');
+		}
+		else{
+			$this->load->view('partials/nav_new');
+		}
+		?>
 		<div>
-			<?php 
+			<?php
 				if(isSet($cUserForm)){
 					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($cUserForm);
@@ -98,6 +105,14 @@
 				else if(isSet($remittance)){
 					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($remittance);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($chat)){
+					if($this->session->userdata('aType')){
+						$this->load->view($chat);
 					}
 					else{
 						redirect('main');

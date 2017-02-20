@@ -8,9 +8,9 @@
 			</a>
 		</div>
 		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
-			<ul class="pull-right">
+			<ul class="pull-right TitleBarList">
 				<li>
-					<a href="#">
+					<a href="<?php echo base_url(); ?>chat">
 						<i class="circle"><span class="glyphicon glyphicon-envelope"></span></i>
 					</a>
 				</li>
@@ -81,4 +81,4 @@
 			</ul>
 	</div>
 </nav>
-<div class="PangUsog">&nbsp;</div>
+<div class="NavGap">&nbsp;</div>

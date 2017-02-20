@@ -2,16 +2,16 @@
     $base_url = base_url();
   ?>
 
-  <div>
-    <ol class="breadcrumb">
-      <li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-      <li class="active">Payroll</li>
-    </ol>
-  </div>
   <div class="BodyContainer">
     <div class="BodyContent">
-      <div class="row Title">
-      <h4>Employee List</h4>
+      <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">Payroll</a></li>
+        <li class="active">Payslip</li>
+      </ol>
+      <div class="row" id="Title">
+      <h4>PAYSLIP</h4>
+      <hr />
       </div>
 
       <div class="table-responsive">
@@ -65,7 +65,7 @@
         "bFilter": true,
         "bLengthChange": false,
         "ordering": true,
-        "aaSorting": [[0, 'desc']],
+        "aaSorting": [[0, 'asc']],
         responsive: true
       });
     });

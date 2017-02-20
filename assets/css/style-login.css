@@ -1,9 +1,9 @@
-*, *::after, *::before {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+html {
+    font-size: 100%;
+    -ms-text-size-adjust:100%;
+    -webkit-text-size-adjust:100%
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -23,17 +23,73 @@ body {
     }
 }
 
-html {
-    font-size: 100%;
-    -ms-text-size-adjust:100%;
-    -webkit-text-size-adjust:100%
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+/* LOGIN BUTTON */
+#button {
+    width: inherit;
+    text-align: center;
+    padding:0px 30px;
+
+    /* Vertically Aligned */
+    position:absolute;
+    left:50%;
+    top:45%;
+    transform: translate(-50%, -45%);
+    /* Vertically Aligned */
+}
+
+#login {
+    border: 1px solid transparent;
+    width: 200px;
+    height: 50px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 12px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    -webkit-border-radius: 40px;
+    -moz-border-radius: 40px;
+    border-radius: 40px;
+    -webkit-transition: all 0.3s ease-in-out;
+       -moz-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
 }
 
 a, input, button, textarea:focus {
     outline: 0;
 }
+
+.tag-login {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+}
+
+/*ERRORS*/
+.m-error1 {
+    position: absolute;
+    background: #f76558;
+    color: #fff;
+    padding: 8px;
+    font-size: 12px;
+    margin-left: 340px;
+    width: 270px;
+    margin-top: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+    display: none;
+}
+
+.m-error1 img {
+    width: 40px;
+    float: left;
+    margin-right: 10px;
+    margin-top: -2px;
+}
+
+#m-error {
+    margin-top: 3px;
+}
+
+/* AYOS ANG FORMAT! */
 
 .clearfix:before, .clearfix:after { content: " "; display: table; }
 .clearfix:after { clear: both; }
@@ -80,53 +136,13 @@ input:focus:-ms-input-placeholder {
     letter-spacing: 1px;
 }
 
-
-/*LOGIn BUTTON*/
-#button {
-    width: inherit;
-    text-align: center;
-    padding:0px 30px;
-
-    /* Vertically Aligned */
-    position:absolute;
-    left:50%;
-    top:45%;
-    transform: translate(-50%, -45%);
-    /* Vertically Aligned */
-}
-
-#login {
-    border: 1px solid transparent;
-    background:#337ab7;
-    width: 200px;
-    height: 50px;
-    color: #fff;
-    font-weight: 500;
-    font-size: 12px;
-    cursor: pointer;
-    margin-bottom: 10px;
-    -webkit-border-radius: 40px;
-    -moz-border-radius: 40px;
-    border-radius: 40px;
-    -webkit-transition: all 0.3s ease-in-out;
-       -moz-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-}
-
 #login:hover {
     padding-left: 50px;
-    background: #286090;
 }
 
 .tag {
     font-size: 12px;
     color: #25282e;
-    text-align: center;
-}
-
-.tag-login {
-    font-size: 12px;
-    color: white;
     text-align: center;
 }
 
@@ -152,7 +168,7 @@ input:focus:-ms-input-placeholder {
 
 .modal-log-cont {
     height: auto;
-    background: #fff;
+    background: white;
     margin: 0px auto;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     z-index: 2;
@@ -187,7 +203,6 @@ input:focus:-ms-input-placeholder {
 }
 
 .clip {
-    background: #2e6da4;
     width: 4px;
     height: 40px;
     position: absolute;
@@ -196,7 +211,6 @@ input:focus:-ms-input-placeholder {
 }
 
 #close-v {
-    background: #2e6da4;
     width: 40px;
     height: 40px;
     float: right;
@@ -253,7 +267,6 @@ input:focus:-ms-input-placeholder {
     height: 40px;
     display: block;
     font-size: 12px;
-    color: #337ab7;
     text-indent: 5px;
     letter-spacing: .5px;
     background: #f0efef;
@@ -267,10 +280,6 @@ input:focus:-ms-input-placeholder {
     .form form input {
         width: 250px;
     }
-}
-
-.form form input:focus {
-    border-bottom: 2px solid #2e6da4;
 }
 
 @media only screen and (min-width: 768px) {
@@ -287,7 +296,6 @@ input:focus:-ms-input-placeholder {
 
 .submit-b #l-submit {
     border: 1px solid transparent;
-    background: #337ab7;
     height: 39px;
     color: #fff;
     position: absolute;
@@ -327,32 +335,6 @@ input:focus:-ms-input-placeholder {
     font-size: 14px;
     font-weight: 600;
 }
-
-/*ERRORS*/
-.m-error1 {
-    position: absolute;
-    background: #f76558;
-    color: #fff;
-    padding: 8px;
-    font-size: 12px;
-    margin-left: 340px;
-    width: 270px;
-    margin-top: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-    display: none;
-}
-
-.m-error1 img {
-    width: 40px;
-    float: left;
-    margin-right: 10px;
-    margin-top: -2px;
-}
-
-#m-error {
-    margin-top: 3px;
-}
-
 
 /*MAIN*/
 #info {

@@ -1,12 +1,9 @@
-
-	<div>
-		<ol class="breadcrumb">
-			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
-			<li class="active">Deduction</li>
-		</ol>
-	</div>
 	<div class="BodyContainer">
 		<div class="BodyContent">
+			<ol class="breadcrumb">
+				<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+				<li class="active">Deduction</li>
+			</ol>
       		<div class="row" id="Title">
 				<h4>DEDUCTION TABLES</h4>
 			</div>

@@ -2,10 +2,12 @@
     <div class="BodyContent">
       <ol class="breadcrumb">
         <li><a href="main/home_view">Home</a></li>
-        <li class="active">Payroll</li>
+        <li><a href="#">Payroll</a></li>
+        <li class="active">Payroll Sheet</li>
       </ol>
       <div class="row" id="Title">
-      <h4>EMPLOYEE LIST</h4>
+      <h4>PAYROLL SHEET</h4>
+      <hr />
       </div>
       <b>From</b>
       <input type="date" id="periodDateS" /> <b>to</b>

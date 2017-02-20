@@ -12,7 +12,7 @@
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<ol class="breadcrumb">
-			<li><a href="#"><span class="glyphicon glyphicon-home"></span> Home</a></li>
+			<li><a href="#">Home</a></li>
 			<li><a href="#">Maintenance</a></li>
 			<li class="active"><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage User</a></li>
 		</ol>
@@ -288,6 +288,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 <script type="text/javascript">
 

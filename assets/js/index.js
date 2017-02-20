@@ -33,7 +33,7 @@ $(document).ready(function(){
 $('#uid').keypress(function(e){
 	var keycode = (event.keyCode ? event.keyCode : event.which);
     if(keycode == '13'){
-        $('#close').click();   
+        $('#l-submit').click();   
     }
 });
 

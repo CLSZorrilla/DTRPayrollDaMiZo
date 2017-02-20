@@ -1,23 +1,26 @@
-<!-- Added -->
 <?php include "partials/nav_customize.php";?>
 <?php
     $lblClass = array('class' => 'control-label col-md-6');
     $inputClass = array('class' => 'form-control');
 ?>
-<!-- Added -->
 
 <!DOCTYPE html>
-
 <html lang = "en">
 <head>
     <?php $this->load->view('partials/header');?>
-    <meta charset = "UTF-8">
-    <meta name = "viewport" content = "width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-login.css">
+    <style type="text/css">
+        button#login, button#login:hover, div.clip, div#close-v, input#l-submit {
+            background-color: <?php echo $company['colorTheme']; ?>;
+        }
+        .form form input:focus {
+            border-bottom: 2px solid <?php echo $company['colorTheme']; ?>;
+        }
+    </style>
+    <script src = "<?php echo base_url(); ?>assets/js/index.js"></script>
 </head>
 
 <body>
-
 <div id = "button">
 	<button id = "login">LOGIN</button>
     <br />
@@ -30,7 +33,6 @@
         </div>
     </div>
 </div>
-
 <!-- MODAL LOGIN -->
 <div id = "modal-login">
     <div class = "modal-log-cont">
@@ -69,7 +71,7 @@
                         'class' => 'form-control',
                         'name' => 'username',
                         'id' => 'uid',
-                        'placeholder' => 'Enter here',
+                        'placeholder' => 'Enter here'
                     );
                     ?>
                     <?php echo form_input($data)?>
@@ -92,24 +94,23 @@
             <div class="submit-b">
                 <?php
                 $data = array(
-                    'class' =>'col-xs-6 col-lg-3',
+                    'class' =>'col-xs-6 col-lg-3 btnSubmit',
                     'name' =>'submit',
                     'id' => 'l-submit',
                     'value' => 'Login'
                 );
                 ?>
                 <?php echo form_submit($data)?>
-                <button id = "close" class=" col-xs-6 col-xs-offset-6 col-lg-3 col-lg-offset-3">Close</button>
+                <?php
+                    echo form_close();
+                ?>
+                <button id = "close" class="col-xs-6 col-xs-offset-6 col-lg-3 col-lg-offset-3">Close</button>
             </div>
-            <?php
-                echo form_close();
-            ?>
         </div>
     </div>
 </div>
-
 </body>
-<script src = "<?php echo base_url(); ?>assets/js/index.js"></script>
+
 <script>
 $('#uid').mask("99-999-999");
 </script>

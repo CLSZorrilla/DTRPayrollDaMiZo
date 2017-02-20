@@ -19,6 +19,7 @@
 <script src="http://[::1]/payroll/assets/js/jquery.maskedinput.min.js"></script>
 <script src="http://[::1]/payroll/assets/js/jquery.alerts.js"></script>
 <script src="http://[::1]/payroll/assets/js/fullcalendar.min.js"></script></head>
+
 <div>
 	<div>
 		<nav class="navbar navbar-default navbar-fixed-top">
