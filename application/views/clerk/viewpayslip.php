@@ -9,22 +9,7 @@
 
 <?php 
 
-$tBasicpay=0; $tPera=0; $tGrosspay=0; $tPhilhealth=0; $tPagibig=0; $tGSIS=0;
-$tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
-
   foreach($uinfo as $info){
-     $tBasicpay+=$info->basicpay;
-     $tPera+=$info->pera;
-     $tGrosspay+=$info->grosspay; 
-     $tPhilhealth+=$info->philhealth; 
-     $tPagibig+=$info->pagibig; 
-     $tGSIS+=$info->gsis;
-     $tTax+=$info->tax; 
-     $tAbsences+=$info->absences; 
-     $tHoursWorked+=$info->hoursWorked; 
-     $tNetpay+=$info->netpay;
-    }
-      
     echo "
           <br/>
           <div class='row'>
@@ -32,13 +17,13 @@ $tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
                 <span><b>NAME:</b></span>
             </div>
             <div class='col-xs-3 col-sm-3 col-md-3 col-lg-3'>
-                <span>".$uinfo[0]->name."</span>
+                <span>".$info->name."</span>
             </div>
             <div class='col-xs-3 col-sm-3 col-md-3 col-lg-3'>
                 <span><b>POSITION:</b></span>
             </div>
             <div class='col-xs-3 col-sm-3 col-md-3 col-lg-3'>
-                <span>".$uinfo[0]->positionName."</span>
+                <span>".$info->positionName."</span>
             </div>
             <br/>
         
@@ -49,16 +34,16 @@ $tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
                     <table class='table table-striped'>
                         <tbody>
                             <tr>
-                                <td>MONTHLY SALARY</td>
-                                <td>".$tBasicpay."</td>
+                                <td>BASIC PAY</td>
+                                <td>".$info->tbasicpay."</td>
                             </tr>
                             <tr>
                                 <td>PERA</td>
-                                <td>".$tPera."</td>
+                                <td>".$info->tpera."</td>
                             </tr>
                             <tr>
                                 <td><b>GROSS EARNINGS</b></td>
-                                <td>".$tGrosspay."</td>
+                                <td>".$info->tgrosspay."</td>
                             </tr>                               
                         </tbody>
                     </table>
@@ -75,29 +60,44 @@ $tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
                         <tbody>
                             <tr>
                                 <td>PHILHEALTH</td>
-                                <td>".$tPhilhealth."</td>
+                                <td>".$info->tphilhealth."</td>
                             </tr>
                             <tr>
                                 <td>PAGIBIG FUND</td>
-                                <td>".$tPagibig."</td>
+                                <td>".$info->tpagibig."</td>
                             </tr>
                             <tr>
                                 <td>GSIS INTEG.</td>
-                                <td>".$tGSIS."</td>
+                                <td>".$info->tgsis."</td>
                             </tr>
                             <tr>
                                 <td>WT</td>
-                                <td>".$tTax."</td>
+                                <td>".$info->ttax."</td>
                             </tr>
                             
                             <tr>
                                 <td>Absences:</td>
-                                <td>".$tAbsences."</td>
+                                <td>".$info->tabsences."</td>
                             </tr>
                             
                             <tr>
                                 <td>Hours Worked</td>
-                                <td>".$tHoursWorked."</td>
+                                <td>".$info->thoursWorked."</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>Number of Late</td>
+                                <td>".$info->tnumOfLate."</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>VL</td>
+                                <td>".$info->tVL."</td>
+                            </tr>
+                            
+                            <tr>
+                                <td>SL</td>
+                                <td>".$info->tSL."</td>
                             </tr>
                             
                         </tbody>
@@ -108,14 +108,25 @@ $tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
                     <h3>TOTAL NETPAY:</h3>
                 </div>
                 <div class='col-xs-6 col-sm-6 col-md-6 col-lg-6'>
-                    <h3>".$tNetpay."</h3>
+                    <h3>".$info->tnetpay."</h3>
                     
                 </div>
             </div>
         </div>          
-   ";
-?>          
+  ";
+}
 
+  
+  foreach($loaninfo as $info2){
+	echo "
+           <tr>
+              <td>".$info2->deductionName."</td><br/>
+              <td>".$info2->total."</td><br/>
+              <br/>
+              ";
+          }
+?> 
+    
         <button class="btn btn-primary pull-right" id="printpage">PRINT</button>
         <button class="btn btn-primary pull-right" id="savePayslip">SAVE</button>
     </div>
@@ -129,41 +140,50 @@ $tTax=0; $tAbsences=0; $tHoursWorked=0; $tNetpay=0;
 <script type="text/javascript">
     $(document).ready(function () {
         $('.MaintenanceTable').DataTable({
-        "pageLength": 10,
-        "pagingType": "full",
-        "bFilter": true,
-        "bLengthChange": false,
-        "ordering": true,
-        "aaSorting": [[0, 'desc']],
-        responsive: true
-        });
-
-        $('#savePayslip').click(function(){
-            var basicpay = <?php echo $tBasicpay; ?>;
-            var pera = <?php echo $tPera; ?>;
-            var grosspay = <?php echo $tGrosspay; ?>;
-            var philhealth = <?php echo $tPhilhealth; ?>;
-            var pagibig = <?php echo $tPagibig; ?>;
-            var gsis = <?php echo $tGSIS; ?>;
-            var tax = <?php echo $tTax; ?>;
-            var absences = <?php echo $tAbsences; ?>;
-            var hoursWorked = <?php echo $tHoursWorked; ?>;
-            var netpay = <?php echo $tNetpay; ?>;
+            "pageLength": 10,
+            "pagingType": "full",
+            "bFilter": true,
+            "bLengthChange": false,
+            "ordering": true,
+            "aaSorting": [[0, 'desc']],
+            responsive: true
+        });  
+    });  
+    $('#savePayslip').click(function(e){
+            var basicpay = <?php echo $info->tbasicpay; ?>;
+            var pera = <?php echo $info->tpera; ?>;
+            var grosspay = <?php echo $info->tgrosspay; ?>;
+            var philhealth = <?php echo $info->tphilhealth; ?>;
+            var pagibig = <?php echo $info->tpagibig; ?>;
+            var gsis = <?php echo $info->tgsis; ?>;
+            var tax = <?php echo $info->ttax; ?>;
+            var netpay = <?php echo $info->tnetpay; ?>;
+            var absences = <?php echo $info->tabsences; ?>;
+            var daysWorked = <?php echo $info->tdaysWorked;?>;
+            var hoursWorked = <?php echo $info->thoursWorked; ?>;
+            var numOfLate = <?php echo $info->tnumOfLate; ?>;
+            var VL = <?php echo $info->tVL; ?>;
+            var SL = <?php echo $info->tSL; ?>;
             
+            alert(netpay);
             $.ajax
             ({
                 type: "POST",
-                url:"<?php echo base_url(); ?>" + "Clerk/savePayslip",
-                data:{basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,absences,hoursWorked,netpay},
+                url:"<?php echo base_url(); ?>Clerk/savePayslip",
+                data:{basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL},
                 cache: false,
                 success: function(r){
-                    window.close();
+                    if(r == 'Success'){
+                        swal("Good job!", "Successfully saved to database. Saving a copy", "success")
+                      }
+                      else if(r == 'Fail'){
+                         swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");
+                      }
                 },
-                error: function(r){
-                    alert("Fail");
+                error:function(r){
+                  swal("Notice:","System Error Contact Administrator", "error");
                 }
             });
-        }
-    });       
+        });       
 </script>
 </html>

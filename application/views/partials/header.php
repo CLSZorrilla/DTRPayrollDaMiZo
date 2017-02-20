@@ -26,3 +26,4 @@
 <script src="<?php echo base_url();?>assets/js/buttons.html5.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/buttons.print.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/sweetalert.min.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.table2excel.js"></script>

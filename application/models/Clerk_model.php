@@ -18,6 +18,64 @@ class Clerk_model extends CI_Model{
 		return $query->result();
 	}
 
+	public function get_emp_pSheet($eid){
+		
+		$_date = date('YM');
+		
+		$this->db->select('employee.empID, positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, paysheet.empID, SUM(paysheet.basicpay) AS tbasicpay, SUM(paysheet.pera) AS tpera, SUM(paysheet.grosspay) AS tgrosspay, SUM(paysheet.philhealth) AS tphilhealth, SUM(paysheet.pagibig) AS tpagibig, SUM(paysheet.gsis) AS tgsis, SUM(paysheet.tax) AS ttax, SUM(paysheet.netpay) AS tnetpay, SUM(paysheet.absences) AS tabsences, SUM(paysheet.daysWorked) AS tdaysWorked, SUM(paysheet.hoursWorked) AS thoursWorked, SUM(paysheet.numOfLate) AS tnumOfLate, SUM(paysheet.VL) AS tVL, SUM(paysheet.SL) AS tSL');
+		$this->db->from('employee');
+		$this->db->where('employee.empID' , $eid);
+		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
+		$this->db->join('paysheet', 'employee.empID=paysheet.empID');
+		$this->db->like('paysheet.paysheetPeriod' , $_date);
+		$this->db->group_by('paysheet.empID', 'name', 'position'); 
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	public function get_emp_pSheetLoan($eid){
+		
+		$_date = date('YM');
+		
+		$this->db->select('paysheetLoan.deductionName, SUM(paysheetLoan.amount) AS total');
+		$this->db->from('paysheetLoan');
+		$this->db->where('paysheetLoan.empID' , $eid);
+		$this->db->like('paysheetLoan.paysheetPeriod' , $_date);
+		$this->db->group_by('paysheetLoan.deductionName'); 
+		
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+	
+	public function save_payslip($eid){
+		
+		$data = array(
+			'empID' => $eid,
+			'basicpay' => $this->input->post('basicpay', TRUE),
+			'pera' => $this->input->post('pera', TRUE),
+			'grosspay' => $this->input->post('grosspay', TRUE),
+			'philhealth' => $this->input->post('philhealth', TRUE),
+			'pagibig' => $this->input->post('pagibig', TRUE),
+			'gsis' => $this->input->post('gsis', TRUE),
+			'tax' => $this->input->post('tax', TRUE),
+			'netpay' => $this->input->post('netpay', TRUE),
+			'absences' => $this->input->post('absences', TRUE),
+			'hoursWorked' => $this->input->post('hoursWorked', TRUE)
+			);
+		
+		$insert_data = $this->db->insert('payslip', $data);
+		print_r($insert_data);
+
+		return $insert_data;
+	}
+
+
+
+
+
+
 	public function get_payroll_info($eid){
 		$this->db->select('employee.empID,employee.acctType ,positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.maritalStatus, employee.noOfDependents , salarygrade.step_1, employee.pera', FALSE);
 		$this->db->from('employee');
@@ -430,41 +488,7 @@ class Clerk_model extends CI_Model{
 		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
 	}
 
-	public function get_emp_pSheet($eid){
-		$this->db->select('employee.empID, positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, paysheet.empID, paysheet.basicpay, paysheet.pera, paysheet.grosspay, paysheet.philhealth, paysheet.pagibig, paysheet.gsis, paysheet.tax, paysheet.netpay,
-		paysheet.absences, paysheet.hoursWorked');
-		$this->db->from('employee');
-		$this->db->where('employee.empID' , $eid);
-		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
-		$this->db->join('paysheet', 'employee.empID=paysheet.empID');
-
-		$query = $this->db->get();
-		return $query->result();
-	}
-
-	public function save_payslip($eid){
-		
-		$data = array(
-			'empID' => $eid,
-			'basicpay' => $this->input->post('basicpay', TRUE),
-			'pera' => $this->input->post('pera', TRUE),
-			'grosspay' => $this->input->post('grosspay', TRUE),
-			'philhealth' => $this->input->post('philhealth', TRUE),
-			'pagibig' => $this->input->post('pagibig', TRUE),
-			'gsis' => $this->input->post('gsis', TRUE),
-			'tax' => $this->input->post('tax', TRUE),
-			'netpay' => $this->input->post('netpay', TRUE),
-			'absences' => $this->input->post('absences', TRUE),
-			'hoursWorked' => $this->input->post('hoursWorked', TRUE)
-			);
-		
-		$insert_data = $this->db->insert('payslip', $data);
-		print_r($insert_data);
-
-		return $insert_data;
-	}
-
-
+	
 	public function get_payrollsheet(){
 		$emp = $this->db->query('SELECT empID from employee');
 

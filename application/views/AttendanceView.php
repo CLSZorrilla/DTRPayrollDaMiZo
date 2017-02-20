@@ -1,6 +1,6 @@
   <?php
     foreach($result as $res){
-      echo "<input type='hidden' id='calendarData' value='".$res."' />";
+      echo "<input type='text' id='calendarData' value='".$res."' />";
     }
   ?>
 	<div class="BodyContainer">
@@ -21,6 +21,8 @@
 <script>
   $(document).ready(function(){
   var cData = $('#calendarData').val();
+
+  alert(cData);
 
   $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
 
