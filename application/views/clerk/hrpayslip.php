@@ -1,7 +1,20 @@
-  <?php
-    $base_url = base_url();
-  ?>
-
+<?php
+  $base_url = base_url();
+?>
+<?php include "/../partials/nav_customize.php";?>
+<style type="text/css">
+  .btnPayroll{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  .btnPayroll:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
   <div class="BodyContainer">
     <div class="BodyContent">
       <ol class="breadcrumb">
@@ -10,8 +23,8 @@
         <li class="active">Payslip</li>
       </ol>
       <div class="row" id="Title">
-      <h4>PAYSLIP</h4>
-      <hr />
+        <h4 style="color: <?php echo $company['colorTheme']; ?>;"><b>PAYSLIP</b></h4>
+        <hr />
       </div>
 
       <div class="table-responsive">
@@ -39,7 +52,7 @@
                         <td>".$info->name."</td>
                         <td>";
                         if($info->generated == 2){ ?> 
-                        <a href="<?php echo base_url(); ?>Clerk/empPayslip/<?php echo $info->empID; ?>" id='payroll' class='btn btn-primary'>Process Payroll</a>
+                        <a href="<?php echo base_url(); ?>Clerk/empPayslip/<?php echo $info->empID; ?>" id='payroll' class='btn btnPayroll'>Process Payroll</a>
                         <?php } else {
                            echo "Not ready for processing";
                          }

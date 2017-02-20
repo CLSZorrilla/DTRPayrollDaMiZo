@@ -26,18 +26,6 @@ body {
 
 /* AYOS ANG FORMAT! */
 
-.btnPayroll{
-	background-color:white;
-	border: 2px solid #337ab7;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
-}
-
-.btnPayroll:hover{
-    background-color: #337ab7;
-    color: white;
-}
-
 .PayslipCompany {
 	margin:0px auto;
 }
@@ -66,9 +54,66 @@ body {
 	margin-right:6px;
 }
 
+.navbar-fixed-bottom .navbar-collapse, .navbar-fixed-top .navbar-collapse {
+	max-height: none;
+	overflow:hidden;
+}
+
+@media only screen and (max-width: 1352px) {
+    .navbar-header {
+        float: none;
+    }
+    .navbar-left,.navbar-right {
+        float: none !important;
+    }
+    .navbar-toggle {
+        display: block;
+    }
+    .navbar-collapse {
+        border-top: 1px solid transparent;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .navbar-fixed-top {
+        top: 0;
+        border-width: 0 0 1px;
+    }
+    .navbar-collapse.collapse {
+        display: none!important;
+    }
+    .navbar-nav {
+        float: none!important;
+        margin-top: 7.5px;
+    }
+    .navbar-nav>li {
+        float: none;
+    }
+    .navbar-nav>li>a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .collapse.in{
+        display:block !important;
+    }
+   .navbar-nav .open .dropdown-menu {
+       position: static;
+       float: none;
+       width: auto;
+       margin-top: 0;
+       background-color: transparent;
+       border: 0;
+       -webkit-box-shadow: none;
+       box-shadow: none;
+    }
+}
+
 /* Pang Usog dahil sa Menu Bar */
 div.NavGap{
     height:122px;
+}
+@media only screen and (max-width: 425px) {
+	div.NavGap{
+    	height:106px;
+	}
 }
 div.NavNewGap{
     height:52px;
@@ -164,7 +209,7 @@ div.TitleBar p{
 		font-size:12px;
 	}
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 425px) {
 	div.TitleBar p{
 		font-size:8px;
 	}
@@ -197,13 +242,12 @@ i.circle {
     -webkit-box-shadow: 0px 0px 2px #888;
     box-shadow: 0px 0px 2px #888;
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 425px) {
 	div.LogoName{
 		padding-left:9px;
 	}
 }
 div.MenuBar {
-	Background-color:#337ab7;
 	border-top:1px solid white;
 	border-bottom:1px solid white;
 }
@@ -224,7 +268,7 @@ div.MenuBar li {
 	margin:0px auto;
 	border-right:2px solid white;
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 425px) {
 	div.MenuBar li {
 		padding:15px 10px;
 		font-size: 9px;
@@ -273,9 +317,10 @@ div.BodyContent {
 	    margin:0px 60px;
 	}
 }
-@media only screen and (max-width: 480px) {
+@media only screen and (max-width: 425px) {
 	div.BodyContent {
 	    margin:0px 10px;
+	    padding: 5px 15px 35px;
 	}
 }
 div.BodyContent panel {
@@ -296,23 +341,56 @@ div.Footer p {
 .panel-title {
 	color:#337ab7;
 }
+div#WelcomePanel {
+    background: url(../images/bg-home.jpg);
+    background-color: #666666;
+	background-blend-mode:multiply;
+    background-size: cover;
+}
 div#WelcomePanel h3 {
 	margin:10px 0px;
-	color:#337ab7;
+	text-align:center;
+	color:white;
 }
 
 div.Pills {
 	margin-bottom:20px;
 }
 
-table#HolidayTable tbody {
-    display: block;
-	overflow: auto;
-	height: 100px;
+table#HolidayTable {
+    width: 100%;
+    border-spacing: 0;
 }
-
-table#HolidayTable thead {
+@media only screen and (max-width: 425px) {
+	table#HolidayTable {
+		font-size: 8px;
+	}
+}
+table#HolidayTable th, table#HolidayTable tr, table#HolidayTable thead, table#HolidayTable tbody {
+	display: block;
+}
+table#HolidayTable thead tr {
+    /* fallback */
+    width: 100%;
+    /* minus scroll bar width */
+    width: -webkit-calc(100% - 12px);
+    width: -moz-calc(100% - 12px);
+    width: calc(100% - 12px);
+}
+table#HolidayTable tr:after {
+    content: ' ';
     display: block;
+    visibility: hidden;
+    clear: both;
+}
+table#HolidayTable tbody {
+	height: 178px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+table#HolidayTable tbody td, table#HolidayTable thead th {
+    width: 33.33%;
+    float: left;
 }
 
 #AttendanceStat tr td {

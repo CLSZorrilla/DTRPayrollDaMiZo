@@ -1,3 +1,4 @@
+  <!-- <?php include "partials/nav_customize.php"; ?> -->
   <?php
     foreach($result as $res){
       echo "<input type='text' id='calendarData' value='".$res."' />";
@@ -10,7 +11,7 @@
         <li class="active">Attendance</li>
       </ol>
 			<div class="row" id="Title">
-				<h4>ATTENDANCE</h4>
+				<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>ATTENDANCE</b></h4>
 				<hr>
       </div>
 
@@ -22,7 +23,7 @@
   $(document).ready(function(){
   var cData = $('#calendarData').val();
 
-  alert(cData);
+  // alert(cData);
 
   $.getScript('<?php echo base_url();?>assets/js/fullcalendar.min.js',function(){
 

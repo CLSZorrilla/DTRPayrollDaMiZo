@@ -19,12 +19,12 @@
 </style>
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="TitleBar row" style="border-bottom:2px solid <?php echo $company['colorTheme']; ?>;">
-		<div class="navbar-header" style="padding:0px 15px;">
+		<div class="navbar-header NavbarHeader" style="padding:0px 15px;">
 			<a class="navbar-brand navbar-link" href="<?php echo base_url(); ?>main/home_view">
 				<img src="<?php echo $company['logo']; ?>" height="100" width="100" alt="Logo" />
 				<p><?php echo strtoupper($company['name']); ?></p></a>
 			</a>
-            <button id="" type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#myNavbar">
+            <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target="#myNavbar">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -43,7 +43,7 @@
 					<li>
 						<a class="btnMenu" href="<?php echo base_url(); ?>attendance/index">
 							<button class="btn">
-								<span class="glyphicon glyphicon-time"></span> Attendance
+								<span class="glyphicon glyphicon-list-alt"></span> Attendance
 							</button>
 						</a>
 					</li>
@@ -58,21 +58,7 @@
 					<li>
 						<a class="btnMenu" href="<?php echo base_url(); ?>Clerk/viewpayslip">
 							<button class="btn">
-								<span class="glyphicon glyphicon-calendar"></span> Payslip
-							</button>
-						</a>
-					</li>
-					<li>
-						<a class="btnMenu" href="<?php echo base_url(); ?>leave">
-							<button class="btn">
-								<span class="glyphicon glyphicon-minus-sign"></span> Leave
-							</button>
-						</a>
-					</li>
-					<li>
-						<a class="btnMenu" href="<?php echo base_url(); ?>Deduction/dMgmt">
-							<button class="btn">
-								<span class="glyphicon glyphicon-minus-sign"></span> Deduction
+								<span class="glyphicon glyphicon-piggy-bank"></span> Payslip
 							</button>
 						</a>
 					</li>
@@ -88,7 +74,21 @@
 					<li>
 						<a class="btnMenu" href="<?php echo base_url(); ?>main/customize">
 							<button class="btn">
-								<span class="glyphicon glyphicon-wrench"></span> Customize
+								<span class="glyphicon glyphicon-cog"></span> Customize
+							</button>
+						</a>
+					</li>
+					<li>
+						<a class="btnMenu" href="<?php echo base_url(); ?>leave">
+							<button class="btn">
+								<span class="glyphicon glyphicon-remove"></span> Leave
+							</button>
+						</a>
+					</li>
+					<li>
+						<a class="btnMenu" href="<?php echo base_url(); ?>Deduction/dMgmt">
+							<button class="btn">
+								<span class="glyphicon glyphicon-minus-sign"></span> Deduction
 							</button>
 						</a>
 					</li>

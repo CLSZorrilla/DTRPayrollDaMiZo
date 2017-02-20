@@ -47,7 +47,7 @@
 					}
 				}
 				else if(isSet($leaveReq)){
-					if($this->session->userdata('aType') == 'Payroll Clerk'){
+					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($leaveReq);
 					}
 					else{
@@ -71,7 +71,7 @@
 					}
 				}
 				else if(isSet($dMgmt)){
-					if($this->session->userdata('aType') == 'Payroll Clerk'){
+					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($dMgmt);
 					}
 					else{

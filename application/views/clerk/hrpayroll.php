@@ -1,3 +1,17 @@
+<?php include "/../partials/nav_customize.php";?>
+<style type="text/css">
+  button#genPaySheet{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  button#genPaySheet:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
   <div class="BodyContainer">
     <div class="BodyContent">
       <ol class="breadcrumb">
@@ -5,14 +19,20 @@
         <li><a href="#">Payroll</a></li>
         <li class="active">Payroll Sheet</li>
       </ol>
+
       <div class="row" id="Title">
-      <h4>PAYROLL SHEET</h4>
+      <h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>PAYROLL SHEET</b></h4>
       <hr />
       </div>
+
+      <div class="row" style="margin-bottom: 5px;">
       <b>From</b>
-      <input type="date" id="periodDateS" /> <b>to</b>
-      <input type="date" id="periodDateE" />
-      <button class="btn btn-primary" id="genPaySheet" >Generate</button>
+      <input class="form-control" type="date" id="periodDateS" style="display: inline-block; width:262px;" />
+       <b>to</b>
+      <input class="form-control" type="date" id="periodDateE" style="display: inline-block; width:262px;" />
+      <button class="btn pull-right" id="genPaySheet" >Generate</button>
+      </div>
+      
       <div class="table-responsive" id="tableDiv">
         <table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'>
         <thead>
@@ -40,6 +60,7 @@
         </tbody>
       </table>
       </div>
+
     </div>
   </div>
   <div id="hideMyPower" style="display: none;">
@@ -53,7 +74,7 @@
       $('.MaintenanceTable').DataTable({
         "pageLength": 10,
         "pagingType": "full",
-        "bFilter": true,
+        "bFilter": false,
         "bLengthChange": false,
         "ordering": true,
         "aaSorting": [[0, 'desc']],
@@ -107,7 +128,7 @@
             $('.MaintenanceTable').DataTable({
               "pageLength": 10,
               "pagingType": "full",
-              "bFilter": true,
+              "bFilter": false,
               "bLengthChange": false,
               "ordering": true,
               "aaSorting": [[0, 'desc']],

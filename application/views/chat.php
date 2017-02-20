@@ -2,7 +2,8 @@
 // defined('BASEPATH') OR exit('No direct script access allowed');
 ?> -->
 
-<!-- http://bootsnipp.com/snippets/4jXW -->
+<?php include "partials/nav_customize.php"; ?>
+
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/chat.css" />
 
 <script type="text/javascript">	  
@@ -164,14 +165,15 @@
 			<li class="active"><a href="#">Messaging</a></li>
 		</ol>
 		<div class="row" id="Title">
-			<h4>MESSAGING</h4>
+			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>MESSAGING</b></h4>
 			<hr />
 		</div>
 		
 
 		<div class="panel panel-default" style="margin:0px 15px;">
-			<div class="panel-heading">
-				<span class="glyphicon glyphicon-comment"></span> Chat
+			<div class="panel-heading" style="color:<?php echo $company['colorTheme']; ?>;">
+				<span class="glyphicon glyphicon-comment"></span>
+				<b> Chat</b>
 			</div>
 			<div class="panel-body" style="padding:10px;">
 				<ul class="chat" id="received">

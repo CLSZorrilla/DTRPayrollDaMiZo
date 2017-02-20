@@ -1,7 +1,17 @@
-	<?php
-		$base_url = base_url();
-	?>
+<?php include "/../partials/nav_customize.php"; ?>
+<?php
+	$base_url = base_url();
+?>
 
+<style type="text/css">
+	table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+		background-color: <?php echo $company['colorTheme']; ?>;
+	}
+	table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+		background-color:black;
+		color: white;
+	}
+</style>
 	<div class="BodyContainer">
 		<div class="BodyContent">
 			<ol class="breadcrumb">
@@ -10,13 +20,13 @@
 				<li class="active">Manage Users</li>
 			</ol>
       		<div class="row">
-				<h4>MANAGE USERS</h4>
+				<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>MANAGE USERS</b></h4>
 				<hr />
 			</div>
 			<div class="table-responsive">
 				<div class="col-sm-6 CreateNew">
 					<p class="pull-left" style="margin: 0px;">
-						<a href="<?php echo base_url(); ?>employee/createUserAcct">Create User <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+						<a href="<?php echo base_url(); ?>employee/createUserAcct" style="color:<?php echo $company['colorTheme']; ?>;">Create User <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
 					</p>
 				</div>
 					<table class="table table-striped MaintenanceTable">

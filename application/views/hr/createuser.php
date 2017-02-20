@@ -1,4 +1,6 @@
 <?php
+	include "/../partials/nav_customize.php";
+
 	$attributes=array('id'=>'create_user_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-5');
 	$labels=array('Employee ID:','Profile Picture:','Password:','Confirm Password:','Position:','Department:','First Name:','Last Name:', 'Middle Name:','User Type:','Email Address:','Address:', 'Marital Status:', 'Dependents', 'Birthday:', 'Contact No.:', 'Sex:', 'Employee Type:' ,'Date Hired:','GSISNo:', 'PhilHealthNo:', 'TIN:', 'Vacation Leave:', 'Sick Leave');
@@ -8,6 +10,19 @@
 		$EForm=array($empID,'', $password, $password,$posName, $deptCode, $fname, $lName, $mname, $uType, $emailAddress, $address, $maritalStatus,$dependents ,$birthDate, $contactNo, $sex, $status, $dateHired, $GSISNo, $PhilHealthNo, $TIN, $vLeave, $sLeave);
 	}
 ?>
+<style type="text/css">
+  input.btnEnter{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  input.btnEnter:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
 
 <div class="BodyContainer">
 	<div class="BodyContent">
@@ -17,16 +32,16 @@
 			<li class="active"><a href="<?php echo base_url(); ?>employee/manageUserAcct">Manage User</a></li>
 		</ol>
 		<div class="row Title">
-			<h4>MANAGE USER</h4>
+			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>MANAGE USER</b></h4>
 			<hr />
 		</div>
 		
 		<div class="panel panel-default" style="margin:0px 15px;">
-		<div class="panel-heading">
+		<div class="panel-heading" style="color:<?php echo $company['colorTheme']; ?>;">
 			<?php if(!empty($id)):?>
-				Edit User
+				<span class="glyphicon glyphicon-refresh"></span><b> Edit User</b>
 			<?php  else:?>
-				Create User
+				<span class="glyphicon glyphicon-plus-sign"></span><b> Create User</b>
 			<?php endif; ?>
 		</div>
 		<?php if(!empty($id)): ?>
@@ -261,7 +276,7 @@
 						'style' => 'width:100px;margin:5px;'
 						));
 					echo form_submit(array(
-						'class' =>'btn btn-primary pull-right',
+						'class' =>'btn btnEnter pull-right',
 						'name' =>'submit',
 						'value' => 'Update',
 						'id' => 'submit',
@@ -276,7 +291,7 @@
 						'style' => 'width:100px;margin:5px;'
 						));
 					echo form_submit(array(
-						'class' =>'btn btn-primary pull-right',
+						'class' =>'btn btnEnter pull-right',
 						'name' =>'submit',
 						'value' => 'Register',
 						'id' => 'submit',
