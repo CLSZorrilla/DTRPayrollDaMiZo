@@ -175,27 +175,27 @@ namespace FaceRecognition
         private void Register_Load(object sender, EventArgs e)
         {
             button1_Click(sender, e);
-            //searchCompany();
-            //panel1.BackColor = ColorTranslator.FromHtml(theme);
-            //company_name.Text = abbre + " Daily Employee Time In/Out";
+            searchCompany();
+            panel1.BackColor = ColorTranslator.FromHtml(theme);
+            company_name.Text = abbre + " Daily Employee Time In/Out";
         }
 
-        //private void searchCompany()
-        //{
-        //    db_connection();
-        //    cmd = new MySqlCommand("SELECT * FROM company_profile WHERE id=1", connect);
-        //    dataReader = cmd.ExecuteReader();
-        //    if (dataReader.Read())
-        //    {
-        //        abbre = (dataReader["abbre"]).ToString();
-        //        theme = (dataReader["colorTheme"]).ToString();
-        //        picLogo.ImageLocation = dataReader["logo"].ToString();
-        //    }
-        //}
+        private void searchCompany()
+        {
+            connect();
+            cmd = new MySqlCommand("SELECT * FROM company_profile WHERE id=1", con);
+            dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                abbre = (dr["abbre"]).ToString();
+                theme = (dr["colorTheme"]).ToString();
+                picLogo.ImageLocation = dr["logo"].ToString();
+            }
+        }
 
         private void btnFaceAdd_Click(object sender, EventArgs e)
         {
-            if ((txtname.Text == "NO INFORMATION"))
+            if (txtname.Text == "NO INFORMATION" || maskedTextBox1.Text.Length < 10)
             {
                 MessageBox.Show("Complete the details !", "Missing value error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
