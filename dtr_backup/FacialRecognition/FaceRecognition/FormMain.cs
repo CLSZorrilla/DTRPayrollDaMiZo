@@ -559,7 +559,7 @@ namespace FaceRecognition
         private void btnRegisterFace_Click(object sender, EventArgs e)
         {
             this.Hide();
-            FaceRegister d = new FaceRegister();
+            Register d = new Register();
             d.Show();
             d.Focus();
         }

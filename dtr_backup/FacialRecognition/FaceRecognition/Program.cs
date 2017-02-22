@@ -15,10 +15,10 @@ namespace FaceRecognition
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new FaceRegister());
-            //Application.Run(new FormMain());
+            //Application.Run(new Register());
+            Application.Run(new FormMain());
             
-            Application.Run(new RegisterFace());
+            //Application.Run(new RegisterFace());
         }
 
     }
