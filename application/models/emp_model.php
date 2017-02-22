@@ -147,7 +147,7 @@ class Emp_model extends CI_Model{
 
 		$uid = "";
 		$uid .=$result->row(6)->lname;
-		$uid .=" ";
+		$uid .=", ";
 		$uid .=$result->row(7)->fname;
 		$aType = $result->row(3)->acctType;
 		

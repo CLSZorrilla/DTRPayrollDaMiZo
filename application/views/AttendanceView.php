@@ -1,7 +1,7 @@
-  <!-- <?php include "partials/nav_customize.php"; ?> -->
   <?php
+    include "partials/nav_customize.php";
     foreach($result as $res){
-      echo "<input type='text' id='calendarData' value='".$res."' />";
+      echo "<input type='hidden' id='calendarData' value='".$res."' />";
     }
   ?>
 	<div class="BodyContainer">

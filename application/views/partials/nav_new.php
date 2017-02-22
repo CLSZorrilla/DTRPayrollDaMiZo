@@ -65,16 +65,16 @@
 				<?php } ?>
 				<?php if($this->session->userdata('aType') == 'HR'){?>
 					<li>
-						<a class="btnMenu" href="<?php echo base_url(); ?>employee/manageUserAcct">
+						<a class="btnMenu" href="<?php echo base_url(); ?>Remittance">
 							<button class="btn">
-								<span class="glyphicon glyphicon-wrench"></span> Maintenance
+								<span class="glyphicon glyphicon-list"></span> Remittance
 							</button>
 						</a>
 					</li>
 					<li>
-						<a class="btnMenu" href="<?php echo base_url(); ?>main/customize">
+						<a class="btnMenu" href="<?php echo base_url(); ?>employee/manageUserAcct">
 							<button class="btn">
-								<span class="glyphicon glyphicon-cog"></span> Customize
+								<span class="glyphicon glyphicon-wrench"></span> Maintenance
 							</button>
 						</a>
 					</li>
@@ -100,6 +100,16 @@
 							</button>
 						</a>
 					</li>
+
+				<?php if($this->session->userdata('aType') == 'HR'){?>
+					<li>
+						<a class="btnMenu" href="<?php echo base_url(); ?>main/customize">
+							<button class="btn">
+								<span class="glyphicon glyphicon-cog"></span> Customize
+							</button>
+						</a>
+					</li>
+				<?php } ?>
 					<li>
 						<a class="btnMenu" href="<?php echo base_url(); ?>main/logout">
 							<button class="btn">

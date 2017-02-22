@@ -12,12 +12,12 @@
 	$sql = "SELECT * FROM company_profile WHERE id = 1";
 
 	//execute
-	$result = mysqli_query($conn, $sql);
+	$execResult = mysqli_query($conn, $sql);
 	
 	
 	//prepare the record/result set
 	$company = array();
-	if( $myrow=mysqli_fetch_array($result) ){
+	if( $myrow=mysqli_fetch_array($execResult) ){
 			$info= array();
 			$info['name'] = $myrow['name'];
 			$info['colorTheme'] = $myrow['colorTheme'];

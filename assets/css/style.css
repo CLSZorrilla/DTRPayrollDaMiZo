@@ -59,7 +59,7 @@ body {
 	overflow:hidden;
 }
 
-@media only screen and (max-width: 1352px) {
+@media only screen and (max-width: 1491px) {
     .navbar-header {
         float: none;
     }

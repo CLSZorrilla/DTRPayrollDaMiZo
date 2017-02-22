@@ -1,4 +1,5 @@
 <?php include "/../partials/nav_customize.php";?>
+
 <style type="text/css">
   button#genPaySheet{
     background-color:white;
@@ -10,8 +11,19 @@
   button#genPaySheet:hover{
       background-color: <?php echo $company['colorTheme']; ?>;
       color: white;
+      /*-webkit-text-fill-color: black;
+      -webkit-text-stroke-width: .25px;
+      -webkit-text-stroke-color: white;*/
+  }
+  table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+    background-color: <?php echo $company['colorTheme']; ?>;
+  }
+  table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+    background-color:black;
+    color: white;
   }
 </style>
+
   <div class="BodyContainer">
     <div class="BodyContent">
       <ol class="breadcrumb">
@@ -30,7 +42,7 @@
       <input class="form-control" type="date" id="periodDateS" style="display: inline-block; width:262px;" />
        <b>to</b>
       <input class="form-control" type="date" id="periodDateE" style="display: inline-block; width:262px;" />
-      <button class="btn pull-right" id="genPaySheet" >Generate</button>
+      <button class="btn pull-right" id="genPaySheet" ><span class="glyphicon glyphicon-home"></span> Generate</button>
       </div>
       
       <div class="table-responsive" id="tableDiv">
