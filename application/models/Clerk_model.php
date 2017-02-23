@@ -49,32 +49,40 @@ class Clerk_model extends CI_Model{
 		return $query->result();
 	}
 	
-	public function save_payslip($eid){
-		
-		$data = array(
-			'empID' => $eid,
-			'basicpay' => $this->input->post('basicpay', TRUE),
-			'pera' => $this->input->post('pera', TRUE),
-			'grosspay' => $this->input->post('grosspay', TRUE),
-			'philhealth' => $this->input->post('philhealth', TRUE),
-			'pagibig' => $this->input->post('pagibig', TRUE),
-			'gsis' => $this->input->post('gsis', TRUE),
-			'tax' => $this->input->post('tax', TRUE),
-			'netpay' => $this->input->post('netpay', TRUE),
-			'absences' => $this->input->post('absences', TRUE),
-			'hoursWorked' => $this->input->post('hoursWorked', TRUE)
+	public function save_payslip(){
+
+		$eid = $this->input->post('eid', TRUE);
+
+		$paysheet_info = $this->get_emp_pSheet($eid);
+		$paysheet_loan = $this->get_emp_pSheetLoan($eid);
+
+		foreach($paysheet_info as $pInfo){
+			$data = array(
+				'empID' => $pInfo->empID,
+				'basicpay' => $pInfo->tbasicpay,
+				'pera' => $pInfo->tpera,
+				'grosspay' => $pInfo->tgrosspay,
+				'philhealth' =>$pInfo->tphilhealth,
+				'pagibig' => $pInfo->tpagibig,
+				'gsis' => $pInfo->tgsis,
+				'tax' => $pInfo->ttax,
+				'netpay' => $pInfo->tnetpay,
+				'absences' => $pInfo->tabsences,
+				'hoursWorked' => $pInfo->thoursWorked
 			);
+		}
 		
-		$insert_data = $this->db->insert('payslip', $data);
-		print_r($insert_data);
+		$insert_paysheet = $this->db->insert('payslip', $data);
 
-		return $insert_data;
+		$affectedRows = $this->db->affected_rows();
+
+		if($affectedRows > 0){
+			echo "Success";
+		}
+		else{
+			echo "Fail";
+		}
 	}
-
-
-
-
-
 
 	public function get_payroll_info($eid){
 		$this->db->select('employee.empID,employee.acctType ,positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.maritalStatus, employee.noOfDependents , salarygrade.step_1, employee.pera', FALSE);
@@ -333,8 +341,6 @@ class Clerk_model extends CI_Model{
 	    	}
 	    }
 
-	    //$dInMonth=cal_days_in_month(CAL_GREGORIAN,substr($sDRange,5,2),substr($sDRange,0,4));
-
 	    $datetime1 = date_create($sDRange);
 		$datetime2 = date_create($eDRange);
 		$interval = date_diff($datetime1, $datetime2);
@@ -350,7 +356,7 @@ class Clerk_model extends CI_Model{
 
 	    $updateAbsences = $this->db->query("UPDATE employee SET absences = '".$absences."' WHERE empID LIKE '".$eid."'");
 
-	    $absentQuery = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
+	    /*$absentQuery = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
 
 	    $absentDB = $absentQuery->row(0)->absences;
 
@@ -361,11 +367,11 @@ class Clerk_model extends CI_Model{
 
 		if($VL >= 1){
 			if($absentDB>$VL){
-				$VLDeduct1 = $absencesDB - substr($VL,0,1);
-				$VLDeduct2 = $absencesDB - $VLDeduct1;		
+				$VLDeduct1 = $absentDB - substr($VL,0,1);
+				$VLDeduct2 = $absentDB - $VLDeduct1;		
 			}
 			else if($absentDB<$VL){
-				$VLDeduct1 = $VL - $absencesDB;
+				$VLDeduct1 = $VL - $absentDB;
 				$VLDeduct2 = $VL - $VLDeduct1;
 			}
 			else if($absentDB = $VL){
@@ -378,17 +384,27 @@ class Clerk_model extends CI_Model{
 		
 		$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
 
-	    $absentDB2 = $absentQuery2->row(0)->absences;
+	    $absentDB2 = $absentQuery2->row(0)->absences;*/
 
-	    $absentDeduction = round(($absentDB2 * $dailyRate),2);
+	    $absentDeduction = round(($absences * $dailyRate),2);
 	    //----------------------------------------------------------------
 	    //PERA deduction
-	    $peraDailyRate = round(($pera/22),2);
-	    $peraDeduction = round(($absences * $peraDailyRate),2);
-	    $peraCurrent = $pera - $peraDeduction;
+	    if($daysWorked == 0){
+	    	$peraCurrent = 0;
+	    }
+	    else{
+	    	$peraDailyRate = round(($pera/22),2);
+	    	$peraDeduction = round(($absences * $peraDailyRate),2);
+	    	$peraCurrent = $pera - $peraDeduction;
+	    }    
 	    //----------------------------------------------------------------
-		$grossPay = ($basicPay + $pera) - (($lateDeduction) + ($absentDeduction) + ($uTimeDeduction) + ($peraDeduction));
-
+	    if($daysWorked == 0){
+	    	$grossPay = 0;
+	    }
+	    else{
+	    	$grossPay = ($basicPay + $pera) - (($lateDeduction) + ($absentDeduction) + ($uTimeDeduction) + ($peraDeduction));
+	    }
+	   
 		//----------------------------------------------------------------
 		//Philhealth
 		$pHealthResult = $this->db->query("SELECT employeeShare
@@ -402,6 +418,7 @@ class Clerk_model extends CI_Model{
 		else{
 			$pHealthContrib = 0;
 		}
+
 		$gsis = round(($grossPay * 0.09),2); //9% of Gross pay
 
 		//----------------------------------------------------------------
@@ -472,19 +489,26 @@ class Clerk_model extends CI_Model{
 		}
 
 		$totalDeductions = ($pHealthContrib + $gsis + $withholdingTax + 100 + $loanAmount);
-
-		$netPay =round(($grossPay) - ($totalDeductions),2);
-
+	
+		$netPay =round(($grossPay) - ($totalDeductions),2);	
+		
 		if($netPay<=0){
 			$netPay = 0;
 		}
 
-		$pagIbig = 100;
+		if($daysWorked == 0){
+			$pagIbig = 0;
+		}
+		else{
+			$pagIbig = 100;
+		}
+		
 
 		$leave2 = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
 
 		$VL2 = $leave2->row(0)->VL;
 		$SL2 = $leave2->row(1)->SL;
+
 		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
 	}
 
@@ -516,7 +540,7 @@ class Clerk_model extends CI_Model{
 				<td>".$info[11]."</td>
 				<td>".$info[4]."</td>
 				<td>".$info[5]."</td>
-				<td>100</td>
+				<td>".$info[13]."</td>
 				<td>".$info[6]."</td>
 				<td>".$info[7]."</td>
 				<td><table><tr>";

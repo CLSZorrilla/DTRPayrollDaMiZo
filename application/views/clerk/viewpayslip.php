@@ -150,27 +150,15 @@
         });  
     });  
     $('#savePayslip').click(function(e){
-            var basicpay = <?php echo $info->tbasicpay; ?>;
-            var pera = <?php echo $info->tpera; ?>;
-            var grosspay = <?php echo $info->tgrosspay; ?>;
-            var philhealth = <?php echo $info->tphilhealth; ?>;
-            var pagibig = <?php echo $info->tpagibig; ?>;
-            var gsis = <?php echo $info->tgsis; ?>;
-            var tax = <?php echo $info->ttax; ?>;
-            var netpay = <?php echo $info->tnetpay; ?>;
-            var absences = <?php echo $info->tabsences; ?>;
-            var daysWorked = <?php echo $info->tdaysWorked;?>;
-            var hoursWorked = <?php echo $info->thoursWorked; ?>;
-            var numOfLate = <?php echo $info->tnumOfLate; ?>;
-            var VL = <?php echo $info->tVL; ?>;
-            var SL = <?php echo $info->tSL; ?>;
+            var eid = "<?php echo $info->empID; ?>";
+
+            alert(eid);
             
-            alert(netpay);
             $.ajax
             ({
                 type: "POST",
                 url:"<?php echo base_url(); ?>Clerk/savePayslip",
-                data:{basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL},
+                data:{eid},
                 cache: false,
                 success: function(r){
                     if(r == 'Success'){

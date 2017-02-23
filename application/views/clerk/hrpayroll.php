@@ -147,7 +147,7 @@
               responsive: true,
               dom: 'Bfrtip',
               buttons: [
-                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS+"to"+periodDateE+"Payroll Sheet"}
+                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS+" to "+periodDateE+" Payroll Sheet"}
               ]
             });
           },
