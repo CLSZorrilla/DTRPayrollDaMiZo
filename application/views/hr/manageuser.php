@@ -16,7 +16,6 @@
 		<div class="BodyContent">
 			<ol class="breadcrumb">
 				<li><a href="<?php echo $base_url; ?>main/home_view">Home</a></li>
-				<li><a href="#">Maintenance</a></li>
 				<li class="active">Manage Users</li>
 			</ol>
       		<div class="row">

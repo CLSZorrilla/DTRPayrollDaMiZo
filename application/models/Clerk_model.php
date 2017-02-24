@@ -164,6 +164,7 @@ class Clerk_model extends CI_Model{
 		$dLateAMout = array();
 		$dLatePMin = array();
 		$dLatetimeOut = array();
+
 		foreach($damLateResult->result() as $daysLate){
 			array_push($dLatetimeIn,$daysLate->timeIn);
 			array_push($dLateAMout,$daysLate->amOut);
@@ -352,41 +353,67 @@ class Clerk_model extends CI_Model{
 
 	    $daysWorked = count($dLatetimeIn);
 
-	    $absences = $weekDays - $daysWorked;
-
-	    $updateAbsences = $this->db->query("UPDATE employee SET absences = '".$absences."' WHERE empID LIKE '".$eid."'");
-
-	    /*$absentQuery = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
+	    $absentQuery = $this->db->query('SELECT absences , date2 , date1 FROM employee WHERE empID LIKE "'.$eid.'"');
 
 	    $absentDB = $absentQuery->row(0)->absences;
 
-	    $leave = $this->db->query('SELECT VL, SL FROM employee WHERE empID LIKE "'.$eid.'"');
+
+	    $leave = $this->db->query('SELECT VL, SL , daysWorked FROM employee WHERE empID LIKE "'.$eid.'"');
 
 		$VL = $leave->row(0)->VL;
 		$SL = $leave->row(1)->SL;
+		$DW = $leave->row(2)->daysWorked;
 
-		if($VL >= 1){
-			if($absentDB>$VL){
-				$VLDeduct1 = $absentDB - substr($VL,0,1);
-				$VLDeduct2 = $absentDB - $VLDeduct1;		
+		$LDTS = $absentQuery->row(1)->date2;
+		$FDTS = $absentQuery->row(2)->date1;
+
+
+		if($absentDB==NULL || $absentDB=='NULL' || $absentDB==''){
+		    $absences = $weekDays - $daysWorked;
+			$this->db->query('UPDATE employee SET absences = "'.$absences.'" , daysWorked = "'.$daysWorked.'" , date1 = "'.$datetime1->format("Y-m-d").'" , date2 = "'.$datetime2->format("Y-m-d").'" WHERE empID LIKE "'.$eid.'"');
+			$absentDB = $absences;
+		}else{
+		    if($LDTS!=NULL && $LDTS!='' && $LDTS!='NULL' && $LDTS!='0000-00-00 00:00:00' &&
+		       $FDTS!=NULL && $FDTS!='' && $FDTS!='NULL' && $FDTS!='0000-00-00 00:00:00'){
+			    $preDate1 = date_create($FDTS);
+			    $preDate2 = date_create($LDTS);
+				$VLCompute = $this->realVL($VL,$absentDB,$preDate1,$preDate2,$DW);
+			}else{
+				$VLCompute = $VL;
 			}
-			else if($absentDB<$VL){
-				$VLDeduct1 = $VL - $absentDB;
+
+		    $absencesTemp = $weekDays - $daysWorked;
+
+			$VL = $VLCompute;
+
+			$absences = $absencesTemp;
+			$absentDB = $absences;
+			$this->db->query('UPDATE employee SET VL = "'.$VL.'" , daysWorked = "'.$daysWorked.'" , date1 = "'.$datetime1->format("Y-m-d").'" , date2 = "'.$datetime2->format("Y-m-d").'" , absences = "'.$absences.'" WHERE empID LIKE "'.$eid.'"');
+		}
+
+		if($VL >= 1 && $absences > 0){
+			if($absences > $VL){
+				$VLDeduct1 = $absences - substr($VL,0,1);
+				$VLDeduct2 = $absences - $VLDeduct1;		
+			}
+			else if($absences < $VL){
+				$VLDeduct1 = $VL - $absences;
 				$VLDeduct2 = $VL - $VLDeduct1;
 			}
-			else if($absentDB = $VL){
-				$VLDeduct2 = $absentDB;
+			else if($absences == $VL){
+				$VLDeduct2 = $absences;
 			}
 
-			$absences = $absentDB-$VLDeduct2;
-			$this->db->query('UPDATE employee SET VL = VL - "'.$VLDeduct2.'", absences = "'.$absences.'" WHERE empID LIKE "'.$eid.'"');
-		}
+			$absences = $absences - $VLDeduct2;
 		
-		$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE "'.$eid.'"');
+			$this->db->query('UPDATE employee SET VL = VL - "'.$VLDeduct2.'" , date1 = "'.$datetime1->format("Y-m-d").'" , date2 = "'.$datetime2->format("Y-m-d").'" , absences = "'.$absences.'" WHERE empID LIKE "'.$eid.'" ');
+		}
 
-	    $absentDB2 = $absentQuery2->row(0)->absences;*/
+		$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE empID LIKE "'.$eid.'"');
 
-	    $absentDeduction = round(($absences * $dailyRate),2);
+	    $absentDB2 = $absentQuery2->row(0)->absences;
+
+	    $absentDeduction = round(($absentDB2 * $dailyRate),2);
 	    //----------------------------------------------------------------
 	    //PERA deduction
 	    if($daysWorked == 0){
@@ -512,7 +539,318 @@ class Clerk_model extends CI_Model{
 		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
 	}
 
+//------------------The Dividing Line---------------------------------------------
+
+	// public function getDaysWorked($date1,$date2,$eid){//input string in date format
+	// 	$this->db->select('employee.empID,employee.acctType ,positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.maritalStatus, employee.noOfDependents , salarygrade.step_1, employee.pera', FALSE);
+	// 	$this->db->from('employee');
+	// 	$this->db->where('employee.empID' , $eid);
+	// 	$this->db->join('positions', 'employee.positionCode=positions.positionCode');
+	// 	$this->db->join('department', 'employee.deptCode=department.deptCode');
+	// 	$this->db->join('salarygrade', 'positions.salaryGrade=salarygrade.salaryGrade');
+
+	// 	$basicInfo = $this->db->get();
+	// 	if($this->uri->segment(1) == 'Clerk'){
+	// 		$basicPay = ($basicInfo->row(6)->step_1)/2;
+	// 		$pera = ($basicInfo->row(4)->pera)/2;
+	// 	}
+	// 	else if($this->uri->segment(1) == 'Clerk' && $this->uri->segment(2) == 'viewpayslip'){
+	// 		$basicPay = $basicInfo->row(6)->step_1;
+	// 		$pera = $basicInfo->row(4)->pera;
+	// 	}
+		
+	// 	$name = $basicInfo->row(3)->name;
+	// 	$eid = $basicInfo->row(0)->empID;
+	// 	$position = $basicInfo->row(2)->positionName;
+		
+	// 	$dep = $basicInfo->row(2)->noOfDependents;
+	// 	$mStat = substr($basicInfo->row(1)->maritalStatus,0,1);
+	// 	$mStatusDep;
+	// 	if($dep > 0){
+	// 		$mStatusDep = "ME".$dep."S".$dep;
+	// 	}
+	// 	else{
+	// 		$mStatusDep = "SME";
+	// 	}
+
+	// 	$timeBasis = $this->db->query("SELECT timeBasis FROM company_profile");
+
+	// 	$tbasis = $timeBasis->row(0)->timeBasis;
+		
+	// 	//--------------------------------------------------------------
+	// 	//get startTime and endTime
+	// 	$seTime = $this->db->query('SELECT startTime, endTime, startRange, endRange FROM company_profile WHERE id = 1');
+
+	// 	$sTime = $seTime->row(0)->startTime;
+
+	// 	$sTimeAdd = date_create(date("H:i", strtotime("$sTime")));
+	// 	$eTime = date_format(date_add($sTimeAdd,date_interval_create_from_date_string("9 hours")), "H:i");
+
+	// 	$sRange = $seTime->row(2)->startRange;
+	// 	$eRange = $seTime->row(3)->endRange;
+
+	// 	$sDRange = $date1;
+	// 	$eDRange = $date2;
+
+	// 	//---------------------------------------------------------------
+	// 	//hours late
+	// 	$cMonth = date('m');
+	// 	$year = date('Y');
+	// 	if($tbasis == 'Flexible'){
+	// 		$damLateResult = $this->db->query('SELECT 
+	// 				CASE
+	// 					WHEN timediff(timeIn, "'.$eRange.'") < 0 THEN "00:00:00" 
+	// 					ELSE timediff(timeIn, "'.$eRange.'") 
+	// 				END as timeIn, amOut, 
+	// 				CASE 
+	// 					WHEN timediff(pmIn, "13:00:00") < 0 THEN "00:00:00" 
+	// 					ELSE timediff(pmIn, "13:00:00") 
+	// 				END as pmIn, timeOut 
+	// 						FROM timelog 
+	// 						WHERE empID LIKE "'.$eid.'"
+	// 						AND logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'"');
+	// 	}
+	// 	else if($tbasis == 'Regular'){
+	// 		$damLateResult = $this->db->query('SELECT timediff(timeIn, "'.$sTime.'") as timeIn, amOut, timediff(pmIn, "13:00:00") as pmIn, timeOut 
+	// 						FROM timelog 
+	// 						WHERE empID LIKE "'.$eid.'"
+	// 						AND logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'"');
+	// 	}
+
+	// 	$dLatetimeIn = array();
+	// 	$dLateAMout = array();
+	// 	$dLatePMin = array();
+	// 	$dLatetimeOut = array();
+
+	// 	foreach($damLateResult->result() as $daysLate){
+	// 		array_push($dLatetimeIn,$daysLate->timeIn);
+	// 		array_push($dLateAMout,$daysLate->amOut);
+	// 		array_push($dLatePMin,$daysLate->pmIn);
+	// 		array_push($dLatetimeOut,$daysLate->timeOut);
+	// 	}
+
+	// 	$hrsLate = 0;
+	// 	$minsLate = 0;
+	// 	$totalLate = 0;
+
+	// 	foreach($dLatetimeIn as $key => $damLate){
+	// 		$hrsLate += substr($dLatetimeIn[$key],0,2)*60;
+	// 		$minsLate += substr($dLatetimeIn[$key],3,2);	
+	// 	}
+
+	// 	foreach($dLatePMin as $key => $dpmlate){
+	// 		$hrsLate += substr($dLatePMin[$key],0,2)*60;
+	// 		$minsLate += substr($dLatePMin[$key],3,2);	
+	// 	}
+
+	// 	$totalLate = round((($hrsLate + $minsLate)/60),2);
+
+	// 	$dailyRate = round(($basicPay/22),2);
+	// 	$hourlyRate = round(($dailyRate/8),2);
+
+	// 	$lateDeduction = round(($totalLate * $hourlyRate),2);
+
+	// 	$daysLate = $this->db->query('SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'" AND (logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'")');
+
+	// 	$numofLate = count($daysLate->row(0)->empID);
+
+	// 	//--------------------------------------------------------------------
+	// 	//Undertime Deduction
+
+	// 	if($tbasis == 'Flexible'){
+	// 		$uTime= $this->db->query("SELECT 
+	// 		timeDiff(timeDiff(amOut,timeIn), 
+	// 		CASE 
+	// 			WHEN timeDiff(amOut,'12:00:00') < 0 THEN '00:00:00' 
+	// 			ELSE timeDiff(amOut,'12:00:00') 
+	// 		END) as amWorked,
+
+	// 			CASE
+	// 				WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
+	// 				ELSE timeDiff(timeDiff(CASE
+	// 								WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+	// 								ELSE addTime(timeIn, '09:00:00')
+	// 								END,'13:00:00')
+	// 							,addTime(
+	// 								CASE
+	// 									WHEN timeDiff(pmIn,'13:00:00') < 0 THEN '00:00:00'
+	// 									ELSE timeDiff(pmIn,'13:00:00')
+	// 								END, 
+	// 								CASE 
+	// 									WHEN timeDiff(
+	// 										CASE
+	// 											WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+	// 											ELSE addTime(timeIn, '09:00:00')
+	// 										END,timeOut) < 0 THEN '00:00:00'
+	// 									ELSE timeDiff(CASE
+	// 										WHEN timeDiff(timeIn, '".$eRange."') > 0 THEN '18:00:00'
+	// 										ELSE addTime(timeIn, '09:00:00')
+	// 										END,timeOut)
+	// 								END)
+	// 						)
+	// 			END as pmWorked
+
+	// 		FROM `timelog`
+	// 		WHERE empID LIKE '".$eid."'
+	// 		AND logdate BETWEEN '".$sDRange."' AND '".$eDRange."'
+	// 			");
+	// 	}
+	// 	else if($tbasis == 'Regular'){
+	// 		$uTime= $this->db->query("SELECT 
+	// 		timediff(timeDiff(amOut,'".$sTime."'),
+	// 		addTime(
+	// 		CASE
+	// 			WHEN timeDiff(amOut, '12:00:00') < 0 THEN '00:00:00'
+	// 			ELSE timeDiff(amOut, '12:00:00')
+	// 		END,
+	// 		CASE 
+	// 			WHEN timeDiff(timeIn, '08:00:00') < 0 THEN '00:00:00'
+	// 			ELSE timeDiff(timeIn, '08:00:00')
+	// 		END)) as amWorked,
+
+	// 		CASE
+	// 			WHEN pmIn <=0 && timeOut <=0 THEN '00:00:00'
+	// 			ELSE timeDiff(timeDiff(timeOut, '13:00:00'),addTime(
+	// 			CASE 
+	// 				WHEN timeDiff(pmIn, '13:00:00') < 0 THEN '00:00:00' 
+	// 				ELSE timeDiff(pmIn, '13:00:00')
+	// 			END,
+	// 			CASE
+	// 				WHEN timeDiff(timeOut,'".$eTime."') < 0 THEN '00:00:00'
+	// 				ELSE timeDiff(timeOut, '".$eTime."')
+	// 			END))
+	// 		END as pmWorked
+
+	// 		FROM `timelog`
+	// 		WHERE empID LIKE '".$eid."'
+	// 		AND logdate BETWEEN '".$sDRange."' AND '".$eDRange."'
+	// 			");
+	// 	}
+		
+
+	// 	$numOfDays = $uTime->num_rows()*8;
+	// 	$amWorked = array();
+	// 	$pmWorked = array();
+	// 	$hoursWorked = array();
+
+	// 	foreach($uTime->result() as $hours){
+	// 		array_push($amWorked, date("H:i",strtotime($hours->amWorked)));
+	// 		array_push($pmWorked, date("H:i", strtotime($hours->pmWorked)));
+	// 	}
+
+
+	// 	foreach($amWorked as $key => $hrsWork){//i minutes
+	// 		$dateTemp = date_create(date("H:i", strtotime("$amWorked[$key]")));
+	// 		$dateTemp = date_add($dateTemp,date_interval_create_from_date_string(
+	// 			date("H", strtotime("$pmWorked[$key]")).' hours'));
+	// 		$dateTemp = date_add($dateTemp,date_interval_create_from_date_string(
+	// 			date("i", strtotime("$pmWorked[$key]")).' minutes'));
+	// 		array_push($hoursWorked, date_format($dateTemp,"H:i"));
+	// 	}
+
+
+	// 	$hrsUtime = 0;
+	// 	$minsUtime = 0;
+	// 	$totalUtime = 0;
+
+	// 	foreach ($hoursWorked as $hrsandmins) {
+	// 		if($hrsandmins < "08:00:00"){
+	// 			$hrsUtime += substr($hrsandmins,0,2)*60;
+	// 			$minsUtime += substr($hrsandmins,3,2);
+	// 		}
+	// 	}
+
+	// 	$totalHrsWorked = round((($hrsUtime + $minsUtime)/60),2);
+
+	// 	$uTimeDeduction = 0;
+
+	// 	$uTimeDeduction = round(($numOfDays - ($totalHrsWorked+$totalLate)) * ($hourlyRate),2);
+	// 	//----------------------------------------------------------------
+	// 	//Additional Deductions
+	// 	$addDeducResult = $this->db->get_where('deductions', array('empID' => $eid, 'status' => 'on-going'));
+
+	// 	$dName = array();
+	// 	$amt = array();
+	// 	$mtp = array();
+
+	// 	foreach($addDeducResult->result() as $deductions){
+	// 		array_push($dName,$deductions->deductionName);
+	// 		array_push($amt,$deductions->amount);
+	// 		array_push($mtp,$deductions->mtp);
+	// 	}
+		
+	// 	$amtTP = array();
+
+	// 	foreach($amt as $key => $amtToPay){
+	// 		array_push($amtTP, round((($amt[$key]/$mtp[$key])/2),2));		
+	// 	}
+	// 	//----------------------------------------------------------------
+	// 	//# of absences
+	// 	$iter = 24*60*60; //segundo sa isang araw
+	//     $weekEndcount = 0;
+	//     $startDate = strtotime($sDRange);
+	//     $endDate = strtotime($eDRange);
+
+	//     for($i = $startDate; $i <= $endDate; $i=$i+$iter)
+	//     {
+	//     	if(Date('D',$i) == 'Sat' || Date('D',$i) == 'Sun')
+	//     	{
+	//     		$weekEndcount++;
+	//     	}
+	//     }
+
+	//     $datetime1 = date_create($sDRange);
+	// 	$datetime2 = date_create($eDRange);
+	// 	$interval = date_diff($datetime1, $datetime2);
+	// 	$interval2 = $interval->format('%a');
+
+	// 	$daysInRange = $interval2+1;
+
+	//     $weekDays = $daysInRange - $weekEndcount;
+
+	//     $daysWorked = count($dLatetimeIn);
+
+	//     return $daysWorked;
+	// }
+
+	public function getWeekendCount($date1,$date2){//input date
+		$weekEndcount1 = 0;
+		if($date1<$date2){
+			$startDate1 = strtotime($date1->format("Y-m-d"));
+			$endDate1 = strtotime($date2->format("Y-m-d"));
+		}else{
+		    $startDate1 = strtotime($date2->format("Y-m-d"));
+		    $endDate1 = strtotime($date1->format("Y-m-d"));
+		}
+
+		$iter = 24*60*60; //segundo sa isang araw
+
+		for($i = $startDate1; $i <= $endDate1; $i=$i+$iter)
+		{
+			if(Date('D',$i) == 'Sat' || Date('D',$i) == 'Sun')
+			{
+				$weekEndcount1++;
+			}
+		}
+		return $weekEndcount1;
+	}
+
+	public function getWorkingDays($date1,$date2){
+		$diff = date_diff($date1,$date2);
+		$diff = $diff->format('%a');
+		return (($diff + 1) - $this->getWeekendCount($date1,$date2));
+	}
+
+	public function getAbsentCount($date1,$date2,$daysWorked){
+		return ($this->getWorkingDays($date1,$date2) - $daysWorked);
+	}
+
+	public function realVL($VL,$absent,$date1,$date2,$daysWorked){//from database //input date
+		return (($this->getAbsentCount($date1,$date2,$daysWorked) - $absent) + $VL);
+	}
 	
+//------------------The Dividing Line---------------------------------------------
+
 	public function get_payrollsheet(){
 		$emp = $this->db->query('SELECT empID from employee');
 
@@ -593,7 +931,13 @@ class Clerk_model extends CI_Model{
 
 					foreach($d[8] as $key => $data){
 			 			$this->db->query("INSERT INTO `paysheetloan`(`paysheetPeriod`,`empID`,`deductionName`, `amount`) VALUES ('".$paysheetPeriod."','".$d[14]."','".$d[8][$key]."','".$d[9][$key]."')");
-			 		}	
+
+			 			$this->db->query("UPDATE deductions SET monthsLeft = monthsLeft - 0.5 WHERE deductionName LIKE '".$d[8][$key]."'
+			 				AND empID LIKE '".$d[14]."'");
+			 		}
+
+			 		$this->db->query("UPDATE `employee` SET  absences = NULL , date1 = NULL , date2 = NULL , daysWorked = NULL WHERE 1");
+
 			 	}
 			 	echo "Success";
 			}

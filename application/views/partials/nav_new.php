@@ -74,7 +74,7 @@
 					<li>
 						<a class="btnMenu" href="<?php echo base_url(); ?>employee/manageUserAcct">
 							<button class="btn">
-								<span class="glyphicon glyphicon-wrench"></span> Maintenance
+								<span class="glyphicon glyphicon-wrench"></span> Manage Users
 							</button>
 						</a>
 					</li>
