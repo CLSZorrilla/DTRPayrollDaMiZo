@@ -68,7 +68,7 @@
 											<td>".$info->birthDate."</td>
 											<td>".$info->contactNo."</td>
 											<td>".$info->sex."</td>
-											<td><img src='".$info->picture."' width='20' height='25'/></td>
+											<td><img src='".$info->picture."' width='50' height='50'/></td>
 											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
 											";
 										if($info->activated == 'TRUE'){

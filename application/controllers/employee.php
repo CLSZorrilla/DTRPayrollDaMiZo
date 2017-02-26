@@ -12,10 +12,7 @@ class Employee extends CI_Controller{
 	}
 
 	public function check_if_exist(){
-
-
 		return $this->Emp_model->check_data();;
-
 	}
 
 	public function manageUserAcct(){
@@ -42,7 +39,7 @@ class Employee extends CI_Controller{
 	public function editUserAcct(){
 		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]');
 		$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
-		//$this->form_validation->set_rules('cpword', 'Confirm Password','required|min_length[8]|max_length[15]|matches[pword]');
+		$this->form_validation->set_rules('cpword', 'Confirm Password','required|min_length[8]|max_length[15]|matches[pword]');
 		$this->form_validation->set_rules('userType', 'User Type','required');
 		$this->form_validation->set_rules('positions', 'Position','required');
 		$this->form_validation->set_rules('department', 'Department','required');
@@ -71,15 +68,9 @@ class Employee extends CI_Controller{
 				'error' => validation_errors()
 
 				);
-
 		}
 		else{
 			$this->Emp_model->edit_user();
-
-			//$this->load->view('smsapi.php');
-			//$cNo = $this->input->post('cNo', TRUE);
-			//$msg = 'Your profile has been registered. Login to your account using these credentials username = '.$this->input->post('empID').' default password is 12345678 you can change the password later on.';
-			//sendMsg($cNo, $msg);
 
 			redirect('employee/manageUserAcct');
 		}

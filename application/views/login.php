@@ -24,16 +24,13 @@
 <div id = "button">
 	<button id = "login">LOGIN</button>
     <br />
-    <!-- Added -->
 	<span class = "tag-login">PAYROLL SYSTEM FOR <?php echo strtoupper($company['name']); ?></span>
-    <!-- Added -->
     <div class = "m-error1">
         <img src = "<?php echo base_url();?>assets/images/error.png">
         <div id = "m-error">
         </div>
     </div>
 </div>
-<!-- MODAL LOGIN -->
 <div id = "modal-login">
     <div class = "modal-log-cont">
         <div class = "modal-head">
@@ -46,10 +43,8 @@
         <div class="row">
             <div class = "instruction col-lg-6">
                 <h5 class="InstrucHead">Registered users are only the ones allowed to enter.</h5><br />
-                <p class="InstrucPara">Ang iyong account may makukuha lamang sa malapit na mang-gagamit center.</p><br />
-                <p class="InstrucPara">
-                    Kung merong kang problema sa iyong account pede kang tumawag sa manga-gamit hotline. (143) 699-12345
-                </p>
+                <p class="InstrucPara">Ang iyong account may makukuha lamang sa malapit na mang-gagamit center.</p>
+                <p class="InstrucPara">Kung merong kang problema sa iyong account pede kang tumawag sa manga-gamit hotline. (143) 699-12345</p>
             </div>
 
             <!-- LOGIN FORM -->
@@ -75,6 +70,9 @@
                     );
                     ?>
                     <?php echo form_input($data)?>
+                    <?php
+                        echo form_error("username", '<div class="alert alert-danger alert-dismissable fade in" style="margin:10px 0px 0px;height:auto;"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+                    ?>
                 </div>
                 <div class="form-group">
                     <?php echo form_label('Password'); ?>
@@ -87,6 +85,9 @@
                     );
                     ?>
                     <?php echo form_password($data)?>
+                    <?php
+                    echo form_error("password", '<div class="alert alert-danger alert-dismissable fade in" style="margin:5px 0px 0px;height:auto;"><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+                    ?>
                 </div>
             </div>
         </div>

@@ -23,13 +23,14 @@ class Main extends CI_Controller{
 		$eid = $this->session->userdata('username');
 		$cAttendance = $this->Emp_model->get_current_attendance($eid);
 		
-		$this->load->model('Holiday_model');
-		$data['hinfo'] = $this->Holiday_model->get_holiday()->result();
+		$this->load->model('Maintenance_model');
+		$data['hinfo'] = $this->Maintenance_model->get_holiday()->result();
 
 		$data['cAttend'] = $cAttendance;
 
 		$this->load->view('Suview', $data);
 	}
+
 	public function login_check(){
 		$this->form_validation->set_rules('username', 'EmployeeID','required|exact_length[10]');
 		$this->form_validation->set_rules('password', 'Password','required|min_length[8]|max_length[15]');
@@ -43,14 +44,16 @@ class Main extends CI_Controller{
 
 			echo $this->session->set_flashdata($data);
 
-			redirect('main');
+			// redirect('main');
+
+			$this->load->view('Login',$data);
 		}
 		else{
 			$username = $this->input->post('username');
 			$password = $this->input->post('password');
 
 			$user_id = $this->Emp_model->login_user($username,$password);
-			
+				
 			if($user_id){
 				$user_data = array(
 
@@ -61,15 +64,15 @@ class Main extends CI_Controller{
 
 					);
 				$this->session->set_userdata($user_data);
-				
-				redirect('main/home_view');
-			}
-			else{
-				$this->session->set_flashdata('login_failed', 'You are not logged in');
+					
+			redirect('main/home_view');
+				}
+				else{
+					$this->session->set_flashdata('login_failed', 'You are not logged in');
 
-				redirect('main');
+					redirect('main');
+				}
 			}
-		}
 	}
 	public function logout(){
 

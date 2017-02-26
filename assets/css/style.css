@@ -26,6 +26,29 @@ body {
 
 /* AYOS ANG FORMAT! */
 
+input.btnReset {
+    background-color:white;
+    color:black;
+    border: 2px solid #ccc;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+input.btnReset:hover {
+    background-color: #ccc;
+    color: white;
+}
+a.btnActivate {
+    background-color:white;
+    color:black;
+    border: 2px solid #d43f3a;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+}
+a.btnActivate:hover {
+    background-color: #d43f3a;
+    color: white;
+}
+
 .PayslipCompany {
 	margin:0px auto;
 }
@@ -59,7 +82,7 @@ body {
 	overflow:hidden;
 }
 
-@media only screen and (max-width: 1491px) {
+@media only screen and (max-width: 1003px) {
     .navbar-header {
         float: none;
     }
@@ -104,6 +127,9 @@ body {
        -webkit-box-shadow: none;
        box-shadow: none;
     }
+	div#myNavbar ul li a button {
+		width:100%;
+	}
 }
 
 /* Pang Usog dahil sa Menu Bar */
@@ -116,7 +142,15 @@ div.NavGap{
 	}
 }
 div.NavNewGap{
-    height:52px;
+    height:102px;
+}
+@media only screen and (max-width: 1003px) {
+	div.NavNewGap{
+    	height:52px;
+	}
+}
+#navnewBtn {
+	margin-right: 0px;
 }
 /* Pang Usog dahil sa Menu Bar */
 
@@ -131,7 +165,7 @@ div.NavNewGap{
 input,
 select,
 textarea {
-    max-width: 280px;
+    /*max-width: 280px;*/
 }
 
 
@@ -218,16 +252,21 @@ div.TitleBar img {
 	height:45px;
 	width:45px;
 	display:block;
-	margin:2px 9px 3px 3px;
+	margin:2px 3px 3px 3px;
 	float: left;
 }
 ul.TitleBarList {
-	padding:10px;
+	padding:10px 0px;
 	margin:0px;
 }
 ul.TitleBarList li {
 	display:inline;
 	padding:6px;
+}
+@media only screen and (max-width: 425px) {
+	ul.TitleBarList li {
+		padding:0px;
+	}
 }
 ul.TitleBarList li a {
 	color:#DADADA;
@@ -276,6 +315,16 @@ div.MenuBar li {
 }
 div.MenuBar li:hover {
 	text-decoration:none;
+}
+div.NavbarHeader {
+	padding:0px 15px;
+	float:none;
+}
+@media only screen and (max-width: 425px) {
+	div.NavbarHeader {
+		padding:0px 10px;
+		float:none;
+	}
 }
 div#myNavbar ul {
 	padding-right: 15px;
@@ -353,10 +402,6 @@ div#WelcomePanel h3 {
 	color:white;
 }
 
-div.Pills {
-	margin-bottom:20px;
-}
-
 table#HolidayTable {
     width: 100%;
     border-spacing: 0;
@@ -401,11 +446,10 @@ table#HolidayTable tbody td, table#HolidayTable thead th {
 /* Maintenance */
 table.MaintenanceTable {
 	white-space:nowrap;
-	margin:0px;
+	width:100% !important;
+	/*width:inherit!important;*/
 }
-
-table.MaintenanceTable thead{
-	
+table.MaintenanceTable thead {
 	vertical-align:middle;
 }
 
@@ -431,3 +475,14 @@ table.MaintenanceTable thead{
     background-color: #ddd;
 }
 /* Scrollbar */
+
+.easy-autocomplete {
+	width:100% !important;
+}
+
+@media only screen and (max-width: 1199px) {
+	hr.selectedHR {
+	    margin-top:20px;
+	    margin-bottom:5px;
+	}
+}
