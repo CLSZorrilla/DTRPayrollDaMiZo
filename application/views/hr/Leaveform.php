@@ -1,11 +1,25 @@
 <?php
+	include "/../partials/nav_customize.php";
+
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-4');
 	$labels=array('Employee ID:','Full Name:','Position:', 'Department:','Vacation Leave:','Sick Leave:','Starting Date:','End Date:','Leave Type:','Approval Date:','Remarks:');
 	$dName=array('empID', 'fName' ,'pos' ,'dept' ,'vl','sl','startDate','endDate','leaveType','appDate','note');
 	$dType=array('text','text','dropdown','dropdown','text','text', 'date' ,'date','dropdown','date','text');
 ?>
-
+<style type="text/css">
+  input.btnEnter{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  input.btnEnter:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<ol class="breadcrumb">
@@ -13,7 +27,7 @@
 			<li class="active">Leave</li>
 		</ol>
 		<div class="row" id="Title">
-			<h4>LEAVE</h4>
+			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>LEAVE</b></h4>
 			<hr />
 		</div>
 	
@@ -106,16 +120,15 @@
 			<div style="overflow: hidden;">
 				<?php
 					echo form_submit(array(
-						'class' =>'btn btn-default pull-right',
+						'class' =>'btn btnReset pull-right',
 						'type' =>'reset',
 						'value' => 'Reset',
 						'style' => 'width:100px;margin:5px;'
 						));
 					echo form_submit(array(
-						'class' =>'btn btn-primary pull-right',
+						'class' =>'btn btnEnter pull-right',
 						'name' =>'submit',
 						'value' => 'Send',
-						'id' => 'submit',
 						'style' => 'width:100px;margin:5px;'
 						));
 				?>

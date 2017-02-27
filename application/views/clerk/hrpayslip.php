@@ -14,16 +14,23 @@
       background-color: <?php echo $company['colorTheme']; ?>;
       color: white;
   }
+  table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+    background-color: <?php echo $company['colorTheme']; ?>;
+  }
+  table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+    background-color:black;
+    color: white;
+  }
 </style>
   <div class="BodyContainer">
     <div class="BodyContent">
       <ol class="breadcrumb">
         <li><a href="#">Home</a></li>
         <li><a href="#">Payroll</a></li>
-        <li class="active">Payslip</li>
+        <li class="active">Process Payslip</li>
       </ol>
       <div class="row" id="Title">
-        <h4 style="color: <?php echo $company['colorTheme']; ?>;"><b>PAYSLIP</b></h4>
+        <h4 style="color: <?php echo $company['colorTheme']; ?>;"><b>PROCESS PAYSLIP</b></h4>
         <hr />
       </div>
 

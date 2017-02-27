@@ -14,20 +14,6 @@ class Clerk extends CI_Controller{
 		$this->load->view('Suview', $data);
 	}
 
-	public function payslip_compute(){
-		if($this->uri->segment(3)){
-			$data['payroll'] = "clerk/payrollcompute";
-
-			$data['pInfoRes'] = $this->Clerk_model->get_payroll_info($this->uri->segment(3));
-
-			$this->load->view('Suview', $data);
-		}
-		else{
-			redirect('Clerk');
-		}
-	}
-
-
 	public function viewpayslip(){
 		$data['hrpayslip'] = 'Clerk/hrpayslip';
 

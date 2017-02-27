@@ -138,17 +138,17 @@ class Employee extends CI_Controller{
 	}
 
 	public function monthlyPayslip(){
-		$eid = $this->session->userdata('username');
+		$data['empPayslip'] = 'employee/employeepayslip';
 
-		$data['ipd'] = $this->Emp_model->InitialPaysheetData($eid);
-
-		$data['PaysheetView'] = 'employee/PaysheetView';
+		$this->load->model('Payslip_model');
+		$data['loanNames'] = $this->Payslip_model->loadLoans();
 
 		$this->load->view('Suview', $data);
 	}
 
-	public function PaysheetDataFilter(){
-		$this->Emp_model->PaysheetDataFilter();
+	public function FilterCategory(){
+		$this->load->model('Payslip_model');
+		$this->Payslip_model->filterCategory();
 	}
 }
 

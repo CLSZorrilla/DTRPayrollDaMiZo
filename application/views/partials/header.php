@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/responsive.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.alerts.css" />
+<!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fullcalendar.css" /> -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-attendance.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/sweetalert.css" />

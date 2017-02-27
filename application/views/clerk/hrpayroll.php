@@ -37,12 +37,24 @@
       <hr />
       </div>
 
-      <div class="row" style="margin-bottom: 5px;">
-      <b>From</b>
-      <input class="form-control" type="date" id="periodDateS" style="display: inline-block; width:262px;" />
-       <b>to</b>
-      <input class="form-control" type="date" id="periodDateE" style="display: inline-block; width:262px;" />
-      <button class="btn pull-right" id="genPaySheet" ><span class="glyphicon glyphicon-home"></span> Generate</button>
+      <div class="row" style="margin-bottom: 20px;border-bottom:2px solid <?php echo $company['colorTheme']; ?>">
+        <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+          <div class="form-group col-sm-6 col-md-6 col-lg-6">
+            <label class="control-label col-lg-3">From:</label>
+            <div class="col-lg-9">
+              <input class="form-control" type="date" id="periodDateS" style="display: inline-block; width:100%;" />
+            </div>
+          </div>
+          <div class="form-group col-sm-6 col-md-6 col-lg-6">
+            <label class="control-label col-lg-3">To:</label>
+            <div class="col-lg-9">
+              <input class="form-control" type="date" id="periodDateE" style="display: inline-block; width:100%;" />
+            </div>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="margin-bottom: 15px;">
+            <button class="btn pull-right" id="genPaySheet" ><span class="glyphicon glyphicon-home"></span> Generate</button>
+        </div>
       </div>
       
       <div class="table-responsive" id="tableDiv">
@@ -147,7 +159,7 @@
               responsive: true,
               dom: 'Bfrtip',
               buttons: [
-                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS+" to "+periodDateE+" Payroll Sheet"}
+                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS + "to" + periodDateE + "Payroll Sheet"}
               ]
             });
           },

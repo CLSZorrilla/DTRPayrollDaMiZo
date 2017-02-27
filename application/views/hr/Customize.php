@@ -1,4 +1,6 @@
 <?php
+	include "/../partials/nav_customize.php";
+
 	$attributes=array('id'=>'create_leave_form', 'class'=>'form-horizontal');
 	$lAttrib=array('class' => 'control-label col-md-5');
 	$labels=array('Company Name', 'Abbreviation', 'Description','Address', 'Contact Number','Time Basis','Start Time','End Time','Color Theme','Company Logo');
@@ -19,7 +21,19 @@
 		$cinfo->row(9)->logo
 		);
 ?>
-
+<style type="text/css">
+  input.btnEnter{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  input.btnEnter:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<ol class="breadcrumb">
@@ -27,7 +41,7 @@
 			<li><a href="#">System Settings</a></li>	
 		</ol>
     	<div class="row" id="Title">
-			<h4>SYSTEM SETTINGS</h4>
+			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>SYSTEM SETTINGS</b></h4>
 			<hr />
 		</div>
 		
@@ -59,7 +73,7 @@
 				break;
 				case 'radio':
 		?>
-		<div class="form-group col-lg-6" style="height: 34px;">
+		<div class="form-group col-lg-6" style="overflow: hidden;">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
 			<div class="col-md-7">
 				<input type='radio' name=<?php echo $dName[$key]; ?> id="flexi" value='Flexible'>Flexible Time
@@ -120,10 +134,11 @@
 			<div class="col-lg-6 col-lg-offset-6" style="padding: 10px 70px 5px 0px;">
 				<?php
 				echo form_submit(array(
-					'class' =>'btn btn-primary',
+					'class' =>'btn btnEnter pull-right',
 					'name' =>'submit',
-					'value' => 'Save Changes'
-					));
+					'value' => 'Save Changes',
+					'style' => 'margin:5px;'
+				));
 				?>
 			</div>
 		</div>

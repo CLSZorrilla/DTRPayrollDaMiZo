@@ -30,6 +30,14 @@
 						redirect('main');
 					}
 				}
+				else if(isSet($maintenance)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($maintenance);
+					}
+					else{
+						redirect('main');
+					}
+				}
 				else if(isSet($common_view)){
 					if($this->session->userdata('aType')){
 						$this->load->view($common_view);
@@ -110,17 +118,9 @@
 						redirect('main');
 					}
 				}
-				else if(isSet($chat)){
+				else if(isSet($empPayslip)){
 					if($this->session->userdata('aType')){
-						$this->load->view($chat);
-					}
-					else{
-						redirect('main');
-					}
-				}
-				else if(isSet($PaysheetView)){
-					if($this->session->userdata('aType')){
-						$this->load->view($PaysheetView);
+						$this->load->view($empPayslip);
 					}
 					else{
 						redirect('main');

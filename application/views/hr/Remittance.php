@@ -1,6 +1,16 @@
 	<?php
 		$base_url = base_url();
 	?>
+<?php include "/../partials/nav_customize.php";?>
+<style type="text/css">
+  table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
+    background-color: <?php echo $company['colorTheme']; ?>;
+  }
+  table.dataTable.dtr-inline.collapsed>tbody>tr.parent>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr.parent>th:first-child:before {
+    background-color:black;
+    color: white;
+  }
+</style>
 	<div class="BodyContainer">
 		<div class="BodyContent">
 			<ol class="breadcrumb">
@@ -8,10 +18,10 @@
 				<li class="active">Remittance Report</li>
 			</ol>
       		<div class="row">
-				<h4>REMITTANCE REPORT</h4>
-				<hr />
+                <h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>REMITTANCE REPORT</b></h4>
+                <hr class="selectedHR" />
 			</div>
-            <div class="row" style="margin:0px -15px;"">
+            <div class="row" style="margin-bottom: 20px;border-bottom:2px solid <?php echo $company['colorTheme']; ?>">
                 <div class="form-group col-lg-3">
                     <label class="control-label col-lg-4">Deduction:</label>
                     <div class="col-lg-8">

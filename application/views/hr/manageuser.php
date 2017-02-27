@@ -1,9 +1,19 @@
-<?php include "/../partials/nav_customize.php"; ?>
 <?php
 	$base_url = base_url();
 ?>
-
+<?php include "/../partials/nav_customize.php"; ?>
 <style type="text/css">
+  	a.btnUpdate {
+    	background-color:white;
+    	color:black;
+    	border: 2px solid <?php echo $company['colorTheme']; ?>;
+    	-webkit-transition-duration: 0.4s; /* Safari */
+    	transition-duration: 0.4s;
+  	}
+  	a.btnUpdate:hover {
+      	background-color: <?php echo $company['colorTheme']; ?>;
+      	color: white;
+  	}
 	table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
 		background-color: <?php echo $company['colorTheme']; ?>;
 	}
@@ -16,6 +26,7 @@
 		<div class="BodyContent">
 			<ol class="breadcrumb">
 				<li><a href="<?php echo $base_url; ?>main/home_view">Home</a></li>
+				<li><a href="#">Maintenance</a></li>
 				<li class="active">Manage Users</li>
 			</ol>
       		<div class="row">
@@ -69,13 +80,13 @@
 											<td>".$info->contactNo."</td>
 											<td>".$info->sex."</td>
 											<td><img src='".$info->picture."' width='50' height='50'/></td>
-											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btn-primary' id='updateBtn'>Update</a>
+											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btnUpdate' id='updateBtn'>Update</a>
 											";
 										if($info->activated == 'TRUE'){
-										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Deactivate</a></td></tr>";
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btnActivate'>Deactivate</a></td></tr>";
 										}
 										else{
-										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btn-danger'>Activate</a>
+										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btnActivate'>Activate</a>
 											</td></tr>";
 										}
 									}	
@@ -83,11 +94,6 @@
 						</tbody>
 					</table>
 				</div>
-		</div>
-	</div>
-	<div class="Footer">
-		<div class="pull-right">
-			<p>&copy; Copyright 2016 All Rights Reserved.</p>
 		</div>
 	</div>
 	<script type="text/javascript">

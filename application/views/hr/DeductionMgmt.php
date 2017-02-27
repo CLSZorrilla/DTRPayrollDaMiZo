@@ -1,3 +1,17 @@
+<?php include "/../partials/nav_customize.php"; ?>
+<style type="text/css">
+  input.btnEnter{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  input.btnEnter:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
+  }
+</style>
 <div class="BodyContainer">
 	<div class="BodyContent">
 		<ol class="breadcrumb">
@@ -5,7 +19,7 @@
 			<li><a href="#">Deduction Management</a></li>	
 		</ol>
       	<div class="row" id="Title">
-			<h4>DEDUCTION MANAGEMENT</h4>
+			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>DEDUCTION MANAGEMENT</b></h4>
 			<hr />
 		</div>
 
@@ -72,16 +86,16 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<div class="col-md-4 col-md-offset-2" style="padding: 10px 50px 5px 0px;">
+			<div class="col-md-4 col-md-offset-2" style="padding: 10px 0px 5px 0px;">
 				<?php
 					echo form_submit(array(
-						'class' =>'btn btn-default pull-right',
+						'class' =>'btn btnReset pull-right',
 						'type' =>'reset',
 						'value' => 'Reset',
 						'style' => 'width:100px;margin:5px;'
 						));
 					echo form_submit(array(
-						'class' =>'btn btn-primary pull-right',
+						'class' =>'btn btnEnter pull-right',
 						'name' =>'submit',
 						'value' => 'Register',
 						'style' => 'width:100px;margin:5px;'
