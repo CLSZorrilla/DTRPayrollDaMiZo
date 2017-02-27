@@ -310,7 +310,7 @@ namespace FaceRecognition
             DateTime basis_endRange = DateTime.Parse(basis_);
 
             DateTime dtr_start = DateTime.Parse(start).Add(new TimeSpan(-1, 0, 0));
-            DateTime dtr_end = DateTime.Parse(end).Add(new TimeSpan(1, 0, 0));
+            DateTime dtr_end = DateTime.Parse(end).Add(new TimeSpan(2, 0, 0));
 
             DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 0, 59); //1PM
 

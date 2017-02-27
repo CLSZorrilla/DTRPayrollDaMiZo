@@ -88,12 +88,6 @@
   <ItemGroup>
     <Compile Include="Class1.cs" />
     <Compile Include="EigenObjectRecognizer.cs" />
-    <Compile Include="FaceRegister.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FaceRegister.Designer.cs">
-      <DependentUpon>FaceRegister.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,9 +108,6 @@
     <Compile Include="RegisterFace.designer.cs">
       <DependentUpon>RegisterFace.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="FaceRegister.resx">
-      <DependentUpon>FaceRegister.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
