@@ -38,6 +38,14 @@
 						redirect('main');
 					}
 				}
+				else if(isSet($editUserForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($editUserForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
 				else if(isSet($common_view)){
 					if($this->session->userdata('aType')){
 						$this->load->view($common_view);

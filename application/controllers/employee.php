@@ -36,45 +36,32 @@ class Employee extends CI_Controller{
 		redirect('Employee/manageUserAcct');
 	}
 	
-	public function editUserAcct(){
-		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]');
-		$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
-		$this->form_validation->set_rules('cpword', 'Confirm Password','required|min_length[8]|max_length[15]|matches[pword]');
-		$this->form_validation->set_rules('userType', 'User Type','required');
-		$this->form_validation->set_rules('positions', 'Position','required');
-		$this->form_validation->set_rules('department', 'Department','required');
-		$this->form_validation->set_rules('lName', 'Last Name','required|alpha_numeric_spaces|min_length[2]');
-		$this->form_validation->set_rules('fName', 'First Name','required|alpha_numeric_spaces|min_length[3]');
-		$this->form_validation->set_rules('mName', 'Middle Name','required|alpha_numeric_spaces|min_length[1]');
-		$this->form_validation->set_rules('address', 'Address','required|min_length[10]');
-		$this->form_validation->set_rules('maritalStatus', 'Marital Status','required');
-		$this->form_validation->set_rules('dependents', '# of dependents','required|in_list[1,2,3,4]');
-		$this->form_validation->set_rules('emailAdd', 'Email Address','trim|required|valid_email');
-		$this->form_validation->set_rules('birthDate', 'Birthday','required');
-		$this->form_validation->set_rules('cNo', 'Contact No','required|alpha_dash|exact_length[13]');
-		$this->form_validation->set_rules('sex', 'Sex','required');
-		$this->form_validation->set_rules('dateHired', 'Date Hired','required');
-		$this->form_validation->set_rules('gsisNo', 'GSISNo','required|alpha_dash|exact_length[14]');
-		$this->form_validation->set_rules('phNo', 'PhilHealthNo','required|alpha_dash|exact_length[14]');
-		$this->form_validation->set_rules('tin', 'TIN','required|alpha_dash|exact_length[14]');
-		$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[0-5]{1,2}.[0-9]{1,2}/]');
-		$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[0-5]{1,2}.[0-9]{1,2}/]');
+	public function editUsersAcct(){
+		if($this->input->server('REQUEST_METHOD') == 'POST'){
+			$result = $this->Emp_model->edit_user();
 
+			if($result == "Success"){
+				echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
+			}else if($result == "Fail"){
+				echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+			}
 
-		if($this->form_validation->run() == FALSE){
-			$data = array(
+		}else{
+			$data['editUserForm'] = "hr/updateuser";
 
-				'error' => validation_errors()
+			$data['userInfo'] = $this->Emp_model->getUserInfo();
 
+			$this->encryption->initialize(
+				array(
+					'cipher' => 'blowfish',
+					'mode' => 'cbc',
+					'key' => '2a$07$vY6x3F45HQSAiOs6N5wMuOwZQ7pUPoSUTBkU'
+					)
 				);
 
+			$data['password'] = $this->encryption->decrypt($data['userInfo']->row(2)->password);
 
-		}
-		else{
-			$this->Emp_model->edit_user();
-
-			echo "Form Success";
-			//redirect('employee/manageUserAcct');
+			$this->load->view('Suview', $data);
 		}
 	}
 

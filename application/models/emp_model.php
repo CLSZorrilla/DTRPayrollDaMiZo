@@ -92,7 +92,13 @@ class Emp_model extends CI_Model{
 
 		$query = $this->db->replace('employee', $data);
 
-		
+		$affectedRows = $this->db->affected_rows();
+
+		if($affectedRows > 0){
+			return "Success";
+		}else{
+			return "Fail";
+		}
 	}
 
 	public function readRow($id){
@@ -241,13 +247,13 @@ class Emp_model extends CI_Model{
 			echo $tableResult;
 		}
 	}
+
+	public function getUserInfo(){
+		$eid = $this->uri->segment(3);
+
+		return $this->db->get_where('employee', array('empID' => $eid));
+	}
 }
-
-
-
-
-
-
 
 
 ?>

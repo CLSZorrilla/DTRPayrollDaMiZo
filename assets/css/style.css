@@ -486,3 +486,11 @@ table.MaintenanceTable thead {
 	    margin-bottom:5px;
 	}
 }
+
+.clickable{
+	cursor:pointer;
+}
+
+.editBtn{
+	cursor:pointer;
+}

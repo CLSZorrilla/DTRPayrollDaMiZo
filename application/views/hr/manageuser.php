@@ -39,11 +39,16 @@
 						<a href="<?php echo base_url(); ?>employee/createUserAcct" style="color:<?php echo $company['colorTheme']; ?>;">Create User <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
 					</p>
 				</div>
+				<div class="col-sm-6 CreateNew">
+					<p class="pull-left" style="margin: 0px;">
+						<a style="color:<?php echo $company['colorTheme']; ?>;" id="editBtn">Edit User <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+					</p>
+				</div>
 					<table class="table table-striped MaintenanceTable">
 						<thead>
 							<tr>
 								<?php
-								$tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Vacation Leave', 'Sick Leave' ,'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture', ' ');
+								$tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Address', 'Marital Status', 'Date Hired', 'GSIS No.', 'PhilHealth No.', 'TIN', 'Vacation Leave', 'Sick Leave' ,'Email Address', 'Birthdate', 'Contact No.', 'Sex', 'Picture');
 									foreach($tHeader as $tHead){
 										echo '<th>'.$tHead.'</th>';
 									};
@@ -53,13 +58,12 @@
 						</thead>
 						<tbody>
 								<?php 
-									foreach($uinfo as $info){
-										
+									foreach($uinfo as $info){							
 										if($info->activated == 'TRUE'){
-											echo "<tr>";
+											echo "<tr class='text-center clickable' id=".$info->empID.">";
 										}	
 										else{
-											echo "<tr style='color:red'>";
+											echo "<tr style='color:red' class='text-center clickable' id=".$info->empID.">";
 										}
 										echo "
 											<td>".$info->empID."</td>
@@ -79,16 +83,7 @@
 											<td>".$info->birthDate."</td>
 											<td>".$info->contactNo."</td>
 											<td>".$info->sex."</td>
-											<td><img src='".$info->picture."' width='50' height='50'/></td>
-											<td><a href=".$base_url."employee/createUserAcct/".$info->empID." class='btn btnUpdate' id='updateBtn'>Update</a>
-											";
-										if($info->activated == 'TRUE'){
-										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btnActivate'>Deactivate</a></td></tr>";
-										}
-										else{
-										echo "<a href=".$base_url."employee/deleteUserAcct/".$info->empID." id='deleteBtn' class='btn btnActivate'>Activate</a>
-											</td></tr>";
-										}
+											<td><img src='".$info->picture."' width='50' height='50'/></td>";
 									}	
 								?>
 						</tbody>
@@ -130,4 +125,21 @@
 					} // End of success function of ajax form
 				}); // End of ajax call	
     	}*/
+
+    	var ID = "";
+    	$(document).on('click', '.clickable', function(){
+    		$('.clickable').css('background-color',"white");
+    		$('.clickable').css('color',"black");
+    		$(this).css('background-color',"blue");
+    		$(this).css('color',"white");
+    		ID = $(this).attr('id');
+    	});
+
+    	$('#editBtn').click(function(){
+    		if(ID!=""){
+    			window.location.href = "editUsersAcct/"+ ID;
+    		}else{
+    			swal("Notice","Select a row first before clicking edit","error")
+    		}
+    	})
 	</script>
