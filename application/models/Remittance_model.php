@@ -39,28 +39,28 @@ class Remittance_model extends CI_Model{
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID')->result();
 						}
-						else if($year && $month == "All" && $period == "All"){
+						else if($year != "All" && $month == "All" && $period == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 						}
-						else if($month && $year == "All" && $period == "All"){
+						else if($month != "All" && $year == "All" && $period == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period && $year == "All" && $month == "All"){
+						else if($period != "All" && $year == "All" && $month == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"')->result();
 						}
-						else if($period && $year && $month == "All"){
+						else if($period != "All" && $year != "All" && $month == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -68,7 +68,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 						}
-						else if($period && $year == "All" && $month){
+						else if($period != "All" && $year == "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -76,7 +76,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period == "All" && $year && $month){
+						else if($period == "All" && $year != "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -84,7 +84,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period && $year == "All" && $month){
+						else if($period != "All" && $year == "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, tax as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -111,28 +111,28 @@ class Remittance_model extends CI_Model{
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID')->result();
 						}
-						else if($year && $month == "All" && $period == "All"){
+						else if($year != "All" && $month == "All" && $period == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 						}
-						else if($month && $year == "All" && $period == "All"){
+						else if($month != "All" && $year == "All" && $period == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period && $year == "All" && $month == "All"){
+						else if($period != "All" && $year == "All" && $month == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
 								WHERE employee.empID = paysheet.empID
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"')->result();
 						}
-						else if($period && $year && $month == "All"){
+						else if($period != "All" && $year != "All" && $month == "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -140,7 +140,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 						}
-						else if($period && $year == "All" && $month){
+						else if($period != "All" && $year == "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -148,7 +148,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,9,1) LIKE "'.$period.'"
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period == "All" && $year && $month){
+						else if($period == "All" && $year != "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -156,7 +156,7 @@ class Remittance_model extends CI_Model{
 								AND substring(paysheet.paysheetPeriod,1,4) LIKE "'.$year.'"
 								AND substring(paysheet.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 						}
-						else if($period && $year == "All" && $month){
+						else if($period != "All" && $year == "All" && $month != "All"){
 							$categoryQuery = $this->db->query('SELECT 
 								CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, '.$category.' as amount,paysheetPeriod 
 								FROM employee,paysheet
@@ -177,12 +177,18 @@ class Remittance_model extends CI_Model{
 						
 				}
 				
+				$affectedRows = $this->db->affected_rows();
 				$tableResult = "";
-				foreach($categoryQuery as $cResult){
-					$tableResult.="<tr><td>".$cResult->name."</td>";
-					$tableResult.="<td>".$cResult->amount."</td>";
-					$tableResult.="<td>".$cResult->paysheetPeriod."</td></tr>";
+				if($affectedRows > 0){
+					foreach($categoryQuery as $cResult){
+						$tableResult.="<tr><td>".$cResult->name."</td>";
+						$tableResult.="<td>".$cResult->amount."</td>";
+						$tableResult.="<td>".$cResult->paysheetPeriod."</td></tr>";
+					}
+				}else{
+					$tableResult = "";
 				}
+				
 
 		}else{
 			if($year||$month||$period){
@@ -193,7 +199,7 @@ class Remittance_model extends CI_Model{
 						WHERE employee.empID = paysheetloan.empID
 						AND paysheetloan.deductionName LIKE "'.$category.'"')->result();
 				}
-				else if($year && $month == "All" && $period == "All"){
+				else if($year != "All" && $month == "All" && $period == "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -201,7 +207,7 @@ class Remittance_model extends CI_Model{
 						AND paysheetloan.deductionName LIKE "'.$category.'"
 						AND substring(paysheetloan.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 				}
-				else if($month && $year == "All" && $period == "All"){
+				else if($month != "All" && $year == "All" && $period == "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -209,7 +215,7 @@ class Remittance_model extends CI_Model{
 						AND paysheetloan.deductionName LIKE "'.$category.'"
 						AND substring(paysheetloan.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 				}
-				else if($period && $year == "All" && $month == "All"){
+				else if($period != "All" && $year == "All" && $month == "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -217,7 +223,7 @@ class Remittance_model extends CI_Model{
 						AND paysheetloan.deductionName LIKE "'.$category.'"
 						AND substring(paysheetloan.paysheetPeriod,9,1) LIKE "'.$period.'"')->result();
 				}
-				else if($period && $year && $month == "All"){
+				else if($period != "All" && $year != "All" && $month == "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -226,7 +232,7 @@ class Remittance_model extends CI_Model{
 						AND substring(paysheetloan.paysheetPeriod,9,1) LIKE "'.$period.'"
 						AND substring(paysheetloan.paysheetPeriod,1,4) LIKE "'.$year.'"')->result();
 				}
-				else if($period && $year == "All" && $month){
+				else if($period != "All" && $year == "All" && $month != "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -235,7 +241,7 @@ class Remittance_model extends CI_Model{
 						AND substring(paysheetloan.paysheetPeriod,9,1) LIKE "'.$period.'"
 						AND substring(paysheetloan.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 				}
-				else if($period == "All" && $year && $month){
+				else if($period == "All" && $year != "All" && $month != "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -244,7 +250,7 @@ class Remittance_model extends CI_Model{
 						AND substring(paysheetloan.paysheetPeriod,1,4) LIKE "'.$year.'"
 						AND substring(paysheetloan.paysheetPeriod,5,3) LIKE "'.$month.'"')->result();
 				}
-				else if($period && $year == "All" && $month){
+				else if($period != "All" && $year == "All" && $month != "All"){
 					$categoryQuery = $this->db->query('SELECT 
 						CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, paysheetloan.paysheetPeriod,paysheetloan.amount
 						FROM employee,paysheetloan
@@ -265,12 +271,17 @@ class Remittance_model extends CI_Model{
 				}	
 			}
 
+			$affectedRows = $this->db->affected_rows();
 			$tableResult = "";
-			foreach($categoryQuery as $cResult){
-				$tableResult.="<tr><td>".$cResult->name."</td>";
-				$tableResult.="<td>".$cResult->amount."</td>";
-				$tableResult.="<td>".$cResult->paysheetPeriod."</td></tr>";
-			}		
+			if($affectedRows > 0){
+				foreach($categoryQuery as $cResult){
+					$tableResult.="<tr><td>".$cResult->name."</td>";
+					$tableResult.="<td>".$cResult->amount."</td>";
+					$tableResult.="<td>".$cResult->paysheetPeriod."</td></tr>";
+				}
+			}else{
+				$tableResult = "";
+			}	
 		}
 
 		if($tableResult == ""){

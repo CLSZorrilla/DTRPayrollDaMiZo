@@ -56,7 +56,7 @@
 				</a>
 			</li>
 			<li>
-				<a class="btnMenu" href="<?php echo base_url(); ?>Clerk/monthlyPayslip">
+				<a class="btnMenu" href="<?php echo base_url(); ?>employee/monthlyPayslip">
 					<button class="btn">
 						<span class="glyphicon glyphicon-piggy-bank"></span> Payslip
 					</button>

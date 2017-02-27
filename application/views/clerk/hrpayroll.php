@@ -170,7 +170,7 @@
         cache: false,
         success:function(r){
           if(r == 'Success'){
-            swal("Good job!", "Successfully saved to database. Saving a copy", "success")
+            swal("Good job!", "Successfully saved to database. Saving a copy", "success");
           }
           else if(r == 'Fail'){
              swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");

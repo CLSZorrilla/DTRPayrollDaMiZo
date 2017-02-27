@@ -30,20 +30,17 @@ class Emp_model extends CI_Model{
 			'birthDate'=>$this->input->post('birthDate',TRUE),
 			'contactNo'=>$this->input->post('cNo',TRUE),
 			'sex'=>$this->input->post('sex',TRUE),
-			'status'=>$this->input->post('type',TRUE),
 			'dateHired'=>$this->input->post('dateHired',TRUE),
 			'GSISNo'=>$this->input->post('gsisNo',TRUE),
 			'PhilHealthNo'=>$this->input->post('phNo',TRUE),
 			'TIN'=>$this->input->post('tin',TRUE),
 			'VL'=>$this->input->post('vLeave',TRUE),
 			'SL'=>$this->input->post('sLeave',TRUE),
-			'picture'=>$img,
+			'picture' => $img,
 			'activated' => 'TRUE'
 		);
 
 		$insert_data = $this->db->insert('employee', $data);
-
-		return $insert_data;
 	}
 
 	public function get_picture(){
@@ -83,7 +80,6 @@ class Emp_model extends CI_Model{
 			'birthDate'=>$this->input->post('birthDate',TRUE),
 			'contactNo'=>$this->input->post('cNo',TRUE),
 			'sex'=>$this->input->post('sex',TRUE),
-			'status'=>$this->input->post('type',TRUE),
 			'dateHired'=>$this->input->post('dateHired',TRUE),
 			'GSISNo'=>$this->input->post('gsisNo',TRUE),
 			'PhilHealthNo'=>$this->input->post('phNo',TRUE),
@@ -167,6 +163,83 @@ class Emp_model extends CI_Model{
 		$query = $this->db->query('SELECT timeIn,amOut,pmIn,timeOut FROM timelog WHERE logdate LIKE "'.$cDate.'" AND empID LIKE "'.$uid.'"');
 
 		return $query->result();
+	}
+
+	public function InitialPaysheetData($eid){
+		$this->db->select("empID, basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL,startPeriod,endPeriod");
+		$PaysheetResult = $this->db->get_where("Paysheet", array('empID' => $eid));
+
+		return $PaysheetResult->result();
+	}
+
+	public function PaysheetDataFilter(){
+		$eid = $this->session->userdata('username');
+		$year = $this->input->post('year');
+		$month = $this->input->post('month');
+
+		if($year != "All" && $month == "All"){
+			$PaysheetFilterResult = $this->db->query("
+				SELECT empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL,startPeriod,endPeriod
+				FROM paysheet 
+				WHERE empID LIKE '".$eid."' 
+				AND substring(paysheetPeriod,1,4) LIKE '".$year."'")->result();
+		}
+		else if($month != "All" && $year == "All"){
+			$PaysheetFilterResult = $this->db->query("
+				SELECT empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL,startPeriod,endPeriod
+				FROM paysheet 
+				WHERE empID LIKE '".$eid."' 
+				AND substring(paysheet.paysheetPeriod,5,3) LIKE '".$month."'")->result();
+		}
+		else if($month != "All" && $year != "All"){
+			$PaysheetFilterResult = $this->db->query("
+				SELECT empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL,startPeriod,endPeriod
+				FROM paysheet 
+				WHERE empID LIKE '".$eid."' 
+				AND substring(paysheet.paysheetPeriod,5,3) LIKE '".$month."'
+				AND substring(paysheetPeriod,1,4) LIKE '".$year."'")->result();
+		}
+		else if($year == "All" && $month == "All"){
+			$PaysheetFilterResult = $this->db->query("
+				SELECT empID,basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL,startPeriod,endPeriod
+				FROM paysheet 
+				WHERE empID LIKE '".$eid."'")->result();
+		}
+		$tableResult = "";
+		$affected_rows = $this->db->affected_rows();
+		if($affected_rows > 0){
+			foreach($PaysheetFilterResult as $pfr){
+				$tableResult.="<tr>
+				<td>".$pfr->empID."</td>
+				<td>".$pfr->basicpay."</td>
+				<td>".$pfr->pera."</td>
+				<td>".$pfr->grosspay."</td>
+				<td>".$pfr->philhealth."</td>
+				<td>".$pfr->pagibig."</td>
+				<td>".$pfr->gsis."</td>
+				<td>".$pfr->tax."</td>
+				<td></td>
+				<td>".$pfr->netpay."</td>
+				<td>".$pfr->absences."</td>
+				<td>".$pfr->daysWorked."</td>
+				<td>".$pfr->hoursWorked."</td>
+				<td>".$pfr->numOfLate."</td>
+				<td>".$pfr->VL."</td>
+				<td>".$pfr->SL."</td>
+				<td>".$pfr->startPeriod."</td>
+				<td>".$pfr->endPeriod."</td>";
+				$tableResult.="</tr>";
+			}
+		}
+		else{
+			$tableResult = "";
+		}
+					
+		if($tableResult == ""){
+			echo "<tr><td colspan='18' class='text-center'>NO DATA TO SHOW</td></tr>";
+		}else{
+			echo $tableResult;
+		}
 	}
 }
 

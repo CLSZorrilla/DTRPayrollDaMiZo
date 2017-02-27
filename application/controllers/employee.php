@@ -53,13 +53,12 @@ class Employee extends CI_Controller{
 		$this->form_validation->set_rules('birthDate', 'Birthday','required');
 		$this->form_validation->set_rules('cNo', 'Contact No','required|alpha_dash|exact_length[13]');
 		$this->form_validation->set_rules('sex', 'Sex','required');
-		$this->form_validation->set_rules('type', 'Employee Type','required');
 		$this->form_validation->set_rules('dateHired', 'Date Hired','required');
 		$this->form_validation->set_rules('gsisNo', 'GSISNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('phNo', 'PhilHealthNo','required|alpha_dash|exact_length[14]');
 		$this->form_validation->set_rules('tin', 'TIN','required|alpha_dash|exact_length[14]');
-		$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
-		$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[1-5]{1,2}.[0-9]{1,2}/]');
+		$this->form_validation->set_rules('vLeave', 'Vacation Leave','required|numeric|regex_match[/^[0-5]{1,2}.[0-9]{1,2}/]');
+		$this->form_validation->set_rules('sLeave', 'Sick Leave','required|numeric|regex_match[/^[0-5]{1,2}.[0-9]{1,2}/]');
 
 
 		if($this->form_validation->run() == FALSE){
@@ -68,19 +67,19 @@ class Employee extends CI_Controller{
 				'error' => validation_errors()
 
 				);
+
+
 		}
 		else{
 			$this->Emp_model->edit_user();
 
-			redirect('employee/manageUserAcct');
+			echo "Form Success";
+			//redirect('employee/manageUserAcct');
 		}
 	}
 
 	public function createUserAcct(){
-		if($this->input->server('REQUEST_METHOD') == 'POST'){
-
-
-			$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]|is_unique[employee.empID]',array(
+		$this->form_validation->set_rules('empID', 'EmployeeID','required|exact_length[10]|is_unique[employee.empID]',array(
 				'is_unique'     => 'This %s already exists.'
 				));
 			$this->form_validation->set_rules('pword', 'Password','required|min_length[8]|max_length[15]');
@@ -98,7 +97,6 @@ class Employee extends CI_Controller{
 			$this->form_validation->set_rules('birthDate', 'Birthday','required');
 			$this->form_validation->set_rules('cNo', 'Contact No','required|alpha_dash|exact_length[13]');
 			$this->form_validation->set_rules('sex', 'Sex','required');
-			$this->form_validation->set_rules('type', 'Employee Type','required');
 			$this->form_validation->set_rules('dateHired', 'Date Hired','required');
 			$this->form_validation->set_rules('gsisNo', 'GSISNo','required|alpha_dash|exact_length[14]|is_unique[employee.GSISNo]',array(
 				'is_unique'     => 'This %s already exists.'));
@@ -133,62 +131,24 @@ class Employee extends CI_Controller{
 				$imgPath = base_url().'/uploads/'.$file_data['file_name'];
 
 				$this->Emp_model->insert_user($imgPath);
-				
-				redirect('employee/ManageUserAcct');
+
+				echo '<script> alert("Employee Inserted Successfully"); window.location.href = "manageUserAcct"; </script>';
 
 			}
-		}
-		else if($this->uri->segment(3)){
-			$data['id'] = $this->uri->segment(3);
-			
-			$this->encryption->initialize(
-				array(
-					'cipher' => 'blowfish',
-					'mode' => 'cbc',
-					'key' => '2a$07$vY6x3F45HQSAiOs6N5wMuOwZQ7pUPoSUTBkU'
-					)
-				);
-			$query = $this->Emp_model->readRow($this->uri->segment(3));
-			$row = $query->row();
-			$data['empID'] = $row->empID;
-			$decryptedPassword = $this->encryption->decrypt($row->password);
-			$data['password'] = $decryptedPassword;
-			$data['posName'] = $row->positionCode;
-			$data['deptCode'] = $row->deptCode;
-			$data['lName'] = $row->lname;
-			$data['fname'] = $row->fname;
-			$data['mname'] = $row->mname;
-			$data['address'] = $row->address;
-			$data['maritalStatus'] = $row->maritalStatus;
-			$data['emailAddress'] = $row->emailAddress;
-			$data['birthDate'] = $row->birthDate;
-			$data['contactNo'] = $row->contactNo;
-			$data['sex'] = $row->sex;
-			$data['status'] = $row->status;
-			$data['dateHired'] = $row->dateHired;
-			$data['GSISNo'] = $row->GSISNo;
-			$data['PhilHealthNo'] = $row->PhilHealthNo;
-			$data['TIN'] = $row->TIN;
-			$data['vLeave'] = $row->VL;
-			$data['sLeave'] = $row->SL;
-			$data['uType'] = $row->acctType;
-			$data['dependents'] = $row->noOfDependents;
-			$data['cUserForm']="hr/Createuser";
-			$data['positions'] = $this->Emp_model->load_pos();
-			$data['department'] = $this->Emp_model->load_dept();
-			$this->load->view("Suview", $data);
+	}
 
-		}
-		else{
-			$data['cUserForm']="hr/Createuser";
-			$data['mode']="create";
+	public function monthlyPayslip(){
+		$eid = $this->session->userdata('username');
 
-			$data['positions'] = $this->Emp_model->load_pos();
+		$data['ipd'] = $this->Emp_model->InitialPaysheetData($eid);
 
-			$data['department'] = $this->Emp_model->load_dept();
+		$data['PaysheetView'] = 'employee/PaysheetView';
 
-			$this->load->view('Suview', $data);
-		}
+		$this->load->view('Suview', $data);
+	}
+
+	public function PaysheetDataFilter(){
+		$this->Emp_model->PaysheetDataFilter();
 	}
 }
 

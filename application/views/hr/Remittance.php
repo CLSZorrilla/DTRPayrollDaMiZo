@@ -118,26 +118,7 @@
         		data:{category,year,month,period},
         		cache:false,
         		success:function(r){
-        			
-
-        			$('.MaintenanceTable').DataTable().destroy();
-
         			$('#remittanceTable').html(r);
-
-        			$('.MaintenanceTable').DataTable({
-        				"pageLength": 10,
-        				"pagingType": "full",
-        				"bFilter": true,
-        				"bLengthChange": false,
-        				"ordering": true,
-        				"aaSorting": [[0, 'desc']],
-        				responsive: true,
-        				dom: 'Bfrtip',
-        				buttons: [
-        				{ extend: 'excelHtml5', text: 'Save a copy', title:  "Payroll Sheet"}
-        				]
-        			});
-
         		},
         		error:function(r){
         			alert("AJAX Fail");
@@ -157,7 +138,6 @@
         		cache:false,
         		success:function(r){
         			$('#remittanceTable').html(r);
-        			
         		},
         		error:function(r){
         			alert("AJAX Fail");

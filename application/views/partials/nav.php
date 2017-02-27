@@ -28,7 +28,7 @@
 					</a>
 				</li>
 				<li class="col-xs-3 col-sm-3 col-md-3 col-lg-3">
-					<a href="<?php echo base_url(); ?>Clerk/monthlyPayslip">
+					<a href="<?php echo base_url(); ?>employee/monthlyPayslip">
 						<span class="glyphicon glyphicon-list-alt"></span><br/>Payslip
 					</a>
 				</li>

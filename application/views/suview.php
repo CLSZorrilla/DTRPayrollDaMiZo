@@ -118,6 +118,14 @@
 						redirect('main');
 					}
 				}
+				else if(isSet($PaysheetView)){
+					if($this->session->userdata('aType')){
+						$this->load->view($PaysheetView);
+					}
+					else{
+						redirect('main');
+					}
+				}
 			?>
 		</div>
 		<?php $this->load->view('partials/footer');?>
