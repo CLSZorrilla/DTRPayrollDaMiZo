@@ -70,13 +70,13 @@
 					</button>
 				</a>
 			</li>
-			<li>
+			<!-- <li>
 				<a class="btnMenu" href="<?php echo base_url(); ?>Clerk/viewpayslip">
 					<button class="btn">
 						<span class="glyphicon glyphicon-refresh"></span> Process Payslip
 					</button>
 				</a>
-			</li>
+			</li> -->
 			<?php } ?>
 			<?php if($this->session->userdata('aType') == 'HR'){?>
 			<li>

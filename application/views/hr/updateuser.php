@@ -46,6 +46,7 @@
 			<label for="pPicture" class="control-label col-md-5">Profile Picture:</label>
 			<div class="col-md-7">
 				<input type="file" name="pic" />
+				<img src = "<?php echo $userInfo->row()->picture; ?>" height="50" width="50" />
 			</div>
 		</div>
 		<div class="form-group col-lg-6">

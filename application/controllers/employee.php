@@ -38,14 +38,30 @@ class Employee extends CI_Controller{
 	
 	public function editUsersAcct(){
 		if($this->input->server('REQUEST_METHOD') == 'POST'){
-			$result = $this->Emp_model->edit_user();
 
-			if($result == "Success"){
-				echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
-			}else if($result == "Fail"){
-				echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+			if(!$this->upload->do_upload('pic')){
+				$pic = $this->Emp_model->get_picture();
+
+				$result = $this->Emp_model->edit_user($pic);
+
+				if($result == "Success"){
+					echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
+				}else if($result == "Fail"){
+					echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+				}
+			}else{
+				$file_data = $this->upload->data();
+
+				$imgPath = base_url().'/uploads/'.$file_data['file_name'];
+
+				$result = $this->Emp_model->edit_user($imgPath);
+
+				if($result == "Success"){
+					echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
+				}else if($result == "Fail"){
+					echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+				}
 			}
-
 		}else{
 			$data['editUserForm'] = "hr/updateuser";
 

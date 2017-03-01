@@ -137,42 +137,32 @@
     }
 ?>
     
-<!--         <button class="btn btn-primary pull-right" id="printpage">PRINT</button>
-        <button class="btn btn-primary pull-right" id="savePayslip">SAVE</button> -->
+        <button class="btn btn-primary pull-right" id="printpage">PRINT</button>
+        <button class="btn btn-primary pull-right" id="savePayslip">SAVE</button>
         
     </div>
   </div>
 <script type="text/javascript">
     $('#savePayslip').click(function(e){
-            var basicpay = <?php echo $info->tbasicpay; ?>;
-            var pera = <?php echo $info->tpera; ?>;
-            var grosspay = <?php echo $info->tgrosspay; ?>;
-            var philhealth = <?php echo $info->tphilhealth; ?>;
-            var pagibig = <?php echo $info->tpagibig; ?>;
-            var gsis = <?php echo $info->tgsis; ?>;
-            var tax = <?php echo $info->ttax; ?>;
-            var netpay = <?php echo $info->tnetpay; ?>;
-            var absences = <?php echo $info->tabsences; ?>;
-            var daysWorked = <?php echo $info->tdaysWorked;?>;
-            var hoursWorked = <?php echo $info->thoursWorked; ?>;
-            var numOfLate = <?php echo $info->tnumOfLate; ?>;
-            var VL = <?php echo $info->tVL; ?>;
-            var SL = <?php echo $info->tSL; ?>;
-            
-            alert(netpay);
+            var eid = "<?php echo $info->empID; ?>";
+            var month = "<?php echo $info->month ?>";
+
             $.ajax
             ({
                 type: "POST",
-                url:"<?php echo base_url(); ?>Clerk/savePayslip",
-                data:{basicpay,pera,grosspay,philhealth,pagibig,gsis,tax,netpay,absences,daysWorked,hoursWorked,numOfLate,VL,SL},
+                url:"<?php echo base_url(); ?>Clerk/savePayslip/<?php echo $this->uri->segment(3)?>",
+                data:{eid,month},
                 cache: false,
                 success: function(r){
                     if(r == 'Success'){
                         swal("Good job!", "Successfully saved to database. Saving a copy", "success")
-                      }
-                      else if(r == 'Fail'){
-                         swal("Notice:", "Payroll for the given period has already been generated. Saving a copy instead", "error");
-                      }
+                    }
+                    else if(r == 'Fail'){
+                        swal("Notice:", "System Error. Contact Administrator", "error");
+                    }
+                    else if(r == "Duplicate"){
+                        swal("Notice:", "Payslip for the given period has already been saved to the database. Save a copy instead", "error");
+                    }
                 },
                 error:function(r){
                   swal("Notice:","System Error Contact Administrator", "error");

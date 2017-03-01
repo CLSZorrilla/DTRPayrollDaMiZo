@@ -22,7 +22,7 @@ class Clerk_model extends CI_Model{
 		
 		$_date = date('YM');
 		
-		$this->db->select('employee.empID, positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, paysheet.empID, SUM(paysheet.basicpay) AS tbasicpay, SUM(paysheet.pera) AS tpera, SUM(paysheet.grosspay) AS tgrosspay, SUM(paysheet.philhealth) AS tphilhealth, SUM(paysheet.pagibig) AS tpagibig, SUM(paysheet.gsis) AS tgsis, SUM(paysheet.tax) AS ttax, SUM(paysheet.netpay) AS tnetpay, SUM(paysheet.absences) AS tabsences, SUM(paysheet.daysWorked) AS tdaysWorked, SUM(paysheet.hoursWorked) AS thoursWorked, SUM(paysheet.numOfLate) AS tnumOfLate, SUM(paysheet.VL) AS tVL, SUM(paysheet.SL) AS tSL');
+		$this->db->select('employee.empID, positions.positionName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, paysheet.empID, SUM(paysheet.basicpay) AS tbasicpay, SUM(paysheet.pera) AS tpera, SUM(paysheet.grosspay) AS tgrosspay, SUM(paysheet.philhealth) AS tphilhealth, SUM(paysheet.pagibig) AS tpagibig, SUM(paysheet.gsis) AS tgsis, SUM(paysheet.tax) AS ttax, SUM(paysheet.netpay) AS tnetpay, SUM(paysheet.absences) AS tabsences, SUM(paysheet.daysWorked) AS tdaysWorked, SUM(paysheet.hoursWorked) AS thoursWorked, SUM(paysheet.numOfLate) AS tnumOfLate, SUM(paysheet.VL) AS tVL, SUM(paysheet.SL) AS tSL, substring(paysheet.startPeriod,6,2) as month');
 		$this->db->from('employee');
 		$this->db->where('employee.empID' , $eid);
 		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
@@ -38,7 +38,7 @@ class Clerk_model extends CI_Model{
 		
 		$_date = date('YM');
 		
-		$this->db->select('paysheetLoan.deductionName, SUM(paysheetLoan.amount) AS total');
+		$this->db->select('paysheetloan.empID,paysheetloan.deductionName, SUM(paysheetloan.amount) AS total');
 		$this->db->from('paysheetLoan');
 		$this->db->where('paysheetLoan.empID' , $eid);
 		$this->db->like('paysheetLoan.paysheetPeriod' , $_date);
@@ -52,36 +52,61 @@ class Clerk_model extends CI_Model{
 	public function save_payslip(){
 
 		$eid = $this->input->post('eid', TRUE);
+		$month = Date('M',$this->input->post('month', TRUE));
 
-		$paysheet_info = $this->get_emp_pSheet($eid);
-		$paysheet_loan = $this->get_emp_pSheetLoan($eid);
+		$checkIfPslipExist = $this->db->query("SELECT * FROM payslip WHERE Month LIKE '".$month."'");
 
-		foreach($paysheet_info as $pInfo){
-			$data = array(
-				'empID' => $pInfo->empID,
-				'basicpay' => $pInfo->tbasicpay,
-				'pera' => $pInfo->tpera,
-				'grosspay' => $pInfo->tgrosspay,
-				'philhealth' =>$pInfo->tphilhealth,
-				'pagibig' => $pInfo->tpagibig,
-				'gsis' => $pInfo->tgsis,
-				'tax' => $pInfo->ttax,
-				'netpay' => $pInfo->tnetpay,
-				'absences' => $pInfo->tabsences,
-				'hoursWorked' => $pInfo->thoursWorked
-			);
-		}
-		
-		$insert_paysheet = $this->db->insert('payslip', $data);
-
-		$affectedRows = $this->db->affected_rows();
-
-		if($affectedRows > 0){
-			echo "Success";
+		$numRows = $checkIfPslipExist->num_rows();
+		if($numRows > 0){
+			echo "Duplicate";
 		}
 		else{
-			echo "Fail";
+			$paysheet_info = $this->get_emp_pSheet($eid);
+			$paysheet_loan = $this->get_emp_pSheetLoan($eid);
+
+			foreach($paysheet_info as $pInfo){
+				$psdata = array(
+					'Month' => $month,
+					'empID' => $pInfo->empID,
+					'basicpay' => $pInfo->tbasicpay,
+					'pera' => $pInfo->tpera,
+					'grosspay' => $pInfo->tgrosspay,
+					'philhealth' =>$pInfo->tphilhealth,
+					'pagibig' => $pInfo->tpagibig,
+					'gsis' => $pInfo->tgsis,
+					'tax' => $pInfo->ttax,
+					'netpay' => $pInfo->tnetpay,
+					'absences' => $pInfo->tabsences,
+					'hoursWorked' => $pInfo->thoursWorked
+					);
+			}
+
+			$this->db->insert('payslip', $psdata);
+
+			foreach($paysheet_loan as $pLInfo){
+				$psLoan = array(
+					'Month' => $month,
+					'empID' => $pLInfo->empID,
+					'deductionName' => $pLInfo->deductionName,
+					'amount' => $pLInfo->total
+					);
+
+				$this->db->insert('paysliploan', $psLoan);
+			}
+
+
+
+
+			$affectedRows = $this->db->affected_rows();
+
+			if($affectedRows > 0){
+				echo "Success";
+			}
+			else{
+				echo "Fail";
+			}
 		}
+		
 	}
 
 	public function get_payroll_info($eid){
@@ -93,14 +118,8 @@ class Clerk_model extends CI_Model{
 		$this->db->join('salarygrade', 'positions.salaryGrade=salarygrade.salaryGrade');
 
 		$basicInfo = $this->db->get();
-		if($this->uri->segment(1) == 'Clerk'){
-			$basicPay = ($basicInfo->row(6)->step_1)/2;
-			$pera = ($basicInfo->row(4)->pera)/2;
-		}
-		else if($this->uri->segment(1) == 'Clerk' && $this->uri->segment(2) == 'viewpayslip'){
-			$basicPay = $basicInfo->row(6)->step_1;
-			$pera = $basicInfo->row(4)->pera;
-		}
+		$basicPay = $basicInfo->row(6)->step_1;
+		$pera = $basicInfo->row(4)->pera;
 		
 		$name = $basicInfo->row(3)->name;
 		$eid = $basicInfo->row(0)->empID;
@@ -116,14 +135,11 @@ class Clerk_model extends CI_Model{
 			$mStatusDep = "SME";
 		}
 
-		$timeBasis = $this->db->query("SELECT timeBasis FROM company_profile");
-
-		$tbasis = $timeBasis->row(0)->timeBasis;
-		
 		//--------------------------------------------------------------
 		//get startTime and endTime
-		$seTime = $this->db->query('SELECT startTime, endTime, startRange, endRange FROM company_profile WHERE id = 1');
+		$seTime = $this->db->query('SELECT startTime, endTime, startRange, endRange, timeBasis FROM company_profile WHERE id = 1');
 
+		$tbasis = $seTime->row(4)->timeBasis;
 		$sTime = $seTime->row(0)->startTime;
 
 		$sTimeAdd = date_create(date("H:i", strtotime("$sTime")));
@@ -132,13 +148,20 @@ class Clerk_model extends CI_Model{
 		$sRange = $seTime->row(2)->startRange;
 		$eRange = $seTime->row(3)->endRange;
 
-		$sDRange = $this->input->post('periodDateS');
-		$eDRange = $this->input->post('periodDateE');
+		$year = date('Y');
+		$payrollMonth = substr($this->input->post('payrollMonth'),0,2);
+
+		$payrollMonthStart = date_format(date_sub(date_create("$year-$payrollMonth-01"),date_interval_create_from_date_string("2 months")),"Y-m");
+
+		$payrollMonthEnd = date_format(date_sub(date_create("$year-$payrollMonth-01"),date_interval_create_from_date_string("1 month")),"Y-m");
+
+
+		$sDRange = "$payrollMonthStart-15";
+		$eDRange = "$payrollMonthEnd-14";
 
 		//---------------------------------------------------------------
 		//hours late
 		$cMonth = date('m');
-		$year = date('Y');
 		if($tbasis == 'Flexible'){
 			$damLateResult = $this->db->query('SELECT 
 					CASE
@@ -195,8 +218,13 @@ class Clerk_model extends CI_Model{
 
 		$daysLate = $this->db->query('SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'" AND (logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'")');
 
-		$numofLate = count($daysLate->row(0)->empID);
+		echo 'SELECT empID FROM timelog WHERE timediff(timeIn,"09:00:00") > 0 AND empID LIKE "'.$eid.'" AND (logdate BETWEEN "'.$sDRange.'" AND "'.$eDRange.'")';
 
+		if(!isset($daysLate->row(0)->empID)){
+			$numofLate = 0;
+		}else{
+			$numofLate = count($daysLate->row(0)->empID);
+		}
 		//--------------------------------------------------------------------
 		//Undertime Deduction
 
@@ -353,7 +381,9 @@ class Clerk_model extends CI_Model{
 
 	    $daysWorked = count($dLatetimeIn);
 
-	    $absentQuery = $this->db->query('SELECT absences , date2 , date1 FROM employee WHERE empID LIKE "'.$eid.'"');
+	    $absences = $weekDays - $daysWorked;
+
+	    /*$absentQuery = $this->db->query('SELECT absences , date2 , date1 FROM employee WHERE empID LIKE "'.$eid.'"');
 
 	    $absentDB = $absentQuery->row(0)->absences;
 
@@ -407,13 +437,13 @@ class Clerk_model extends CI_Model{
 			$absences = $absences - $VLDeduct2;
 		
 			$this->db->query('UPDATE employee SET VL = VL - "'.$VLDeduct2.'" , date1 = "'.$datetime1->format("Y-m-d").'" , date2 = "'.$datetime2->format("Y-m-d").'" , absences = "'.$absences.'" WHERE empID LIKE "'.$eid.'" ');
-		}
+		}*/
 
-		$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE empID LIKE "'.$eid.'"');
+		/*$absentQuery2 = $this->db->query('SELECT absences FROM employee WHERE empID LIKE "'.$eid.'"');
 
-	    $absentDB2 = $absentQuery2->row(0)->absences;
+	    $absentDB2 = $absentQuery2->row(0)->absences;*/
 
-	    $absentDeduction = round(($absentDB2 * $dailyRate),2);
+	    $absentDeduction = round(($absences * $dailyRate),2);
 	    //----------------------------------------------------------------
 	    //PERA deduction
 	    if($daysWorked == 0){
@@ -459,7 +489,7 @@ class Clerk_model extends CI_Model{
 			$wTax = $this->db->query("SELECT ME1S1, exemption, status
 								FROM withholdingtax
 								WHERE ME1S1 <= '".$taxableIncome."'
-								AND compensationLevel LIKE 'semi%'
+								AND compensationLevel LIKE 'monthly%'
 								ORDER BY ME1S1 DESC LIMIT 1");
 
 			$withholdingTable = $wTax->row(0)->ME1S1;
@@ -470,7 +500,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME2S2, exemption, status
 					FROM withholdingtax
 					WHERE ME2S2 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'semi%'
+					AND compensationLevel LIKE 'monthly%'
 					ORDER BY ME2S2 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME2S2;
 				$exemption = $wTax->row(1)->exemption;
@@ -480,7 +510,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME3S3, exemption, status
 					FROM withholdingtax
 					WHERE ME3S3 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'semi%'
+					AND compensationLevel LIKE 'monthly%'
 					ORDER BY ME3S3 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME3S3;
 				$exemption = $wTax->row(1)->exemption;
@@ -490,7 +520,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT ME4S4, exemption, status
 					FROM withholdingtax
 					WHERE ME4S4 <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'semi%'
+					AND compensationLevel LIKE 'monthly%'
 					ORDER BY ME4S4 DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->ME4S4;
 				$exemption = $wTax->row(1)->exemption;
@@ -500,7 +530,7 @@ class Clerk_model extends CI_Model{
 				$wTax = $this->db->query("SELECT SME, exemption, status
 					FROM withholdingtax
 					WHERE SME <= '".$taxableIncome."'
-					AND compensationLevel LIKE 'semi%'
+					AND compensationLevel LIKE 'monthly%'
 					ORDER BY SME DESC LIMIT 1");
 				$withholdingTable = $wTax->row(0)->SME;
 				$exemption = $wTax->row(1)->exemption;
@@ -517,11 +547,18 @@ class Clerk_model extends CI_Model{
 
 		$totalDeductions = ($pHealthContrib + $gsis + $withholdingTax + 100 + $loanAmount);
 	
-		$netPay =round(($grossPay) - ($totalDeductions),2);	
-		
+		$netPay =round(($grossPay) - ($totalDeductions),2);
+
+		$firsthalf = 0;
+		$secondhalf = 0;
+
 		if($netPay<=0){
 			$netPay = 0;
+		}else{
+			$firsthalf = round((($netPay/2)- 1000),2);
+		    $secondhalf = round((($netPay/2) + 1000),2);
 		}
+		
 
 		if($daysWorked == 0){
 			$pagIbig = 0;
@@ -536,7 +573,7 @@ class Clerk_model extends CI_Model{
 		$VL2 = $leave2->row(0)->VL;
 		$SL2 = $leave2->row(1)->SL;
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
+		return array($name,$position,$secondhalf,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate);
 	}
 
 //------------------The Dividing Line---------------------------------------------

@@ -119,7 +119,8 @@
 						'id' => $dName[$key],
 						'placeholder' => $label,
 						'type' => $dType[$key],	
-						'value' => $cForm[$key]
+						'value' => $cForm[$key],
+						'required' => true
 						));
 					}
 					

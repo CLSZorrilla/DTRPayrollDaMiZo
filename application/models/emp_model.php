@@ -44,14 +44,14 @@ class Emp_model extends CI_Model{
 	}
 
 	public function get_picture(){
-
-		$this->db->select('picture');
-		$query = $this->db->get_where('employee', array('empID' => $eid));
-
-		return $query->result();
+		$picture = $this->db->select('picture')
+                  ->get_where('employee', array('empID' => $this->input->post('empID')))
+                  ->row()
+                  ->picture;
+		return $picture;
 	}
 
-	public function edit_user(){
+	public function edit_user($pic){
 		$this->encryption->initialize(
         array(
                 'cipher' => 'blowfish',
@@ -86,11 +86,12 @@ class Emp_model extends CI_Model{
 			'TIN'=>$this->input->post('tin',TRUE),
 			'VL'=>$this->input->post('vLeave',TRUE),
 			'SL'=>$this->input->post('sLeave',TRUE),
+			'picture' => $pic,
 			'activated'=>$acctStatus
 		);
 
-
-		$query = $this->db->replace('employee', $data);
+		$this->db->where('empID', $data['empID']);
+		$query = $this->db->update('employee', $data);
 
 		$affectedRows = $this->db->affected_rows();
 

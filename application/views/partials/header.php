@@ -6,10 +6,10 @@
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/dataTables.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/responsive.bootstrap.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/jquery.alerts.css" />
-<!-- <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/fullcalendar.css" /> -->
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style-attendance.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/buttons.dataTables.min.css" />
 <link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/sweetalert.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootstrap-datepicker.min.css" />
 
 <script src="<?php echo base_url();?>assets/js/jquery-3.1.1.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery.dataTables.min.js"></script>
@@ -28,3 +28,4 @@
 <script src="<?php echo base_url();?>assets/js/buttons.print.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/sweetalert.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jquery.table2excel.js"></script>
+<script src="<?php echo base_url();?>assets/js/bootstrap-datepicker.min.js"></script>

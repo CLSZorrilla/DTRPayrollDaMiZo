@@ -40,16 +40,7 @@
       <div class="row" style="margin-bottom: 20px;border-bottom:2px solid <?php echo $company['colorTheme']; ?>">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
           <div class="form-group col-sm-6 col-md-6 col-lg-6">
-            <label class="control-label col-lg-3">From:</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="date" id="periodDateS" style="display: inline-block; width:100%;" />
-            </div>
-          </div>
-          <div class="form-group col-sm-6 col-md-6 col-lg-6">
-            <label class="control-label col-lg-3">To:</label>
-            <div class="col-lg-9">
-              <input class="form-control" type="date" id="periodDateE" style="display: inline-block; width:100%;" />
-            </div>
+            <input class="datepicker" type="text" data-date-format="mm/dd/yyyy" id="monthPicker" >
           </div>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="margin-bottom: 15px;">
@@ -72,6 +63,8 @@
             <th>WT</th>
             <th>Additional Deductions</th>
             <th>Total NetPay</th>
+            <th>1st Half</th>
+            <th>2nd Half</th>
             <th># of Absences</th>
             <th>Day/s Worked</th>
             <th>Hours Worked</th>
@@ -106,44 +99,30 @@
       });
     });
 
-    $(function(){
-      var dtToday = new Date();
-      
-      var month = dtToday.getMonth() + 1;
-      var day = dtToday.getDate()-1;
-      var year = dtToday.getFullYear();
-      if(month < 10)
-          month = '0' + month.toString();
-      if(day < 10)
-          day = '0' + day.toString();
-      
-      var maxDate = year + '-' + month + '-' + day;
-
-      $('#periodDateS').attr('max', maxDate);
-      $('#periodDateE').attr('max', maxDate);
+    $('.datepicker').datepicker({
+      format: "mm-yyyy",
+      startView: "months", 
+      minViewMode: "months",
+      endDate: '+1m'
     });
 
-    $('#periodDateS').change(function(){
-      var minDate = $('#periodDateS').val();
-
-      $('#periodDateE').attr('min', minDate);
-    });
     $('#genPaySheet').click(function(){
-      var periodDateS = $('#periodDateS').val();
-      var periodDateE = $('#periodDateE').val();
+      var payrollMonth = $('#monthPicker').val();
 
-      if(periodDateS == "" || periodDateE == ""){
-        swal({title: "Ooops!",text: "Input a date range first", timer: 2000, showConfirmButton:false,type:"error",animation:"slide-from-bottom"});
+      alert(payrollMonth);
+
+      if(payrollMonth == ""){
+        swal({title: "Ooops!",text: "Select a month first before generating", timer: 2000, showConfirmButton:false,type:"error",animation:"slide-from-bottom"});
       }
       else{
         $.ajax({
           type: "POST",
           url: "<?php echo base_url();?>Clerk/paysheet_compute",
-          data: {periodDateS,periodDateE},
+          data: {payrollMonth},
           success: function(msg){
             $('.MaintenanceTable').DataTable().destroy();
 
-            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th># of Absences</th><th>Day/s Worked</th><th>Hours Worked</th><th># of late</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th>1st Half</th><th>2nd Half</th><th># of Absences</th><th>Day/s Worked</th><th>Hours Worked</th><th># of late</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
             $('#pInfo').html(msg);
             $('#hideMyPower').html($('#tableRes td').html());
             //alert($('#tableRes td').html());
