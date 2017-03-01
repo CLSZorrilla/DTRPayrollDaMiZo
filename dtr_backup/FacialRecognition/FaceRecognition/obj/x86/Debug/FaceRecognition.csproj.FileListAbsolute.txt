@@ -107,3 +107,12 @@ C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecog
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
 C:\Users\Froinand Dayaon\Documents\Visual Studio 2010\Projects\payroll\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Register.resources
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache

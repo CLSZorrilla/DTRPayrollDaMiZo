@@ -37,6 +37,7 @@ namespace FaceRecognition
         public FormMain()
         {
             InitializeComponent();
+            btnCapture.Enabled = false; 
             face = new HaarCascade("haarcascade_frontalface_default.xml");
 
             try
@@ -218,9 +219,8 @@ namespace FaceRecognition
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            if (txtEmpID.Text == "" || txtEmpID.Text.Length < 10) { btnCapture.Enabled = false; }
-            else
-            { btnCapture.Enabled = true; }
+            if ( txtEmpID.Text == "" && txtEmpID.Text.Length > 10 && txtEmpID.Text.Length <= 10) { btnCapture.Enabled = false; }
+            else{ btnCapture.Enabled = true; }
                 searchEmployee();
                 searchCompany();
         }
@@ -256,8 +256,6 @@ namespace FaceRecognition
                 lblEmpID.Text = (dataReader["empID"]).ToString();
                 lblname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
                 activated = (dataReader["activated"]).ToString();
-                vacationLeave = (float)dataReader["VL"];
-                basic_pay = (float)dataReader["basicPay"];
                 _picture.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
@@ -430,27 +428,6 @@ namespace FaceRecognition
                             cmd2.Dispose();
                             compute();
                             SaveImage();
-
-                            if (count == "3")
-                            {
-                                to_deduct1 = (float)minsLate2 * (float)0.002; //total minutes converted to equivalent day based on 8 hour workday
-
-                                //subtract to_deduct2 to VL from employee tbl
-                                condition = vacationLeave - to_deduct1;
-
-                                if (condition < 0) //save the remaining balance to toDeduct @ tbl employee
-                                {
-                                    condition = 0;
-                                    to_deduct = to_deduct1 - vacationLeave;
-                                    to_deduct = (basic_pay / 10560) * to_deduct1; //10560 = 22 * 8 * 60
-                                }
-
-                                query = "UPDATE employee SET VL ='" + condition + "', toDeduct ='" + to_deduct + "' WHERE empID='" + txtEmpID.Text + "'";
-                                cmd3 = new MySqlCommand(query, connect);
-
-                                cmd3.ExecuteNonQuery();
-                                cmd3.Dispose();
-                            }
                         }
 
                     }
