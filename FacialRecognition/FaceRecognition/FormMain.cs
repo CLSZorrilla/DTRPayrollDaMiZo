@@ -17,6 +17,7 @@ namespace FaceRecognition
     {
         public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, r_end, theme, abbre, basis;
         public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
+        public List<string> valuesList = new List<string>();
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
         //Declararation of all variables, vectors and haarcascades
@@ -225,6 +226,16 @@ namespace FaceRecognition
                 searchCompany();
         }
 
+        private void searchHoliday()
+        {
+            db_connection();
+            cmd = new MySqlCommand("SELECT holidayDate FROM holiday", connect);
+            dataReader = cmd.ExecuteReader();
+            while (dataReader.Read())
+            {
+                valuesList.Add((dataReader[0]).ToString());
+            }
+        }
 
         private void searchCompany()
         { 
@@ -292,9 +303,17 @@ namespace FaceRecognition
             string militaryTime = currentDate.ToString("HH:mm tt");
             string time_only = currentDate.ToString("hh:mm tt");
             string date_only = currentDate.ToString("yyyy-MM-dd");
+            string date_lang = currentDate.ToString("MM/dd/yyyy");
+            string holiday = "";
+
+            //check if holiday
+            searchHoliday();
+
+            int index = valuesList.FindIndex(item => item == date_lang);
+            if (index >= 0) { holiday = "true"; }
+            else { holiday = "false"; }
 
             string basis_ = "";
-
             switch (basis)
             {
                 case "Flexible":
@@ -312,11 +331,11 @@ namespace FaceRecognition
 
             DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 0, 59); //1PM
 
-            int minsLate1 = 0, minsLate2 = 0, x = 0, y = 0, g = 0, f = 0;
-            float to_deduct1 = 0, condition = 0;
-            TimeSpan timeLate;
-
-            if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
+            if (holiday == "true")
+            {
+                MessageBox.Show("Its Holiday!");
+            }
+            else if (day == DayOfWeek.Saturday || day == DayOfWeek.Sunday)
             {
                 MessageBox.Show("Its Weekend!");
             }
