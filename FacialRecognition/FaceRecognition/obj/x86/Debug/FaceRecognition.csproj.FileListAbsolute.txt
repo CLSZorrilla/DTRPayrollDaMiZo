@@ -99,8 +99,6 @@ C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecog
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
-C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csprojResolveAssemblyReference.cache
-C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FaceRegister.resources
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
 C:\Users\theresa micoleta\Desktop\DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Register.resources

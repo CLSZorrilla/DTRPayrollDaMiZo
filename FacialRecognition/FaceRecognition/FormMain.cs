@@ -341,15 +341,15 @@ namespace FaceRecognition
                     {
                         MessageBox.Show("Time In: " + time_only);
 
-                        //count minutes late
-                        timeLate = currentDate - basis_endRange;
-                        x = timeLate.Hours;
-                        if (timeLate.Minutes != 0)
-                        {
-                            y = (timeLate.Minutes);
-                        }
+                        ////count minutes late
+                        //timeLate = currentDate - basis_endRange;
+                        //x = timeLate.Hours;
+                        //if (timeLate.Minutes != 0)
+                        //{
+                        //    y = (timeLate.Minutes);
+                        //}
 
-                        minsLate1 = (x * 60) + y;
+                        //minsLate1 = (x * 60) + y;
                         // to_deduct1 = (float)minsLate1 * (float)0.002;
                     }
 
@@ -392,15 +392,15 @@ namespace FaceRecognition
                                 {
                                     MessageBox.Show("PM In: " + time_only);
 
-                                    //count minutes late
-                                    timeLate = currentDate - dt1300;
-                                    g = timeLate.Hours;
-                                    if (timeLate.Minutes != 0)
-                                    {
-                                        f = (timeLate.Minutes);
-                                    }
-                                    minsLate2 = (g * 60) + f;
-                                    minsLate2 += minsLate1; // total of minutes late for the day
+                                    ////count minutes late
+                                    //timeLate = currentDate - dt1300;
+                                    //g = timeLate.Hours;
+                                    //if (timeLate.Minutes != 0)
+                                    //{
+                                    //    f = (timeLate.Minutes);
+                                    //}
+                                    //minsLate2 = (g * 60) + f;
+                                    //minsLate2 += minsLate1; // total of minutes late for the day
                                 }
                                 break;
 
@@ -426,7 +426,7 @@ namespace FaceRecognition
 
                             cmd2.ExecuteNonQuery();
                             cmd2.Dispose();
-                            compute();
+                            //compute();
                             SaveImage();
                         }
 
@@ -435,84 +435,84 @@ namespace FaceRecognition
             }
         }
 
-        int a, b, c, d, totalmin, totalhrs;
-        string StartTime, EndTime, am_out, pm_in;
-        string date_only = DateTime.Now.ToString("yyyy-MM-dd");
-        DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
-        DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 59); //12PM
+        //int a, b, c, d, totalmin, totalhrs;
+        //string StartTime, EndTime, am_out, pm_in;
+        //string date_only = DateTime.Now.ToString("yyyy-MM-dd");
+        //DateTime dt1300 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 13, 00, 0); //1PM
+        //DateTime dt1200 = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, 12, 00, 59); //12PM
 
-        private void compute()
-        {
-            //get all time value from timelog
-            db_connection();
-            cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
-            dataReader = cmd.ExecuteReader();
-            if (dataReader.Read())
-            {
-                countInOut = dataReader["countInOut"].ToString();
-                StartTime = dataReader["timeIn"].ToString();
-                EndTime = dataReader["timeOut"].ToString();
-                am_out = dataReader["amOut"].ToString();
-                pm_in = dataReader["pmIn"].ToString();
-            }
+        //private void compute()
+        //{
+        //    //get all time value from timelog
+        //    db_connection();
+        //    cmd = new MySqlCommand("SELECT * FROM timelog WHERE empID ='" + txtEmpID.Text + "' AND logdate ='" + date_only + "'", connect);
+        //    dataReader = cmd.ExecuteReader();
+        //    if (dataReader.Read())
+        //    {
+        //        countInOut = dataReader["countInOut"].ToString();
+        //        StartTime = dataReader["timeIn"].ToString();
+        //        EndTime = dataReader["timeOut"].ToString();
+        //        am_out = dataReader["amOut"].ToString();
+        //        pm_in = dataReader["pmIn"].ToString();
+        //    }
 
-            DateTime timeIn = DateTime.Parse(StartTime);
-            DateTime amOut = DateTime.Parse(am_out);
-            DateTime timeOut = DateTime.Parse(EndTime);
+        //    DateTime timeIn = DateTime.Parse(StartTime);
+        //    DateTime amOut = DateTime.Parse(am_out);
+        //    DateTime timeOut = DateTime.Parse(EndTime);
 
-            if (amOut > dt1200) { amOut = dt1200; } //if amOut is later than 12:00 PM, amOut time is still 12:00 PM
+        //    if (amOut > dt1200) { amOut = dt1200; } //if amOut is later than 12:00 PM, amOut time is still 12:00 PM
 
-            switch (countInOut)
-            {
-                case "2"://done with amOut
-                    TimeSpan TimeDifference = timeOut - timeIn;
-                    a = TimeDifference.Hours;
-                    if (TimeDifference.Minutes != 0)
-                    {
-                        b = (TimeDifference.Minutes);
-                    }
+        //    switch (countInOut)
+        //    {
+        //        case "2"://done with amOut
+        //            TimeSpan TimeDifference = timeOut - timeIn;
+        //            a = TimeDifference.Hours;
+        //            if (TimeDifference.Minutes != 0)
+        //            {
+        //                b = (TimeDifference.Minutes);
+        //            }
 
-                    totalhrs = ((a * 60) + b) / 60; //GET TOTAL HOURS WORK
-                    totalmin = ((a * 60) + b) % 60;//GET TOTAL MINS WORK
-                    break;
+        //            totalhrs = ((a * 60) + b) / 60; //GET TOTAL HOURS WORK
+        //            totalmin = ((a * 60) + b) % 60;//GET TOTAL MINS WORK
+        //            break;
 
 
-                case "4"://done with timeOut
+        //        case "4"://done with timeOut
 
-                    DateTime pmIn = DateTime.Parse(pm_in);
+        //            DateTime pmIn = DateTime.Parse(pm_in);
 
-                    if (pmIn < dt1300) { pmIn = dt1300; } //if pmIn is earlier than 1:00 PM, start time is still 1:00 PM
+        //            if (pmIn < dt1300) { pmIn = dt1300; } //if pmIn is earlier than 1:00 PM, start time is still 1:00 PM
 
-                    //amShift
-                    TimeSpan TimeDifferenceAM = amOut - timeIn;
-                    a = TimeDifferenceAM.Hours;
-                    if (TimeDifferenceAM.Minutes != 0)
-                    {
-                        b = (TimeDifferenceAM.Minutes);
-                    }
+        //            //amShift
+        //            TimeSpan TimeDifferenceAM = amOut - timeIn;
+        //            a = TimeDifferenceAM.Hours;
+        //            if (TimeDifferenceAM.Minutes != 0)
+        //            {
+        //                b = (TimeDifferenceAM.Minutes);
+        //            }
 
-                    //pmShift
-                    TimeSpan TimeDifferencePM = timeOut - pmIn;
-                    c = TimeDifferencePM.Hours;
-                    if (TimeDifferencePM.Minutes != 0)
-                    {
-                        d = (TimeDifferencePM.Minutes);
-                    }
-                    totalhrs = (((a * 60) + b) + ((c * 60) + d)) / 60; //GET TOTAL HOURS WORK
-                    totalmin = (((a * 60) + b) + ((c * 60) + d)) % 60;//GET TOTAL MINS WORK
-                    break;
+        //            //pmShift
+        //            TimeSpan TimeDifferencePM = timeOut - pmIn;
+        //            c = TimeDifferencePM.Hours;
+        //            if (TimeDifferencePM.Minutes != 0)
+        //            {
+        //                d = (TimeDifferencePM.Minutes);
+        //            }
+        //            totalhrs = (((a * 60) + b) + ((c * 60) + d)) / 60; //GET TOTAL HOURS WORK
+        //            totalmin = (((a * 60) + b) + ((c * 60) + d)) % 60;//GET TOTAL MINS WORK
+        //            break;
 
-                default:
-                    //MessageBox.Show("INVALID countInOut value");
-                    break;
-            }
+        //        default:
+        //            //MessageBox.Show("INVALID countInOut value");
+        //            break;
+        //    }
 
-            db_connection();
-            query = "UPDATE timeLog SET hrsWorked ='" + totalhrs + "', minsWorked='" + totalmin + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
-            cmd = new MySqlCommand(query, connect);
+        //    db_connection();
+        //    query = "UPDATE timeLog SET hrsWorked ='" + totalhrs + "', minsWorked='" + totalmin + "' WHERE empID='" + txtEmpID.Text + "' AND logdate='" + date_only + "'";
+        //    cmd = new MySqlCommand(query, connect);
 
-            cmd.ExecuteNonQuery();
-        }
+        //    cmd.ExecuteNonQuery();
+        //}
 
         void clr()
         {
