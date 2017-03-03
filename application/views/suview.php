@@ -22,9 +22,25 @@
 						redirect('main');
 					}
 				}
-				else if(isSet($mUser)){
+				else if(isSet($cPositionForm)){
 					if($this->session->userdata('aType') == 'HR'){
-						$this->load->view($mUser);
+						$this->load->view($cPositionForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($cDepartmentForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($cDepartmentForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($cHolidayForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($cHolidayForm);
 					}
 					else{
 						redirect('main');
@@ -41,6 +57,30 @@
 				else if(isSet($editUserForm)){
 					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($editUserForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($editPositionForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($editPositionForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($editDepartmentForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($editDepartmentForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($editHolidayForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($editHolidayForm);
 					}
 					else{
 						redirect('main');
@@ -129,6 +169,14 @@
 				else if(isSet($empPayslip)){
 					if($this->session->userdata('aType')){
 						$this->load->view($empPayslip);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($empProfile)){
+					if($this->session->userdata('aType')){
+						$this->load->view($empProfile);
 					}
 					else{
 						redirect('main');

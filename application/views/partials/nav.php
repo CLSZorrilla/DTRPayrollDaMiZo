@@ -8,6 +8,11 @@
 			</a>
 			<ul class="pull-right TitleBarList">
 				<li>
+					<a href="<?php echo base_url(); ?>employee/employeeProfile">
+						<i class="circle"><span class="glyphicon glyphicon-user"></span></i>
+					</a>
+				</li>
+				<li>
 					<a href="<?php echo base_url(); ?>main/logout">
 						<i class="circle"><span class="glyphicon glyphicon-log-out"></span></i>
 					</a>

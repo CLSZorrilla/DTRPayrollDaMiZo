@@ -14,7 +14,7 @@
 		$cinfo->row(3)->description,
 		$cinfo->row(4)->address,
 		$cinfo->row(5)->contactNo,
-		'',
+		$cinfo->row(12)->timeBasis,
 		$cinfo->row(6)->startTime,
 		$cinfo->row(7)->endTime,
 		$cinfo->row(8)->colorTheme,
@@ -76,8 +76,9 @@
 		<div class="form-group col-lg-6" style="overflow: hidden;">
 			<?php echo form_label($label, $dName[$key], $lAttrib); ?>
 			<div class="col-md-7">
-				<input type='radio' name=<?php echo $dName[$key]; ?> id="flexi" value='Flexible'>Flexible Time
-	  			<input type='radio' name=<?php echo $dName[$key];  ?> id="regular" value='Regular' checked> Regular Time
+				<input type='radio' name=<?php echo $dName[$key]; ?> id="flexi" value="Flexible" >Flexible Time
+	  			<input type='radio' name=<?php echo $dName[$key];  ?> id="regular" value="Regular" >Regular Time
+	  			<script type="text/javascript"> $("input[name=timeBasis][value='<?php echo $cForm[$key]; ?>']").prop('checked', true); </script>
 			</div>
 			<br />
 			<div class="col-md-7">
@@ -151,15 +152,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-if ($("#regular").prop("checked", true)) {
-            $("#start_time").show();
-            $('label[for="start_time"]').show();
-            $("#end_time").show();
-            $('label[for="end_time"]').show();
-            $("#sRange").hide();
-            $("#eRange").hide();
-
-}
 
 $('input:radio[name="timeBasis"]').change(
     function(){

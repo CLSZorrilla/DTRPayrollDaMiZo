@@ -68,24 +68,14 @@
 						</select>
 					</div>
                 </div>
-                <div class="form-group col-lg-3">
-                    <label class="control-label col-lg-4">Period:</label>
-                    <div class="col-lg-8">
-	                    <select class="form-control" id="period" name="">
-	                    	<option value="All">All</option>
-	                    	<option value="1">1st</option>
-	                    	<option value="2">2nd</option>
-						</select>
-					</div>
-                </div>
             </div>
-			<div class="table-responsive">
+			<div class="table-responsive" id="tableRemit">
 				<table class="table table-striped MaintenanceTable" id="RemittanceTable">
 					<thead>
 						<tr>
 							<th>Full Name</th>
 							<th>Amount</th>
-							<th>Period</th>
+							<th>Month</th>
 						</tr>
 					</thead>
 					<tbody id="remittanceTable">
@@ -114,21 +104,38 @@
         var category = "";
         var year = "";
         var month = "";
-        var period = "";
+
 
         $('#category').change(function(){
         	category = document.getElementById("category").value;
         	year = document.getElementById("year").value;
         	month = document.getElementById("month").value;
-        	period = document.getElementById("period").value;
 
         	$.ajax({
         		type:"POST",
         		url:"<?php echo base_url();?>Remittance/FilterCategory",
-        		data:{category,year,month,period},
+        		data:{category,year,month},
         		cache:false,
         		success:function(r){
+                    $('.MaintenanceTable').DataTable().destroy();
+
+                    $('#tableRemit').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Full Name</th><th>Amount</th><th>Month</th></tr></thead><tbody id='remittanceTable'></tbody></table>");
+
         			$('#remittanceTable').html(r);
+
+                    $('.MaintenanceTable').DataTable({
+                        "pageLength": 10,
+                        "pagingType": "full",
+                        "bFilter": true,
+                        "bLengthChange": false,
+                        "ordering": true,
+                        "aaSorting": [[0, 'desc']],
+                        responsive: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                        { extend: 'excelHtml5', text: 'Save a copy', title:  "Payroll Sheet"}
+                        ]
+                    });
         		},
         		error:function(r){
         			alert("AJAX Fail");
@@ -139,15 +146,33 @@
         	category = document.getElementById("category").value;
         	year = document.getElementById("year").value;
         	month = document.getElementById("month").value;
-        	period = document.getElementById("period").value;
+
 
         	$.ajax({
         		type:"POST",
         		url:"<?php echo base_url();?>Remittance/FilterCategory",
-        		data:{category,year,month,period},
+        		data:{category,year,month},
         		cache:false,
         		success:function(r){
-        			$('#remittanceTable').html(r);
+                    $('.MaintenanceTable').DataTable().destroy();
+
+                    $('#tableRemit').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Full Name</th><th>Amount</th><th>Month</th></tr></thead><tbody id='remittanceTable'></tbody></table>");
+
+                    $('#remittanceTable').html(r);
+
+                    $('.MaintenanceTable').DataTable({
+                        "pageLength": 10,
+                        "pagingType": "full",
+                        "bFilter": true,
+                        "bLengthChange": false,
+                        "ordering": true,
+                        "aaSorting": [[0, 'desc']],
+                        responsive: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                        { extend: 'excelHtml5', text: 'Save a copy', title:  "Payroll Sheet"}
+                        ]
+                    });
         		},
         		error:function(r){
         			alert("AJAX Fail");
@@ -159,37 +184,33 @@
         	category = document.getElementById("category").value;
         	year = document.getElementById("year").value;
         	month = document.getElementById("month").value;
-        	period = document.getElementById("period").value;
+
 
         	$.ajax({
         		type:"POST",
         		url:"<?php echo base_url();?>Remittance/FilterCategory",
-        		data:{category,year,month,period},
+        		data:{category,year,month},
         		cache:false,
         		success:function(r){
-        			$('#remittanceTable').html(r);
-        			
-        		},
-        		error:function(r){
-        			alert("AJAX Fail");
-        		}
-        	});
-        });
+                    $('.MaintenanceTable').DataTable().destroy();
 
-        $('#period').change(function(){
-        	category = document.getElementById("category").value;
-        	year = document.getElementById("year").value;
-        	month = document.getElementById("month").value;
-        	period = document.getElementById("period").value;
-        	
-        	$.ajax({
-        		type:"POST",
-        		url:"<?php echo base_url();?>Remittance/FilterCategory",
-        		data:{category,year,month,period},
-        		cache:false,
-        		success:function(r){
-        			$('#remittanceTable').html(r);
-        			
+                    $('#tableRemit').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Full Name</th><th>Amount</th><th>Month</th></tr></thead><tbody id='remittanceTable'></tbody></table>");                    
+
+                    $('#remittanceTable').html(r);
+
+         			$('.MaintenanceTable').DataTable({
+                        "pageLength": 10,
+                        "pagingType": "full",
+                        "bFilter": true,
+                        "bLengthChange": false,
+                        "ordering": true,
+                        "aaSorting": [[0, 'desc']],
+                        responsive: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                        { extend: 'excelHtml5', text: 'Save a copy', title:  "Payroll Sheet"}
+                        ]
+                    });
         		},
         		error:function(r){
         			alert("AJAX Fail");

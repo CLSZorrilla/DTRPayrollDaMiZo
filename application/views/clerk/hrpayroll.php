@@ -57,9 +57,12 @@
             <th>Monthly Salary</th>
             <th>PERA</th>
             <th>Gross Earnings</th>
-            <th>PhilHealth</th>
-            <th>Pagibig Fund</th>
+            <th>PhilHealth No</th>
+            <th>PhilHealth Share</th>
+            <th>Pagibig Share</th>
+            <th>GSIS No</th>
             <th>GSIS Integ.</th>
+            <th>TIN</th>
             <th>WT</th>
             <th>Additional Deductions</th>
             <th>Total NetPay</th>
@@ -85,9 +88,6 @@
   <script type="text/javascript">
     $(document).ready(function () {
 
-      var periodDateS = $('#periodDateS').val();
-      var periodDateE = $('#periodDateE').val();
-
       $('.MaintenanceTable').DataTable({
         "pageLength": 10,
         "pagingType": "full",
@@ -109,8 +109,6 @@
     $('#genPaySheet').click(function(){
       var payrollMonth = $('#monthPicker').val();
 
-      alert(payrollMonth);
-
       if(payrollMonth == ""){
         swal({title: "Ooops!",text: "Select a month first before generating", timer: 2000, showConfirmButton:false,type:"error",animation:"slide-from-bottom"});
       }
@@ -122,7 +120,7 @@
           success: function(msg){
             $('.MaintenanceTable').DataTable().destroy();
 
-            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th>1st Half</th><th>2nd Half</th><th># of Absences</th><th>Day/s Worked</th><th>Hours Worked</th><th># of late</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealthNo</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSISNo</th><th>GSIS Integ.</th><th>TIN</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th>1st Half</th><th>2nd Half</th><th># of Absences</th><th>Day/s Worked</th><th>Hours Worked</th><th># of late</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
             $('#pInfo').html(msg);
             $('#hideMyPower').html($('#tableRes td').html());
             //alert($('#tableRes td').html());
@@ -138,7 +136,7 @@
               responsive: true,
               dom: 'Bfrtip',
               buttons: [
-                { extend: 'excelHtml5', text: 'Save a copy', title:  periodDateS + "to" + periodDateE + "Payroll Sheet"}
+                { extend: 'excelHtml5', text: 'Save a copy', title: "Payroll Sheet"+payrollMonth}
               ]
             });
           },
@@ -151,13 +149,12 @@
 
     $(document).on("click",".dt-buttons a",function(e){
       var pslipdata = $('#hideMyPower').html();
-      var periodDateS = $('#periodDateS').val();
-      var periodDateE = $('#periodDateE').val();
+      var payrollMonth = $('#monthPicker').val();
 
       $.ajax({
         type: "POST",
         url:"<?php echo base_url(); ?>Clerk/paysheet_save",
-        data:{pslipdata,periodDateS,periodDateE},
+        data:{pslipdata,payrollMonth},
         cache: false,
         success:function(r){
           if(r == 'Success'){

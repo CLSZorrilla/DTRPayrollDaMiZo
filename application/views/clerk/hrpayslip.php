@@ -33,13 +33,14 @@
         <h4 style="color: <?php echo $company['colorTheme']; ?>;"><b>PROCESS PAYSLIP</b></h4>
         <hr />
       </div>
-
+      <input class="datepicker" type="text" data-date-format="mm/dd/yyyy" id="monthPicker" placeholder="Choose Payslip Month">
+      <button class="btn btn-primary" id="genBtn">Generate</button>
       <div class="table-responsive">
         <table class="table table-striped MaintenanceTable">
           <thead>
             <tr>
               <?php
-                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name', 'Generated');
+                $tHeader=array('Employee ID', 'User Type' ,'Position', 'Department', 'Full Name');
                   foreach($tHeader as $tHead){
                     echo '<th>'.$tHead.'</th>';
                   };
@@ -51,19 +52,12 @@
             <?php 
                   foreach($uinfo as $info){
                     echo "
-                      <tr>
+                      <tr class='clickable' id=".$info->empID.">
                         <td>".$info->empID."</td>
                         <td>".$info->acctType."</td>
                         <td>".$info->positionName."</td>
                         <td>".$info->deptName."</td>
                         <td>".$info->name."</td>
-                        <td>";
-                        if($info->generated == 2){ ?> 
-                        <a href="<?php echo base_url(); ?>Clerk/empPayslip/<?php echo $info->empID; ?>" id='payroll' class='btn btnPayroll'>Process Payroll</a>
-                        <?php } else {
-                           echo "Not ready for processing";
-                         }
-                    echo "</td>
                       </tr>"; 
                   }
             ?>
@@ -90,4 +84,33 @@
       });
     });
 
+    $('.datepicker').datepicker({
+      format: "mm-yyyy",
+      startView: "months", 
+      minViewMode: "months",
+      endDate: '+1m'
+    });
+
+    var ID = "";
+      $(document).on('click', '.clickable', function(){
+        $('.clickable').css('background-color',"white");
+        $('.clickable').css('color',"black");
+        $(this).css('background-color',"blue");
+        $(this).css('color',"white");
+        ID = $(this).attr('id');
+      });
+
+      $('#genBtn').click(function(){
+        var payrollMonth = $('#monthPicker').val();
+
+        if(ID != "" && payrollMonth == ""){
+          
+          swal("Notice","Select payroll month before generating","error");
+        }
+        else if(ID == ""){
+          swal("Notice","Select a row first before generating","error");
+        }else{
+          window.location.href = "empPayslip/"+ID+"/"+payrollMonth;
+        }
+      })
   </script>

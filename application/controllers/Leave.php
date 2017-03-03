@@ -53,12 +53,13 @@ class Leave extends CI_Controller{
 
 			}
 			else{
-				$leaveSpanString = timespan(strtotime($this->input->post('startDate', TRUE)),strtotime($this->input->post('endDate', TRUE)));
+				$leaveSpanString = 	date_diff(date_create($this->input->post('startDate', TRUE)),date_create($this->input->post('endDate', TRUE)));
 
-				$leaveSpan = trim($leaveSpanString, "DaysWeekSecondMonth");
+				$leaveSpan = $leaveSpanString->format('%a');
+				$leaveSpan ++;
 
 				if($this->input->post('leaveType') == '1' && ($this->input->post('vl') == '0' || $this->input->post('vl') < $leaveSpan)){
-					echo "<script type=\"text/javascript\">alert('You have no vacation leave credits left');</script>";
+					echo "<script type='text/javascript'>alert('You have no vacation leave credits left');</script>";
 
 					$data['leaveType'] = $this->Leave_model->load_leave();
 					$data['leaveReq'] = "hr/Leaveform";
@@ -67,7 +68,7 @@ class Leave extends CI_Controller{
 				}
 				else if($this->input->post('leaveType') == '2' && ($this->input->post('sl') == '0' || $this->input->post('sl') < $leaveSpan)){
 
-					echo "<script type=\"text/javascript\">alert('You have no sick leave credits left');</script>";
+					echo "<script type='text/javascript'>alert('You have no sick leave credits left');</script>";
 
 					$data['leaveType'] = $this->Leave_model->load_leave();
 					$data['leaveReq'] = "hr/Leaveform";
@@ -75,9 +76,15 @@ class Leave extends CI_Controller{
 					$this->load->view('Suview', $data);
 				}
 				else{
-					$this->Leave_model->leaveCreditsUpdate();
+					$lcu = $this->Leave_model->leaveCreditsUpdate();
 
-					redirect('employee/ManageUserAcct');
+					if($lcu == "Duplicate"){
+						$this->session->set_flashdata('leaveDupli', 'Cannot continue. the user already have an attendance on your selected date');
+
+						redirect('leave');
+					}else{
+						redirect('employee/ManageUserAcct');
+					}
 				}
 			}
 		}

@@ -11,6 +11,14 @@ class Attendance_model extends CI_Model{
 		$getAtt = $this->db->query("SELECT logdate, timeIn, amOut, pmIn, timeOut FROM `timelog` WHERE empID LIKE '".$eid."'");
 		$getHolidays = $this->db->query("SELECT holidayName, holidayDate FROM holiday");
 
+		$tbasis = $this->db->query("SELECT timeBasis, startRange,endRange, startTime, endTime FROM company_profile WHERE id = 1");
+
+		$sRange = $tbasis->row()->startRange;
+		$eRange = $tbasis->row()->endRange;
+		$sTime = $tbasis->row()->startTime;
+		$eTime = $tbasis->row()->endTime;
+		$timeBasis = $tbasis->row()->timeBasis;
+
 		$timeIn = array();
 		$amOut = array();
 		$pmIn = array();
@@ -34,14 +42,24 @@ class Attendance_model extends CI_Model{
 
 		$tIn = array();
 		foreach($timeIn as $key => $attendance){
-			if($timeIn[$key] > '09:00:00'){
-				array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false, 'color' => 'red'));
-			}
-			else{
-				array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
+			if($timeBasis == "Flexible"){
+				if($timeIn[$key] > $eRange){
+					array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false, 'color' => 'red'));
+				}
+				else{
+					array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
+				}
+			}else if($timeBasis == "Regular"){
+				if($timeIn[$key] > $sTime){
+					array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false, 'color' => 'red'));
+				}
+				else{
+					array_push($tIn, array('title' => 'Time in','start' => $date[$key]."T".$timeIn[$key], 'allDay' => false));
+				}
 			}
 			
 			array_push($tIn, array('title' => 'am Out','start' => $date[$key]."T".$amOut[$key], 'allDay' => false ));
+
 			if($pmIn[$key] > '13:00:00'){
 				array_push($tIn, array('title' => 'pm In','start' => $date[$key]."T".$pmIn[$key], 'allDay' => false, 'color' => 'red'));
 			}

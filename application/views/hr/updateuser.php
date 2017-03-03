@@ -2,14 +2,14 @@
 	include "/../partials/nav_customize.php";
 ?>
 <style type="text/css">
-  input.btnEnter{
+  button#updateBtn{
     background-color:white;
     color:black;
     border: 2px solid <?php echo $company['colorTheme']; ?>;
       -webkit-transition-duration: 0.4s; /* Safari */
       transition-duration: 0.4s;
   }
-  input.btnEnter:hover{
+  button#updateBtn:hover{
       background-color: <?php echo $company['colorTheme']; ?>;
       color: white;
   }

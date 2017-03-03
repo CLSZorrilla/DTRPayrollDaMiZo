@@ -135,6 +135,19 @@ class Emp_model extends CI_Model{
 
 		return $query;
 	}
+
+	public function get_profile($eid){
+		$query = $this->db->query('SELECT employee.empID,
+			CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) as name, positions.positionName, department.deptName, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.address, employee.birthDate, employee.contactNo, employee.sex, employee.maritalStatus
+			FROM employee,positions,department
+			WHERE employee.positionCode = positions.positionCode
+			AND employee.deptCode = department.deptCode
+			AND employee.empID = "'.$eid.'"
+			GROUP BY employee.empID')->result();
+
+		return $query;
+	}
+
 	public function login_user($eid, $pword){
 
 		$result = $this->db->get_where('employee', array('empID' => $eid, 'activated' => 'TRUE'));

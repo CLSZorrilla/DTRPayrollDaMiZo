@@ -149,6 +149,14 @@ class Employee extends CI_Controller{
 		$this->load->view('Suview', $data);
 	}
 
+	public function employeeProfile(){
+		$eid = $this->session->userdata('username');
+		$data['empProfile'] = 'employee/employeeprofile';
+		$data['uinfo'] = $this->Emp_model->get_profile($eid);
+
+		$this->load->view('Suview', $data);
+	}
+
 	public function FilterCategory(){
 		$this->load->model('Payslip_model');
 		$this->Payslip_model->filterCategory();

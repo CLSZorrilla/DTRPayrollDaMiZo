@@ -31,6 +31,11 @@
 			</a>
 			<ul class="pull-right TitleBarList">
 				<li>
+					<a href="<?php echo base_url(); ?>employee/employeeProfile">
+						<i class="circle"><span class="glyphicon glyphicon-user"></span></i>
+					</a>
+				</li>
+				<li>
 					<a href="<?php echo base_url(); ?>main/logout">
 						<i class="circle"><span class="glyphicon glyphicon-log-out"></span></i>
 					</a>
@@ -70,13 +75,13 @@
 					</button>
 				</a>
 			</li>
-			<!-- <li>
+			<li>
 				<a class="btnMenu" href="<?php echo base_url(); ?>Clerk/viewpayslip">
 					<button class="btn">
 						<span class="glyphicon glyphicon-refresh"></span> Process Payslip
 					</button>
 				</a>
-			</li> -->
+			</li>
 			<?php } ?>
 			<?php if($this->session->userdata('aType') == 'HR'){?>
 			<li>
@@ -87,7 +92,7 @@
 				</a>
 			</li>
 			<li>
-				<a class="btnMenu" href="<?php echo base_url(); ?>employee/manageUserAcct">
+				<a class="btnMenu" href="<?php echo base_url(); ?>Maintenance">
 					<button class="btn">
 						<span class="glyphicon glyphicon-wrench"></span> Maintenance
 					</button>

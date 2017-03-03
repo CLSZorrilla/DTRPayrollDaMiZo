@@ -35,34 +35,41 @@ class Leave_model extends CI_Model{
 	}
 
 	public function leaveCreditsUpdate(){
+		$startDate = $this->input->post('startDate', TRUE);
+		$endDate = $this->input->post('endDate', TRUE);
 
-		$leaveSpanString = timespan(strtotime($this->input->post('startDate', TRUE)),strtotime($this->input->post('endDate', TRUE)));
+		$checkIfWithAttendance = $this->db->query("SELECT logdate FROM timelog WHERE (logdate BETWEEN '".$startDate."' AND '".$endDate."') OR logdate LIKE '".$startDate."' OR  logdate LIKE '".$endDate."'");
 
-		$leaveSpan = trim($leaveSpanString, "DaysWeekSecondMonth");
+		$result = $checkIfWithAttendance->num_rows();
 
-		echo $leaveSpan;
+		if($result > 0){
+			return "Duplicate";
+		}else{
+			$leaveSpanString = 	date_diff(date_create($startDate),date_create($endDate));
 
-		$data = array(
-			'empID' => $this->input->post('empID', TRUE),
-			'leaveType' => $this->input->post('leaveType', TRUE),
-			'startingDate' => $this->input->post('startDate', TRUE),
-			'endDate' => $this->input->post('endDate', TRUE),
-			'noOfDays' => $leaveSpan,
-			'approvalDate' => $this->input->post('appDate', TRUE),
-			'remarks' => $this->input->post('note', TRUE)
-		);
+			$leaveSpan = $leaveSpanString->format('%a');
+			$leaveSpan ++;
+
+			$data = array(
+				'empID' => $this->input->post('empID', TRUE),
+				'leaveType' => $this->input->post('leaveType', TRUE),
+				'startingDate' => $this->input->post('startDate', TRUE),
+				'endDate' => $this->input->post('endDate', TRUE),
+				'noOfDays' => $leaveSpan,
+				'approvalDate' => $this->input->post('appDate', TRUE),
+				'remarks' => $this->input->post('note', TRUE)
+			);
 
 
-		if($this->input->post('leaveType') == '1'){
-			$this->db->query('UPDATE employee SET VL = VL-'.$leaveSpan.' WHERE empID LIKE "'.$data['empID'].'"');		
+			if($this->input->post('leaveType') == '1'){
+				$this->db->query('UPDATE employee SET VL = VL-"'.$leaveSpan.'" + 1 WHERE empID LIKE "'.$data['empID'].'"');		
+			}
+			else if($this->input->post('leaveType') == '2'){
+				$this->db->query('UPDATE employee SET SL = SL-"'.$leaveSpan.'" WHERE empID LIKE "'.$data['empID'].'"');
+			}
+
+			$this->db->insert('leavehistory', $data);
 		}
-		else if($this->input->post('leaveType') == '2'){
-			$this->db->query('UPDATE employee SET SL = SL-'.$leaveSpan.' WHERE empID LIKE "'.$data['empID'].'"');
-		}
-
-		$insert_leaveData = $this->db->insert('leavehistory', $data);
-
-		return $insert_leaveData;
 	}
 }
 

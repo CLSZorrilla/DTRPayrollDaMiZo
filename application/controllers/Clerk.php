@@ -25,8 +25,7 @@ class Clerk extends CI_Controller{
 	public function empPayslip(){
 		$data['hrpayslip'] = 'Clerk/viewpayslip';
 
-		$data['uinfo'] = $this->Clerk_model->get_emp_pSheet($this->uri->segment(3));
-		$data['loaninfo'] = $this->Clerk_model->get_emp_pSheetLoan($this->uri->segment(3));
+		$data['uinfo'] = $this->Clerk_model->get_payroll_info($this->uri->segment(3));
 		
 		$this->load->view('Suview', $data);
 	}

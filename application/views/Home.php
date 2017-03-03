@@ -15,7 +15,7 @@
 					<div class="panel-body">
 						<h3>
 							<?php if($this->session->userdata('username')): ?>
-								<p><?php echo "Welcome " . $this->session->userdata('user_id') ?>!</p>
+								<p><?php echo "Welcome! " . $this->session->userdata('user_id') ?></p>
 							<?php endif; ?>
 						</h3>
 					</div>

@@ -31,6 +31,9 @@
 			<hr />
 		</div>
 	
+		<?php if($this->session->flashdata('leaveDupli')): ?>
+			<div class="alert alert-danger alert-dismissable fade in"><?php echo $this->session->flashdata('leaveDupli'); ?><a href="#" id="ekis" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+		<?php endif; ?>
 		<div class="panel panel-default" style="margin:0px 15px;">
 		<div class="panel-heading">Deduct Leave Credits</div>
 		<?php echo form_open_multipart("leave", $attributes); ?>
