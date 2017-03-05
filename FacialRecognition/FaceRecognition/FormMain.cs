@@ -220,7 +220,7 @@ namespace FaceRecognition
 
         private void Timer3_Tick(object sender, EventArgs e)
         {
-            if ( txtEmpID.Text == "" && txtEmpID.Text.Length > 10 && txtEmpID.Text.Length <= 10) { btnCapture.Enabled = false; }
+            if ( txtEmpID.Text == "" || txtEmpID.Text.Length > 10) { btnCapture.Enabled = false; }
             else{ btnCapture.Enabled = true; }
                 searchEmployee();
                 searchCompany();

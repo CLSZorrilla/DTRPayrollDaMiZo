@@ -113,3 +113,12 @@ C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\Face
 C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
 C:\Users\ChrisLorenz\Documents\payroll-DTRonly\dtr_backup\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache
 C:\Users\theresa micoleta\Desktop\DTRonly\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Register.resources
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.exe
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\bin\Debug\FaceRecognition.pdb
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.FormMain.resources
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Properties.Resources.resources
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.Register.resources
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.RegisterFace.resources
+C:\Users\ChrisLorenz\Documents\FacialRecognition\FaceRecognition\obj\x86\Debug\FaceRecognition.csproj.GenerateResource.Cache

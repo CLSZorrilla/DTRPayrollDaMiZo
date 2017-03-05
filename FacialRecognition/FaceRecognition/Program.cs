@@ -15,7 +15,7 @@ namespace FaceRecognition
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Register());
+            //Application.Run(new Register())   ;
             Application.Run(new FormMain());
             
             //Application.Run(new RegisterFace());
