@@ -16,7 +16,7 @@ namespace FaceRecognition
     public partial class FormMain : Form
     {
         public string query, fileNameimg, comportno, numberOfFaceDetected, activated, countInOut, count, what_column, start, end, r_end, theme, abbre, basis;
-        public float vacationLeave = 0, basic_pay = 0, to_deduct = 0;
+        public double vacationLeave = 0, basic_pay = 0, to_deduct = 0;
         public List<string> valuesList = new List<string>();
         System.IO.Ports.SerialPort SerialPort1 = new System.IO.Ports.SerialPort();
 
@@ -267,6 +267,8 @@ namespace FaceRecognition
                 lblEmpID.Text = (dataReader["empID"]).ToString();
                 lblname.Text = (dataReader["lname"] + "," + dataReader["fname"] + " " + dataReader["mname"].ToString());
                 activated = (dataReader["activated"]).ToString();
+                vacationLeave = dataReader.GetDouble("VL");
+                basic_pay = dataReader.GetDouble("basicPay");
                 _picture.ImageLocation = dataReader["picture"].ToString();
 
                 //checks if account is not activated
@@ -306,6 +308,10 @@ namespace FaceRecognition
             string date_lang = currentDate.ToString("MM/dd/yyyy");
             string holiday = "";
 
+            int minsLate1 = 0, minsLate2 = 0, x = 0, y = 0, g = 0, f = 0;
+            float to_deduct1 = 0, condition = 0;
+            TimeSpan timeLate;
+
             //check if holiday
             searchHoliday();
 
@@ -339,10 +345,10 @@ namespace FaceRecognition
             {
                 MessageBox.Show("Its Weekend!");
             }
-            else if (currentDate < dtr_start || currentDate > dtr_end)
-            {
-                MessageBox.Show("Out of office hours!");
-            }
+            //else if (currentDate < dtr_start || currentDate > dtr_end)
+            //{
+            //    MessageBox.Show("Out of office hours!");
+            //}
             else
             {
                 //checks if employee already timed in for the day
@@ -360,16 +366,16 @@ namespace FaceRecognition
                     {
                         MessageBox.Show("Time In: " + time_only);
 
-                        ////count minutes late
-                        //timeLate = currentDate - basis_endRange;
-                        //x = timeLate.Hours;
-                        //if (timeLate.Minutes != 0)
-                        //{
-                        //    y = (timeLate.Minutes);
-                        //}
+                        //count minutes late
+                        timeLate = currentDate - basis_endRange;
+                        x = timeLate.Hours;
+                        if (timeLate.Minutes != 0)
+                        {
+                            y = (timeLate.Minutes);
+                        }
 
-                        //minsLate1 = (x * 60) + y;
-                        // to_deduct1 = (float)minsLate1 * (float)0.002;
+                        minsLate1 = (x * 60) + y;
+                        to_deduct1 = (float)minsLate1 * (float)0.002;
                     }
 
                     //insert to db
@@ -411,15 +417,15 @@ namespace FaceRecognition
                                 {
                                     MessageBox.Show("PM In: " + time_only);
 
-                                    ////count minutes late
-                                    //timeLate = currentDate - dt1300;
-                                    //g = timeLate.Hours;
-                                    //if (timeLate.Minutes != 0)
-                                    //{
-                                    //    f = (timeLate.Minutes);
-                                    //}
-                                    //minsLate2 = (g * 60) + f;
-                                    //minsLate2 += minsLate1; // total of minutes late for the day
+                                    //count minutes late
+                                    timeLate = currentDate - dt1300;
+                                    g = timeLate.Hours;
+                                    if (timeLate.Minutes != 0)
+                                    {
+                                        f = (timeLate.Minutes);
+                                    }
+                                    minsLate2 = (g * 60) + f;
+                                    minsLate2 += minsLate1; // total of minutes late for the day
                                 }
                                 break;
 
@@ -447,6 +453,27 @@ namespace FaceRecognition
                             cmd2.Dispose();
                             //compute();
                             SaveImage();
+
+                            if (count == "3")
+                            {
+                                to_deduct1 = (float)minsLate2 * (float)0.002; //total minutes converted to equivalent day based on 8 hour workday
+
+                                //subtract to_deduct2 to VL from employee tbl
+                                condition = (float)vacationLeave - to_deduct1;
+
+                                if (condition < 0) //save the remaining balance to toDeduct @ tbl employee
+                                {
+                                    condition = 0;
+                                    to_deduct = to_deduct1 - vacationLeave;
+                                    to_deduct = (basic_pay / 10560) * to_deduct1; //10560 = 22 * 8 * 60
+                                }
+
+                                query = "UPDATE employee SET VL ='" + condition + "', toDeduct ='" + to_deduct + "' WHERE empID='" + txtEmpID.Text + "'";
+                                cmd3 = new MySqlCommand(query, connect);
+
+                                cmd3.ExecuteNonQuery();
+                                cmd3.Dispose();
+                            }
                         }
 
                     }
