@@ -16,7 +16,7 @@
 	<div class="BodyContent">
 		<ol class="breadcrumb">
 			<li><a href="#">Home</a></li>
-			<li><a href="#">Deduction Management</a></li>	
+			<li><a href="#"s>Deduction Management</a></li>	
 		</ol>
       	<div class="row" id="Title">
 			<h4 style="color:<?php echo $company['colorTheme']; ?>;"><b>DEDUCTION MANAGEMENT</b></h4>
@@ -51,7 +51,17 @@
 				<label for="dName" class="control-label col-md-2">Deduction Name:</label>
 			</div>
             <div class="col-md-4">
-				<input type="text" name="dName" placeholder="Deduction Name" id="dName" value="<?php echo set_value('dName'); ?>" class="form-control text-box single-line"/>
+				<select id="deductionName" class="form-control" name="dName">
+					<?php
+						print_r($deductName);
+						foreach($deductName as $deductionName){
+							echo "
+								<option value=".$deductionName->deductionName.">".$deductionName->deductionName."</option>";
+						}
+					?>
+					<option>Others</option>
+				</select>
+				<input type="text" id="otherDeduction" name="otherDeduction" class="form-control" style="margin-top:10px;" readonly/>
 			</div>
             <div class="col-md-6">
 			<?php
@@ -127,6 +137,16 @@
 					alert("Fail");
 				}
 			});
+		}
+	});
+
+	$('#deductionName').change(function(){
+		if($( "#deductionName option:selected" ).text() == "Others"){
+			$("#otherDeduction").prop("readonly", false);
+		}
+		else{
+			$("#otherDeduction").prop("readonly", true);
+			$('#otherDeduction').val("");
 		}
 	});
 </script>

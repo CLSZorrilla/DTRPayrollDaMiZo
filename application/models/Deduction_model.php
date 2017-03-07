@@ -11,6 +11,12 @@ class Deduction_model extends CI_Model{
 		return $query->result();
 	}
 
+	public function getDeductionNames(){
+		$query = $this->db->query("SELECT deductionName FROM deductionname");
+
+		return $query;
+	}
+
 	public function get_philHealthDeduction(){
 		$query = $this->db->get('philhealth');
 
@@ -25,26 +31,53 @@ class Deduction_model extends CI_Model{
 
 	public function submitDeduction(){
 		$fName = $this->input->post('fName',TRUE);
+		$dName = $this->input->post('dName');
+		$otherDeduct = $this->input->post('otherDeduction');
 
-		$eidres = $this->db->query('SELECT empID 
+		if($otherDeduct != ""){
+			$this->db->query("INSERT INTO deductionname(deductionName) VALUES('".$otherDeduct."') ");
+
+			$eidres = $this->db->query('SELECT empID 
 									FROM employee
 									WHERE CONCAT( lname, ", ", fname, " ", mname) 
 									LIKE "'.$fName.'"');
 
-		$eid = $eidres->row(0)->empID;
+			$eid = $eidres->row(0)->empID;
 
-		$data=array(
-			'empID' => $eid,
-			'fullName'=> $fName,
-			'deductionName' => $this->input->post('dName'),
-			'amount' => $this->input->post('amt'),
-			'mtp' => $this->input->post('mtp'),
-			'monthsLeft' => $this->input->post('mtp'),
-			'dateApplied' => Date('Y-m-d'),
-			'status' => 'on-going'
-		);
+			$data=array(
+				'empID' => $eid,
+				'fullName'=> $fName,
+				'deductionName' => $otherDeduct,
+				'amount' => $this->input->post('amt'),
+				'mtp' => $this->input->post('mtp'),
+				'monthsLeft' => $this->input->post('mtp'),
+				'dateApplied' => Date('Y-m-d'),
+				'status' => 'on-going'
+				);
 
-		$insert_data = $this->db->insert('deductions', $data);
+			$insert_data = $this->db->insert('deductions', $data);
+
+		}else{
+			$eidres = $this->db->query('SELECT empID 
+									FROM employee
+									WHERE CONCAT( lname, ", ", fname, " ", mname) 
+									LIKE "'.$fName.'"');
+
+			$eid = $eidres->row(0)->empID;
+
+			$data=array(
+				'empID' => $eid,
+				'fullName'=> $fName,
+				'deductionName' => $dName,
+				'amount' => $this->input->post('amt'),
+				'mtp' => $this->input->post('mtp'),
+				'monthsLeft' => $this->input->post('mtp'),
+				'dateApplied' => Date('Y-m-d'),
+				'status' => 'on-going'
+				);
+
+			$insert_data = $this->db->insert('deductions', $data);
+		}
 
 		return $insert_data;
 	}

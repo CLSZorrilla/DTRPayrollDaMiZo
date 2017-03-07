@@ -18,9 +18,9 @@ class Maintenance extends CI_Controller{
 		$data['dinfo'] = $this->Maintenance_model->get_departments()->result();
 		$data['hinfo'] = $this->Maintenance_model->get_holiday()->result();
 		$data['deductinfo'] = $this->Maintenance_model->get_deduction()->result();
-		$data['philinfo'] = $this->Maintenance_model->get_philhealth()->result();
-		$data['sginfo'] = $this->Maintenance_model->get_salarygrade()->result();
-		$data['wtinfo'] = $this->Maintenance_model->get_withholdingtax()->result();
+		// $data['philinfo'] = $this->Maintenance_model->get_philhealth()->result();
+		// $data['sginfo'] = $this->Maintenance_model->get_salarygrade()->result();
+		// $data['wtinfo'] = $this->Maintenance_model->get_withholdingtax()->result();
 		$data['maintenance'] = "hr/Maintenance";
 
 		$this->load->view('Suview', $data);

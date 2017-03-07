@@ -16,6 +16,7 @@ class Deduction extends CI_Controller{
 
 	public function dMgmt(){
 		$data['dMgmt'] = "hr/DeductionMgmt";
+		$data['deductName'] = $this->Deduction_model->getDeductionNames()->result();
 
 		$this->load->view('suview', $data);
 	}
@@ -55,16 +56,14 @@ class Deduction extends CI_Controller{
 					);
 
 				$data['leaveReq'] = "hr/DeductionMgmt";
+				$data['deductName'] = $this->Deduction_model->getDeductionNames()->result();
 
 				$this->load->view('Suview', $data);
 			}
 			else{
-					$this->Deduction_model->submitDeduction();
+				$this->Deduction_model->submitDeduction();
 
-					$data['leaveReq'] = "hr/DeductionMgmt";
-					$data['formsubmit'] = "Form has been submitted";
-
-					$this->load->view('Suview', $data);
+				echo "<script> alert('Form has been submitted'); window.location.href = '../main/home_view' </script>";					
 			}
 		}	
 	}
