@@ -36,12 +36,15 @@
 				<h4 style="color:<?php echo $company['colorTheme']; ?>;">MAINTENANCE</h4>
 				<hr class="selectedHR" />
 			</div>
-				<ul class="nav nav-tabs nav-justified" role="tablist" style="margin-bottom: 20px;">
+				<ul class="nav nav-tabs nav-justified" role="tablist" style="font-size:10px;margin-bottom: 20px;">
 					<li class="active"><a data-toggle="tab" href="#table1" role="tab" class="tabClick">MANAGE USER</a></li>
 					<li><a data-toggle="tab" href="#table2" role="tab" class="tabClick">MANAGE POSITIONS</a></li>
 					<li><a data-toggle="tab" href="#table3" role="tab" class="tabClick">MANAGE DEPARTMENTS</a></li>
 					<li><a data-toggle="tab" href="#table4" role="tab" class="tabClick">MANAGE HOLIDAY</a></li>
-					<!-- <li><a data-toggle="tab" href="#table5" role="tab">CUSTOMIZATION</a></li> -->
+					<li><a data-toggle="tab" href="#table5" role="tab" class="tabClick">DEDUCTION TYPES</a></li>
+					<li><a data-toggle="tab" href="#table6" role="tab" class="tabClick">PHILHEALTH</a></li>
+					<li><a data-toggle="tab" href="#table7" role="tab" class="tabClick">SALARY GRADE</a></li>
+					<li><a data-toggle="tab" href="#table8" role="tab" class="tabClick">WITHHOLDING TAX</a></li>
 				</ul>
 			<div class="tab-content">
 				<div id="table1" class="tab-pane fade active in">
@@ -69,10 +72,10 @@
 										foreach($uinfo as $info){
 											
 											if($info->activated == 'TRUE'){
-												echo "<tr class='text-center clickable' id=".$info->empID.">";
+												echo "<tr class='clickable' id=".$info->empID.">";
 											}	
 											else{
-												echo "<tr style='color:red' class='text-center clickable' id=".$info->empID.">";
+												echo "<tr style='color:red' class='clickable' id=".$info->empID.">";
 											}
 											echo "
 												<td>".$info->empID."</td>
@@ -123,7 +126,7 @@
 									<?php 
 										foreach($pinfo as $info){
 											echo "
-												<tr class='text-center clickable' id=".$info->positionCode.">
+												<tr class='clickable' id=".$info->positionCode.">
 													<td>".$info->positionCode."</td>
 													<td>".$info->positionName."</td>
 													<td>".$info->salaryGrade."</td>
@@ -159,7 +162,7 @@
 									<?php 
 										foreach($dinfo as $info){
 											echo "
-												<tr class='text-center clickable' id=".$info->deptCode.">
+												<tr class='clickable' id=".$info->deptCode.">
 													<td>".$info->deptCode."</td>
 													<td>".$info->deptName."</td>
 												</tr>
@@ -174,8 +177,8 @@
 					<div class="table-responsive">
 						<div class="col-sm-6 CreateNew">
 							<p class="pull-left" style="margin: 0px;">
-								<a class="btn btnClick" href="<?php echo base_url(); ?>Maintenance/createHoliday">Create Holiday<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
-								<a class="btn btnClick" id="editHoliday">Edit Holiday<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+								<a class="btn btnClick" href="<?php echo base_url(); ?>Maintenance/createHoliday">Create Holiday <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+								<a class="btn btnClick" id="editHoliday">Edit Holiday <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
 							</p>
 						</div>
 						<table class="table table-striped MaintenanceTable" id="4table">
@@ -194,7 +197,7 @@
 									<?php 
 										foreach($hinfo as $info){
 											echo "
-												<tr class='text-center clickable' id=".$info->holidayId.">
+												<tr class='clickable' id=".$info->holidayId.">
 													<td>".$info->holidayId."</td>
 													<td>".$info->holidayName."</td>
 													<td>".$info->holidayDate."</td>
@@ -207,8 +210,39 @@
 						</table>
 					</div>
 				</div>
-				<div id="table5" class="tab-pane fade">'
+				<div id="table5" class="tab-pane fade">
 					<div class="table-responsive">
+						<div class="col-sm-6 CreateNew">
+							<p class="pull-left" style="margin: 0px;">
+								<a class="btn btnClick" href="<?php echo base_url(); ?>Maintenance/createDeduction">Create Deduction <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+								<a class="btn btnClick" id="editDeduction">Edit Deduction <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></a>
+							</p>
+						</div>
+						<table class="table table-striped MaintenanceTable" id="5table">
+							<thead>
+								<tr>
+									<?php
+									$tHeader=array('Deduction ID', 'Deduction Name');
+										foreach($tHeader as $tHead){
+											echo '<th>'.$tHead.'</th>';
+										};
+
+									?>
+								</tr>
+							</thead>
+							<tbody>
+									<?php 
+										foreach($deductinfo as $info){
+											echo "
+												<tr class='clickable' id=".$info->deductionId.">
+													<td>".$info->deductionId."</td>
+													<td>".$info->deductionName."</td>
+												</tr>
+												";
+										}	
+									?>
+							</tbody>
+						</table>
 					</div>
 				</div>
 			</div>
@@ -241,6 +275,14 @@
 				responsive: true
 			});
 			$('#4table').DataTable({
+				"pageLength": 10,
+				"pagingType": "full",
+				"bFilter": true,
+				"bLengthChange": false,
+				"ordering": true,
+				responsive: true
+			});
+			$('#5table').DataTable({
 				"pageLength": 10,
 				"pagingType": "full",
 				"bFilter": true,
@@ -295,6 +337,14 @@
     	$('#editHoliday').click(function(){
     		if(ID!=""){
     			window.location.href = "<?php echo base_url(); ?>Maintenance/editHoliday/"+ ID;
+    		}else{
+    			swal("Notice","Select a row first before clicking edit","error")
+    		}
+    	})
+
+    	$('#editDeduction').click(function(){
+    		if(ID!=""){
+    			window.location.href = "<?php echo base_url(); ?>Maintenance/editDeduction/"+ ID;
     		}else{
     			swal("Notice","Select a row first before clicking edit","error")
     		}

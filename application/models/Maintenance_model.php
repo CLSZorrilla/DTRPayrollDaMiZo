@@ -174,6 +174,58 @@ class Maintenance_model extends CI_Model{
 			}
 		}
 	}
+
+	public function get_deduction(){
+		$this->db->select('deductionname.deductionId, deductionname.deductionName');
+		$this->db->from('deductionname');
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	public function insert_deduction(){
+		$data=array(
+			'deductionId'=>$this->input->post('deductionId',TRUE),
+			'deductionName'=>$this->input->post('deductionName', TRUE)
+		);
+
+		$insert_data = $this->db->insert('deductionname', $data);
+	}
+
+	public function getDeductionInfo(){
+		$deductionId = $this->uri->segment(3);
+
+		return $this->db->get_where('deductionname', array('deductionId' => $deductionId));
+	}
+
+	public function edit_deduction(){
+		$deductionId = $this->input->post('deductionId',TRUE);
+		$deductionName = $this->input->post('deductionName',TRUE);
+
+		$checkIfExist = $this->db->query("SELECT * FROM deductionname WHERE deductionId LIKE '".$deductionId."' AND deductionName LIKE '".$deductionName."'");
+
+		$numRows = $checkIfExist->num_rows();
+		if($numRows > 0){
+			return "Duplicate";
+		}else{
+			$data=array(
+			'deductionId'=>$this->input->post('deductionId',TRUE),
+			'deductionName'=>$this->input->post('deductionName', TRUE)
+			);
+
+			$this->db->where('deductionId', $data['deductionId']);
+			$query = $this->db->update('deductionname', $data);
+
+			$affectedRows = $this->db->affected_rows();
+
+			if($affectedRows > 0){
+				return "Success";
+			}else{
+				return "Fail";
+			}
+		}
+	}
 }
 
 ?>

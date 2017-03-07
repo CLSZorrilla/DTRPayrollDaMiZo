@@ -46,6 +46,14 @@
 						redirect('main');
 					}
 				}
+				else if(isSet($cDeductionForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($cDeductionForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
 				else if(isSet($maintenance)){
 					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($maintenance);
@@ -81,6 +89,14 @@
 				else if(isSet($editHolidayForm)){
 					if($this->session->userdata('aType') == 'HR'){
 						$this->load->view($editHolidayForm);
+					}
+					else{
+						redirect('main');
+					}
+				}
+				else if(isSet($editDeductionForm)){
+					if($this->session->userdata('aType') == 'HR'){
+						$this->load->view($editDeductionForm);
 					}
 					else{
 						redirect('main');
