@@ -45,9 +45,9 @@ class Employee extends CI_Controller{
 				$result = $this->Emp_model->edit_user($pic);
 
 				if($result == "Success"){
-					echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
+					echo "<script> alert('User details updated'); window.location.href = '../Maintenance'</script>";
 				}else if($result == "Fail"){
-					echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+					echo "<script> alert('System Error. Contact Administrator'); window.location.href = '../Maintenance'</script>";
 				}
 			}else{
 				$file_data = $this->upload->data();
@@ -57,9 +57,9 @@ class Employee extends CI_Controller{
 				$result = $this->Emp_model->edit_user($imgPath);
 
 				if($result == "Success"){
-					echo "<script> alert('User details updated'); window.location.href = 'manageUserAcct'</script>";
+					echo "<script> alert('User details updated'); window.location.href = '../Maintenance'</script>";
 				}else if($result == "Fail"){
-					echo "<script> alert('System Error. Contact Administrator'); window.location.href = 'manageUserAcct'</script>";
+					echo "<script> alert('System Error. Contact Administrator'); window.location.href = '../Maintenance'</script>";
 				}
 			}
 		}else{
@@ -76,6 +76,10 @@ class Employee extends CI_Controller{
 				);
 
 			$data['password'] = $this->encryption->decrypt($data['userInfo']->row(2)->password);
+
+			$data['positions'] = $this->Emp_model->load_pos();
+
+			$data['department'] = $this->Emp_model->load_dept();
 
 			$this->load->view('Suview', $data);
 		}
@@ -135,7 +139,7 @@ class Employee extends CI_Controller{
 
 				$this->Emp_model->insert_user($imgPath);
 
-				echo '<script> alert("Employee Inserted Successfully"); window.location.href = "manageUserAcct"; </script>';
+				echo '<script> alert("Employee Inserted Successfully"); window.location.href = "../Maintenance"; </script>';
 
 			}
 	}

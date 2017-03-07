@@ -66,10 +66,13 @@
 		<div class="form-group col-lg-6">
 			<label for="positionCode" class="control-label col-md-5">Position:</label>
 			<div class="col-md-7">
-				<select name="positions" class="form-control" id="position">
-			        <option value='0' selected='SELECTED'>Guild Master</option>
-			        <option value='1'>Guild Moderator</option>
-			        <option value='2'>Guild Member</option>
+				<select name="positions" class="form-control">
+			                <?php
+			                foreach($positions as $pos){
+			                	echo '<option value='.$pos->positionCode.'>'.$pos->positionName.'</option>';
+			                }
+
+			                ?>
 			    </select>
 			    <script> $('#position').val('<?php echo $userInfo->row()->positionCode; ?>'); </script>
 			</div>
@@ -77,9 +80,12 @@
 		<div class="form-group col-lg-6">
 			<label for="deptCode" class="control-label col-md-5">Department:</label>
 			<div class="col-md-7">
-				<select name="department" class="form-control" id="department">
-			        <option value='0' selected='SELECTED'>Catacombs</option>
-			        <option value='1'>Aminus</option>
+				<select name="department" class="form-control">
+			                <?php
+			                foreach($department as $dept){
+			                	echo '<option value='.$dept->deptCode.'>'.$dept->deptName.'</option>';
+			                }
+			                ?>
 			    </select>
 			    <script> $('#department').val('<?php echo $userInfo->row()->deptCode; ?>'); </script>
 			</div>

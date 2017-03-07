@@ -20,6 +20,7 @@ class Emp_model extends CI_Model{
 			'acctType'=>$this->input->post('userType', TRUE),
 			'positionCode'=>$this->input->post('positions',TRUE),
 			'deptCode'=>$this->input->post('department',TRUE),
+			'pera' =>2000,
 			'lname'=>$this->input->post('lName',TRUE),
 			'fname'=>$this->input->post('fName',TRUE),
 			'mname'=>$this->input->post('mName',TRUE),

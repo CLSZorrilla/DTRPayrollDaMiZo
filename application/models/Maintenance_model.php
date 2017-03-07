@@ -6,12 +6,7 @@ class Maintenance_model extends CI_Model{
 	}
 
 	public function get_user(){
-		$this->db->select('employee.empID, employee.password,employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, '.'", ", employee.fname, '.'" ", employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated', FALSE);
-		$this->db->from('employee');
-		$this->db->join('positions', 'employee.positionCode=positions.positionCode');
-		$this->db->join('department', 'employee.deptCode=department.deptCode');
-
-		$query = $this->db->get();
+		$query = $this->db->query("SELECT employee.empID, employee.password, employee.acctType, positions.positionName, department.deptName, CONCAT( employee.lname, ',', employee.fname, ' ', employee.mname) AS name, employee.address, employee.maritalStatus, employee.dateHired, employee.GSISNo, employee.PhilHealthNo, employee.TIN, employee.VL, employee.SL, employee.emailAddress, employee.birthDate, employee.contactNo, employee.sex, employee.picture, employee.activated FROM employee,positions,department WHERE employee.positionCode = positions.positionCode AND employee.deptCode = department.deptCode");
 
 		return $query;
 	}

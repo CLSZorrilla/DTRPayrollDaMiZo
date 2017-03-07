@@ -11,6 +11,7 @@ class Maintenance extends CI_Controller{
 		$data['uinfo'] = $this->Maintenance_model->get_user()->result();
 		$query = $this->Maintenance_model->get_user();
 		$row = $query->row();
+		
 		$data['acctStatus'] = $row->activated;
 
 		$data['pinfo'] = $this->Maintenance_model->get_positions()->result();
