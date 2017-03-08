@@ -17,8 +17,32 @@ class Deduction extends CI_Controller{
 	public function dMgmt(){
 		$data['dMgmt'] = "hr/DeductionMgmt";
 		$data['deductName'] = $this->Deduction_model->getDeductionNames()->result();
+		$data['deductions'] = $this->Deduction_model->getDeductions()->result();
 
 		$this->load->view('suview', $data);
+	}
+
+	public function reloadDeductions(){
+		$deductions = $this->Deduction_model->getDeductions()->result();
+
+		foreach($deductions as $deduct){
+			echo "<tr class='clickable' id=".$deduct->deductionNo.">
+											<td>".$deduct->deductionNo."</td>
+											<td>".$deduct->empID."</td>
+											<td>".$deduct->fullName."</td>
+											<td>".$deduct->deductionName."</td>
+											<td>".$deduct->amount."</td>
+											<td>".$deduct->mtp."</td>
+											<td>".$deduct->monthsLeft."</td>
+											<td>".$deduct->dateApplied."</td>
+											<td>".$deduct->status."</td>
+											<td><button class='btn btn-success' id='finishBtn'>Finished</button><button class='btn btn-danger' style='margin-left:5px;' id='pendingBtn'>Pending</button></td>
+										</tr>";
+		}
+	}
+
+	public function changeStatus(){
+		$this->Deduction_model->changeStatus();
 	}
 
 	public function submit_deduction(){
