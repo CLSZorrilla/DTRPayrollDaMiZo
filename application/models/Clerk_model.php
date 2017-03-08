@@ -176,6 +176,7 @@ class Clerk_model extends CI_Model{
 		$sDRange = "$payrollMonthStart-01";
 		$eDRange = "$payrollMonthEnd-$lastday";
 
+		$payrollPeriod =Date('F',strtotime($sDRange));
 		//---------------------------------------------------------------
 		//hours late
 		$cMonth = date('m');
@@ -597,7 +598,7 @@ class Clerk_model extends CI_Model{
 		$VL2 = $leave2->row(0)->VL;
 		$SL2 = $leave2->row(1)->SL;
 
-		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate,$firsthalf,$secondhalf,$eid,$payrollMonth,$TIN,$GSISNo,$PhilHealthNo,$dep,$year,$sDRange,$eDRange);
+		return array($name,$position,$basicPay,$pera, $grossPay, $pHealthContrib, $gsis, $withholdingTax, $dName, $amtTP, $netPay, $peraCurrent, $totalDeductions,$pagIbig,$eid, $absences, $daysWorked,($totalHrsWorked." Hours"),$VL2,$SL2,$numofLate,$firsthalf,$secondhalf,$eid,$payrollMonth,$TIN,$GSISNo,$PhilHealthNo,$dep,$year,$sDRange,$eDRange,$payrollPeriod);
 	}
 
 //------------------The Dividing Line---------------------------------------------
@@ -663,34 +664,63 @@ class Clerk_model extends CI_Model{
 	public function get_info($info){
 
 		$tableData = "<td>".$info[0]."</td>
-				<td>".$info[1]."</td>
 				<td>".$info[2]."</td>
+				<td style='display:none;' id='payrollPeriod'>".$info[32]."</td>
 				<td>".$info[11]."</td>
 				<td>".$info[4]."</td>
-				<td>".$info[27]."</td>
 				<td>".$info[5]."</td>
 				<td>".$info[13]."</td>
-				<td>".$info[26]."</td>
 				<td>".$info[6]."</td>
-				<td>".$info[25]."</td>
 				<td>".$info[7]."</td>
-				<td><table><tr>";
+				<td><table>";
 
 				foreach($info[8] as $key => $deductionName){
-					$tableData.="<td><b>".$deductionName."</b>- <br/>".$info[9][$key]."</td>";
+					$tableData.="<tr><td><span style='font-size:11px;'>".$deductionName." - ".$info[9][$key]."</span></td></tr>";
 				}
 
-				$tableData.="</tr></table></td><td>".$info[10]."</td>
-												<td>".$info[21]."</td>
-												<td>".$info[22]."</td>
-												<td>".$info[15]."</td>
-												<td>".$info[16]."</td>
-												<td>".$info[17]."</td>
-												<td>".$info[20]."</td>
-												<td>".$info[18]."</td>
-												<td>".$info[19]."</td>";
+				$tableData.="</table></td><td>".$info[10]."</td>";
 
 		return $tableData;
+	}
+
+	public function getGrandTotal(){
+		$data = json_decode($this->input->post('prolldata'));
+		$basicpay = array();
+		$pera = array();
+		$grossPay = array();
+		$philhealth = array();
+		$pagibigcont = array();
+		$gsis = array();
+		$wt = array();
+		$netpay = array();
+		$deductions = array();
+
+		foreach($data as $d){
+			array_push($basicpay,$d[2]);
+			array_push($pera,$d[11]);
+			array_push($grossPay,$d[4]);
+			array_push($philhealth,$d[5]);
+			array_push($pagibigcont,$d[13]);
+			array_push($gsis,$d[6]);
+			array_push($wt,$d[7]);
+			array_push($netpay,$d[10]);
+
+			foreach($d[9] as $damt){
+				array_push($deductions, $damt);
+			}		
+		}
+
+		$tBasicPay = array_sum($basicpay);
+		$tPera = array_sum($pera);
+		$tGrossPay = array_sum($grossPay);
+		$tPhilHealth = array_sum($philhealth);
+		$tPagIbig = array_sum($pagibigcont);
+		$tGsis = array_sum($gsis);
+		$tWT = array_sum($wt);
+		$tNetPay = array_sum($netpay);
+		$tDeductions = array_sum($deductions);
+
+		echo json_encode(array("tbpay" => $tBasicPay, "tpera" => $tPera, "tgpay" => $tGrossPay, "tphealth" => $tPhilHealth, "tgsis" => $tGsis, "twt" => $tWT, "tnetpay" => $tNetPay,"tdeduction" => $tDeductions, "tpagibig" => $tPagIbig));
 	}
 
 	public function save_paysheet(){

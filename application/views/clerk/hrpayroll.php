@@ -11,9 +11,17 @@
   button#genPaySheet:hover{
       background-color: <?php echo $company['colorTheme']; ?>;
       color: white;
-      /*-webkit-text-fill-color: black;
-      -webkit-text-stroke-width: .25px;
-      -webkit-text-stroke-color: white;*/
+  }
+  button#printpage{
+    background-color:white;
+    color:black;
+    border: 2px solid <?php echo $company['colorTheme']; ?>;
+      -webkit-transition-duration: 0.4s; /* Safari */
+      transition-duration: 0.4s;
+  }
+  button#printpage:hover{
+      background-color: <?php echo $company['colorTheme']; ?>;
+      color: white;
   }
   table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before, table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
     background-color: <?php echo $company['colorTheme']; ?>;
@@ -44,36 +52,40 @@
           </div>
         </div>
         <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3" style="margin-bottom: 15px;">
-            <button class="btn pull-right" id="genPaySheet" ><span class="glyphicon glyphicon-home"></span> Generate</button>
+            <button class="btn pull-right" id="genPaySheet"><span class="glyphicon glyphicon-home"></span> Generate</button>
+            <button class="btn pull-right" id="printpage" style="margin-right:15px;"><span class="glyphicon glyphicon-print"></span> Print</button>
         </div>
       </div>
-      
-      <div class="table-responsive" id="tableDiv">
-        <table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'>
+
+      <div id="PayrollForm" class="row">
+          <div id="PayrollHeader" class="showOnPrint" style="display:none;">
+              <table class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                  <tr class="PrintHeader">
+                      <td>
+                        <img src="<?php echo $cinfo->row(9)->logo; ?>" height="45" width="45" id="target" style="display: block; margin: 2px 3px 3px 3px; float: left;" />
+                        <p style="margin: 0px; padding: 15px 0px; display: inline-block;">DEPARTMENT OF AGRICULTURE</p>
+                      </td>
+                      <td class="PrintHeaderTitle"><h3 class="pull-right" id='pPeriod'>GENERAL PAYROLL</h3></td>
+                      <td></td>
+                  </tr>
+              </table>
+          </div>
+      </div>
+      <div id="tableDiv" class="table-responsive">
+        <table class='table table-striped MaintenanceTable' style='font-size:11px;'>
         <thead>
           <tr>
             <th>Name</th>
-            <th>Position</th>
             <th>Monthly Salary</th>
+            <th style="display:none;">Period</th>
             <th>PERA</th>
             <th>Gross Earnings</th>
-            <th>PhilHealth No</th>
             <th>PhilHealth Share</th>
             <th>Pagibig Share</th>
-            <th>GSIS No</th>
             <th>GSIS Integ.</th>
-            <th>TIN</th>
             <th>WT</th>
             <th>Additional Deductions</th>
             <th>Total NetPay</th>
-            <th>1st Half</th>
-            <th>2nd Half</th>
-            <th># of Absences</th>
-            <th>Day/s Worked</th>
-            <th>Hours Worked</th>
-            <th># of Late</th>
-            <th>Vacation Leave</th>
-            <th>Sick Leave</th>
           </tr>
         </thead>
         <tbody id='pInfo'>
@@ -120,10 +132,28 @@
           success: function(msg){
             $('.MaintenanceTable').DataTable().destroy();
 
-            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Position</th><th>Monthly Salary</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealthNo</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSISNo</th><th>GSIS Integ.</th><th>TIN</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th><th>1st Half</th><th>2nd Half</th><th># of Absences</th><th>Day/s Worked</th><th>Hours Worked</th><th># of late</th><th>Vacation Leave</th><th>Sick Leave</th></tr></thead><tbody id='pInfo'></tbody></table>");
+            $('#tableDiv').html("<table class='table table-striped MaintenanceTable' style='font-size:11px;white-space:nowrap;'><thead><tr><th>Name</th><th>Monthly Salary</th><th style='display:none;'>Period</th><th>PERA</th><th>Gross Earnings</th><th>PhilHealth</th><th>Pagibig Fund</th><th>GSIS Integ.</th><th>WT</th><th>Additional Deductions</th><th>Total NetPay</th></tr></thead><tbody id='pInfo'></tbody></table>");
             $('#pInfo').html(msg);
             $('#hideMyPower').html($('#tableRes td').html());
-            //alert($('#tableRes td').html());
+
+            var prolldata = $('#hideMyPower').html();
+            $.ajax({
+              type:"POST",
+              url: "<?php echo base_url(); ?>Clerk/getGrandTotal",
+              data:{prolldata},
+              cache:false,
+              success:function(r){
+                var result = $.parseJSON(r);
+
+                $('#pInfo').append("<tr><td><b>GRAND TOTAL:</b></td><td><b>"+result.tbpay+"</b></td><td><b>"+result.tpera+"</b></td><td><b>"+result.tgpay+"</b></td><td><b>"+result.tphealth+"</b></td><td><b>"+result.tpagibig+"</b></td><td><b>"+result.tgsis+"</b></td><td><b>"+result.twt+"</b></td><td><b>"+result.tdeduction+"</b></td><td><b>"+result.tnetpay+"</b></td></tr>");
+              },
+              error:function(r){
+                swal("Notice!","System Error. Contact Administrator","error");
+              }
+            });
+
+            $('#pPeriod').html("Payroll Period:"+ $('#payrollPeriod').html());
+
             $('#tableRes').remove();
 
             $('.MaintenanceTable').DataTable({
@@ -133,10 +163,10 @@
               "bLengthChange": false,
               "ordering": true,
               "aaSorting": [[0, 'desc']],
-              responsive: true,
+              // responsive: true,
               dom: 'Bfrtip',
               buttons: [
-                { extend: 'excelHtml5', text: 'Save a copy', title: "Payroll Sheet"+payrollMonth}
+                { extend: 'excelHtml5', text: 'Save an excel copy', title: "Payroll Sheet"+payrollMonth}
               ]
             });
           },
@@ -169,4 +199,28 @@
         }
       });
     });
+
+    $('#printpage').click(function(){
+                $(".dataTables_info , .dataTables_paginate , .dt-buttons").hide();
+                $("PayrollHeader").show();
+                $(".showOnPrint").show();
+
+                var mywindow = window.open('', 'my div', 'height=583,width=1024');
+                mywindow.document.write('<html><head><title>GENERAL PAYROLL</title>');
+                mywindow.document.write(
+                  '<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/bootstrap.min.css" />' + 
+                  '<link rel="stylesheet" type="text/css" href="<?php echo base_url();?>assets/css/style.css" />' +
+                  '<style type="text/css">@page{size: landscape;}</style>');
+                mywindow.document.write('</head><body style="min-height:initial;" >');
+                mywindow.document.write("<div>" + $("#PayrollForm").html() + "</div>");
+                mywindow.document.write("<div>" + $("#tableDiv").html() + "</div>");
+                mywindow.document.write('</body></html>');
+
+                setTimeout(function () {
+                    mywindow.print();
+                    $("PayrollHeader").hide();
+                    $(".showOnPrint").hide();
+                    $(".dataTables_info , .dataTables_paginate , .dt-buttons").show();
+                }, 500);
+    });    
   </script>

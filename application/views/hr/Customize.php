@@ -146,11 +146,6 @@
 		</div>
 	</div>
 </div>
-<div class="Footer">
-	<div class="pull-right">
-		<p>&copy; Copyright 2017 All Rights Reserved.</p>
-	</div>
-</div>
 <script type="text/javascript">
 
 $('input:radio[name="timeBasis"]').change(
