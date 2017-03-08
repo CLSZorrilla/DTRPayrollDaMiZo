@@ -9,6 +9,8 @@ class Clerk extends CI_Controller{
 	}
 
 	public function index(){
+		$this->load->model('Customize_model');
+		$data['cinfo'] = $this->Customize_model->get_company();
 		$data['payrollEmpList'] = "clerk/hrpayroll";
 
 		$this->load->view('Suview', $data);
@@ -39,6 +41,10 @@ class Clerk extends CI_Controller{
 
 	public function paysheet_save(){
 		$this->Clerk_model->save_paysheet();
+	}
+
+	public function getGrandTotal(){
+		$this->Clerk_model->getGrandTotal();
 	}
 }
 
