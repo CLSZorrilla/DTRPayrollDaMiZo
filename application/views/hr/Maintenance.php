@@ -245,6 +245,111 @@
 						</table>
 					</div>
 				</div>
+				<div id="table6" class="tab-pane fade">
+					<div class="table-responsive">
+						<table class="table table-striped MaintenanceTable" id="6table">
+							<thead>
+								<tr>
+									<?php
+									$tHeader=array('Monthly Salary Bracket', 'Start Range', 'End Range', 'Total Monthly Contribution', 'Employee Share', 'Employer Share');
+										foreach($tHeader as $tHead){
+											echo '<th>'.$tHead.'</th>';
+										};
+
+									?>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									foreach($philinfo as $info){
+										echo "
+										<tr class='clickable' id=".$info->monthlySalaryBracket.">
+											<td>".$info->monthlySalaryBracket."</td>
+											<td>".$info->startRange."</td>
+											<td>".$info->endRange."</td>
+											<td>".$info->totalMonthlyContribution."</td>
+											<td>".$info->employeeShare."</td>
+											<td>".$info->employerShare."</td>
+										</tr>
+										";
+									}	
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="table7" class="tab-pane fade">
+					<div class="table-responsive">
+						<table class="table table-striped MaintenanceTable" id="7table">
+							<thead>
+								<tr>
+									<?php
+									$tHeader=array('Salary Grade', 'step_1', 'step_2', 'step_3', 'step_4', 'step_5','step_6', 'step_7','step_8');
+										foreach($tHeader as $tHead){
+											echo '<th>'.$tHead.'</th>';
+										};
+
+									?>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									foreach($sginfo as $info){
+										echo "
+										<tr class='clickable' id=".$info->salaryGrade.">
+											<td>".$info->salaryGrade."</td>
+											<td>".$info->step_1."</td>
+											<td>".$info->step_2."</td>
+											<td>".$info->step_3."</td>
+											<td>".$info->step_4."</td>
+											<td>".$info->step_5."</td>
+											<td>".$info->step_6."</td>
+											<td>".$info->step_7."</td>
+											<td>".$info->step_8."</td>
+										</tr>
+										";
+									}	
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div id="table8" class="tab-pane fade">
+					<div class="table-responsive">
+						<table class="table table-striped MaintenanceTable" id="8table">
+							<thead>
+								<tr>
+									<?php
+									$tHeader=array('Compensation Level', 'Exemption', 'Status', 'Z', 'SME', 'ME1S1','ME2S2', 'ME3S3','ME4S4');
+										foreach($tHeader as $tHead){
+											echo '<th>'.$tHead.'</th>';
+										};
+
+									?>
+								</tr>
+							</thead>
+							<tbody>
+								<?php 
+									foreach($wtinfo as $info){
+										echo "
+										<tr class='clickable' id=".$info->compensationLevel.">
+											<td>".$info->compensationLevel."</td>
+											<td>".$info->exemption."</td>
+											<td>".$info->status."</td>
+											<td>".$info->Z."</td>
+											<td>".$info->SME."</td>
+											<td>".$info->ME1S1."</td>
+											<td>".$info->ME2S2."</td>
+											<td>".$info->ME3S3."</td>
+											<td>".$info->ME4S4."</td>
+										</tr>
+										";
+									}	
+								?>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -289,6 +394,39 @@
 				"bLengthChange": false,
 				"ordering": true,
 				responsive: true
+			});
+
+			$('#6table').Tabledit({
+				url: "Maintenance/edit_philhealth",
+				editButton: false,
+				deleteButton: false,
+				hideIdentifier: false,
+				columns: {
+					identifier: [0, 'bracket'],
+					editable: [[1, 'startRange'], [2, 'endRange'],[3, 'totalMonthly'],[4, 'empShare'],[5, 'emploShare']]
+				}
+			});
+
+			$('#7table').Tabledit({
+				url: "Maintenance/edit_salarygrade",
+				editButton: false,
+				deleteButton: false,
+				hideIdentifier: false,
+				columns: {
+					identifier: [0, 'sGrade'],
+					editable: [[1, 's1'], [2, 's2'],[3, 's3'],[4, 's4'],[5, 's5'],[6,'s6'],[7,'s7'],[8,'s8']]
+				}
+			});
+
+			$('#8table').Tabledit({
+				url: "Maintenance/edit_wt",
+				editButton: false,
+				deleteButton: false,
+				hideIdentifier: false,
+				columns: {
+					identifier: [0, 'cLevel'],
+					editable: [[1, 'exemption'], [2, 'status'],[3, 'Z'],[4, 'SME'],[5, 'ME1S1'],[6,'ME2S2'],[7,'ME3S3'],[8,'ME4S4']]
+				}
 			});
 
 		    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {

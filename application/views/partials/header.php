@@ -30,3 +30,4 @@
 <script src="<?php echo base_url();?>assets/js/jquery.table2excel.js"></script>
 <script src="<?php echo base_url();?>assets/js/bootstrap-datepicker.min.js"></script>
 <script src="<?php echo base_url();?>assets/js/jQuery.print.js"></script>
+<script src="<?php echo base_url();?>assets/js/jquery.tabledit.min.js"></script>

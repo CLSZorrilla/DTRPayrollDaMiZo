@@ -17,6 +17,27 @@ class Deduction_model extends CI_Model{
 		return $query;
 	}
 
+	public function getDeductions(){
+		$query = $this->db->query("SELECT * FROM deductions");
+
+		return $query;
+	}
+
+	public function changeStatus(){
+		$status = $this->input->post('nothing',TRUE);
+		$id = $this->input->post('dID',TRUE);
+
+		$this->db->query("UPDATE deductions SET status = '".$status."' WHERE deductionNo = '".$id."'");
+
+		$affectedRows = $this->db->affected_rows();
+
+		if($affectedRows > 0){
+			echo "Success";
+		}else{
+			echo "Fail";
+		}
+	}
+
 	public function get_philHealthDeduction(){
 		$query = $this->db->get('philhealth');
 

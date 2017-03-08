@@ -226,6 +226,117 @@ class Maintenance_model extends CI_Model{
 			}
 		}
 	}
+
+	public function get_philhealth(){
+		$this->db->select('monthlySalaryBracket, startRange, endRange, totalMonthlyContribution, employeeShare,employerShare');
+		$this->db->from('philhealth');
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	public function edit_philhealthtable(){
+		$input = filter_input_array(INPUT_POST);
+		$endRange = $input['endRange'];
+		$startRange = $input['startRange'];
+		$totalMonthly = $input['totalMonthly'];
+		$empShare = $input['empShare'];
+		$emploShare = $input['emploShare'];
+
+		if(isset($startRange)){
+			$this->db->query("UPDATE philhealth SET startRange = '".$startRange."' WHERE monthlySalaryBracket = '".$input['bracket']."'");
+		}else if(isset($endRange)){
+			$this->db->query("UPDATE philhealth SET endRange = '".$endRange."' WHERE monthlySalaryBracket = '".$input['bracket']."'");
+		}else if(isset($totalMonthly)){
+			$this->db->query("UPDATE philhealth SET totalMonthlyContribution = '".$totalMonthly."' WHERE monthlySalaryBracket = '".$input['bracket']."'");
+		}else if(isset($empShare)){
+			$this->db->query("UPDATE philhealth SET employeeShare = '".$empShare."' WHERE monthlySalaryBracket = '".$input['bracket']."'");
+		}else if(isset($emploShare)){
+			$this->db->query("UPDATE philhealth SET employerShare = '".$emploShare."' WHERE monthlySalaryBracket = '".$input['bracket']."'");
+		}
+	}
+
+	public function edit_wttable(){
+		$input = filter_input_array(INPUT_POST);
+
+		$exemption = $input['exemption'];
+		$status = $input['status'];
+		$Z = $input['Z'];
+		$SME = $input['SME'];
+		$ME1S1 = $input['ME1S1'];
+		$ME2S2 = $input['ME2S2'];
+		$ME3S3 = $input['ME3S3'];
+		$ME4S4 = $input['ME4S4'];
+
+		if(isset($exemption)){
+			$this->db->query("UPDATE withholdingtax SET exemption = '".$exemption."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}else if(isset($status)){
+			$this->db->query("UPDATE withholdingtax SET status = '".$status."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}else if(isset($Z)){
+			$this->db->query("UPDATE withholdingtax SET Z = '".$Z."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}else if(isset($SME)){
+			$this->db->query("UPDATE withholdingtax SET SME = '".$SME."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}else if(isset($ME1S1)){
+			$this->db->query("UPDATE withholdingtax SET ME1S1 = '".$ME1S1."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}else if(isset($ME2S2)){
+			$this->db->query("UPDATE withholdingtax SET ME2S2 = '".$ME2S2."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}
+		else if(isset($ME3S3)){
+			$this->db->query("UPDATE withholdingtax SET ME3S3 = '".$ME3S3."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}
+		else if(isset($ME4S4)){
+			$this->db->query("UPDATE withholdingtax SET ME4S4 = '".$ME4S4."' WHERE compensationLevel = '".$input['cLevel']."'");
+		}
+	}
+
+	public function get_salarygrade(){
+		$this->db->select('salarygrade.salaryGrade, salarygrade.step_1, salarygrade.step_2, salarygrade.step_3, salarygrade.step_4, salarygrade.step_5, salarygrade.step_6, salarygrade.step_7, salarygrade.step_8, salarygrade.remarks');
+		$this->db->from('salarygrade');
+
+		$query = $this->db->get();
+
+		return $query;
+	}
+
+	public function edit_salarygradetable(){
+		$input = filter_input_array(INPUT_POST);
+		$s1 = $input['s1'];
+		$s2 = $input['s2'];
+		$s3 = $input['s3'];
+		$s4 = $input['s4'];
+		$s5 = $input['s5'];
+		$s6 = $input['s6'];
+		$s7 = $input['s7'];
+		$s8 = $input['s8'];
+
+		if(isset($s1)){
+			$this->db->query("UPDATE salarygrade SET step_1 = '".$s1."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s2)){
+			$this->db->query("UPDATE salarygrade SET step_2 = '".$s2."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s3)){
+			$this->db->query("UPDATE salarygrade SET step_3 = '".$s3."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s4)){
+			$this->db->query("UPDATE salarygrade SET step_4 = '".$s4."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s5)){
+			$this->db->query("UPDATE salarygrade SET step_5 = '".$s5."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s6)){
+			$this->db->query("UPDATE salarygrade SET step_6 = '".$s6."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s7)){
+			$this->db->query("UPDATE salarygrade SET step_7 = '".$s7."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}else if(isset($s8)){
+			$this->db->query("UPDATE salarygrade SET step_8 = '".$s8."' WHERE salaryGrade = '".$input['sGrade']."'");
+		}
+	}
+
+	public function get_withholdingtax(){
+		$this->db->select('withholdingtax.compensationLevel, withholdingtax.exemption, withholdingtax.status, withholdingtax.Z, withholdingtax.SME, withholdingtax.ME1S1, withholdingtax.ME2S2, withholdingtax.ME3S3, withholdingtax.ME4S4');
+		$this->db->from('withholdingtax');
+
+		$query = $this->db->get();
+
+		return $query;
+	}
 }
 
 ?>

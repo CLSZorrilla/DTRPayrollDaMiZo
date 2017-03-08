@@ -18,9 +18,9 @@ class Maintenance extends CI_Controller{
 		$data['dinfo'] = $this->Maintenance_model->get_departments()->result();
 		$data['hinfo'] = $this->Maintenance_model->get_holiday()->result();
 		$data['deductinfo'] = $this->Maintenance_model->get_deduction()->result();
-		// $data['philinfo'] = $this->Maintenance_model->get_philhealth()->result();
-		// $data['sginfo'] = $this->Maintenance_model->get_salarygrade()->result();
-		// $data['wtinfo'] = $this->Maintenance_model->get_withholdingtax()->result();
+		$data['philinfo'] = $this->Maintenance_model->get_philhealth()->result();
+		$data['sginfo'] = $this->Maintenance_model->get_salarygrade()->result();
+		$data['wtinfo'] = $this->Maintenance_model->get_withholdingtax()->result();
 		$data['maintenance'] = "hr/Maintenance";
 
 		$this->load->view('Suview', $data);
@@ -47,6 +47,18 @@ class Maintenance extends CI_Controller{
 				$this->Maintenance_model->insert_position();
 				redirect('maintenance');
 			}
+	}
+
+	public function edit_philhealth(){
+		$this->Maintenance_model->edit_philhealthtable();
+	}
+
+	public function edit_salarygrade(){
+		$this->Maintenance_model->edit_salarygradetable();
+	}
+
+	public function edit_wt(){
+		$this->Maintenance_model->edit_wttable();
 	}
 
 	public function editPosition(){
