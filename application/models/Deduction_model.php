@@ -12,7 +12,7 @@ class Deduction_model extends CI_Model{
 	}
 
 	public function getDeductionNames(){
-		$query = $this->db->query("SELECT deductionName FROM deductionname");
+		$query = $this->db->query("SELECT deductionId,deductionName FROM deductionname");
 
 		return $query;
 	}
@@ -86,15 +86,18 @@ class Deduction_model extends CI_Model{
 
 			$eid = $eidres->row(0)->empID;
 
+			$deductionName = $this->db->query("SELECT deductionName FROM deductionname WHERE deductionId = '".$dName."'");
+
+
 			$data=array(
 				'empID' => $eid,
 				'fullName'=> $fName,
-				'deductionName' => $dName,
+				'deductionName' => $deductionName->row()->deductionName,
 				'amount' => $this->input->post('amt'),
 				'mtp' => $this->input->post('mtp'),
 				'monthsLeft' => $this->input->post('mtp'),
 				'dateApplied' => Date('Y-m-d'),
-				'status' => 'on-going'
+				'status' => 'On-going'
 				);
 
 			$insert_data = $this->db->insert('deductions', $data);

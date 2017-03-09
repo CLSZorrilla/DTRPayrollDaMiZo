@@ -37,10 +37,10 @@
 				<hr class="selectedHR" />
 			</div>
 				<ul class="nav nav-tabs nav-justified" role="tablist" style="font-size:10px;margin-bottom: 20px;">
-					<li class="active"><a data-toggle="tab" href="#table1" role="tab" class="tabClick">MANAGE USER</a></li>
-					<li><a data-toggle="tab" href="#table2" role="tab" class="tabClick">MANAGE POSITIONS</a></li>
-					<li><a data-toggle="tab" href="#table3" role="tab" class="tabClick">MANAGE DEPARTMENTS</a></li>
-					<li><a data-toggle="tab" href="#table4" role="tab" class="tabClick">MANAGE HOLIDAY</a></li>
+					<li class="active"><a data-toggle="tab" href="#table1" role="tab" class="tabClick">USER</a></li>
+					<li><a data-toggle="tab" href="#table2" role="tab" class="tabClick">POSITIONS</a></li>
+					<li><a data-toggle="tab" href="#table3" role="tab" class="tabClick">DEPARTMENTS</a></li>
+					<li><a data-toggle="tab" href="#table4" role="tab" class="tabClick">HOLIDAY</a></li>
 					<li><a data-toggle="tab" href="#table5" role="tab" class="tabClick">DEDUCTION TYPES</a></li>
 					<li><a data-toggle="tab" href="#table6" role="tab" class="tabClick">PHILHEALTH</a></li>
 					<li><a data-toggle="tab" href="#table7" role="tab" class="tabClick">SALARY GRADE</a></li>

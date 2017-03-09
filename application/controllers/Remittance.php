@@ -11,8 +11,10 @@ class Remittance extends CI_Controller{
 	public function index(){
 		$data['remittance'] = "hr/Remittance";
 
+		$this->load->model('Customize_model');
+		$data['cinfo'] = $this->Customize_model->get_company();
 		$data['loanNames'] = $this->Remittance_model->loadLoans();
-
+		
 		$this->load->view('Suview', $data);
 
 	}

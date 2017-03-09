@@ -56,10 +56,9 @@
 							<div class="col-md-4">
 								<select id="deductionName" class="form-control" name="dName">
 									<?php
-									print_r($deductName);
 									foreach($deductName as $deductionName){
 										echo "
-										<option value=".$deductionName->deductionName.">".$deductionName->deductionName."</option>";
+										<option value=".$deductionName->deductionId.">".$deductionName->deductionName."</option>";
 									}
 									?>
 									<option>Others</option>
