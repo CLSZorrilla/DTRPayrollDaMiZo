@@ -45,9 +45,10 @@
       <hr />
       </div>
 
-      <div class="row" style="margin-bottom: 20px;border-bottom:2px solid <?php echo $company['colorTheme']; ?>">
+      <div class="row remOnPrint" style="margin-bottom: 20px;border-bottom:2px solid <?php echo $company['colorTheme']; ?>">
         <div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
           <div class="form-group col-sm-6 col-md-6 col-lg-6">
+            <label class="">Choose a month:</label>
             <input class="datepicker" type="text" data-date-format="mm/dd/yyyy" id="monthPicker" >
           </div>
         </div>
@@ -65,7 +66,7 @@
                         <img src="<?php echo $cinfo->row(9)->logo; ?>" height="45" width="45" id="target" style="display: block; margin: 2px 3px 3px 3px; float: left;" />
                         <p style="margin: 0px; padding: 15px 0px; display: inline-block;">DEPARTMENT OF AGRICULTURE</p>
                       </td>
-                      <td class="PrintHeaderTitle"><h3 class="pull-right" id='pPeriod'>GENERAL PAYROLL</h3></td>
+                      <td class="PrintHeaderTitle"><h3 class="pull-right" id='pPeriod'></h3></td>
                       <td></td>
                   </tr>
               </table>
@@ -152,7 +153,7 @@
               }
             });
 
-            $('#pPeriod').html("Payroll Period:"+ $('#payrollPeriod').html());
+            $('#pPeriod').html("Payroll Period: "+ $('#payrollPeriod').html());
 
             $('#tableRes').remove();
 
@@ -201,7 +202,7 @@
     });
 
     $('#printpage').click(function(){
-                $(".dataTables_info , .dataTables_paginate , .dt-buttons").hide();
+                $(".remOnPrint , .dataTables_info , .dataTables_paginate , .dt-buttons").hide();
                 $("PayrollHeader").show();
                 $(".showOnPrint").show();
 
@@ -220,7 +221,7 @@
                     mywindow.print();
                     $("PayrollHeader").hide();
                     $(".showOnPrint").hide();
-                    $(".dataTables_info , .dataTables_paginate , .dt-buttons").show();
+                    $(".remOnPrint , .dataTables_info , .dataTables_paginate , .dt-buttons").show();
                 }, 500);
     });    
   </script>
