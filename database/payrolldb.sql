@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 08, 2017 at 04:29 AM
+-- Generation Time: Mar 14, 2017 at 08:29 PM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `deductionname` (
   `deductionId` int(10) NOT NULL AUTO_INCREMENT,
   `deductionName` varchar(255) NOT NULL,
   PRIMARY KEY (`deductionId`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `deductionname`
@@ -69,7 +69,8 @@ CREATE TABLE IF NOT EXISTS `deductionname` (
 INSERT INTO `deductionname` (`deductionId`, `deductionName`) VALUES
 (1, 'Land Bank of the Philippines Loan'),
 (2, 'Pagibig Loan'),
-(3, 'Healthcard Loan');
+(3, 'Healthcard Loan'),
+(7, 'Housing Loan');
 
 -- --------------------------------------------------------
 
@@ -89,14 +90,14 @@ CREATE TABLE IF NOT EXISTS `deductions` (
   `status` varchar(255) NOT NULL,
   PRIMARY KEY (`deductionNo`),
   KEY `empID` (`empID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
 
 --
 -- Dumping data for table `deductions`
 --
 
 INSERT INTO `deductions` (`deductionNo`, `empID`, `fullName`, `deductionName`, `amount`, `mtp`, `monthsLeft`, `dateApplied`, `status`) VALUES
-(1, '13-037-064', 'Dayaon, Froinand Bugaiosan', 'Land', 10000, 6, 6, '2017-03-08', 'on-going');
+(14, '13-037-048', 'Zorrilla, Chris Lorenz Salac', 'Land Bank of the Philippines Loan', 10000, 5, 5, '2017-03-08', 'On-going');
 
 -- --------------------------------------------------------
 
@@ -173,10 +174,10 @@ CREATE TABLE IF NOT EXISTS `employee` (
 --
 
 INSERT INTO `employee` (`ID`, `empID`, `password`, `acctType`, `positionCode`, `deptCode`, `pera`, `lname`, `fname`, `mname`, `address`, `maritalStatus`, `noOfDependents`, `emailAddress`, `birthDate`, `contactNo`, `sex`, `dateHired`, `GSISNo`, `PhilHealthNo`, `TIN`, `VL`, `SL`, `picture`, `pictureTrained`, `TrainedFaces`, `activated`, `generated`, `absences`, `date1`, `date2`, `daysWorked`, `basicPay`, `toDeduct`) VALUES
-(67, '13-037-048', 'e118d11a9906a3ae654cd3678385a588b90e4dc90764f3f301a03f08dea285d472cb597972b44ab0c0798b8b3ad3a4ac62d079d5ea73599b22eb90bb11df999egn9bN9BsX28u8BzdlBog/2HIPLVNCUGP', 'HR', 1, 1, 2000, 'Zorrilla', 'Chris Lorenz', 'Salac', 'Cubao, Quezon City', 'Married', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 0.25, 1.25, 'http://[::1]/payroll//uploads/IanPassportPic1.png', '/TrainedFaces/face1.bmp', 1, 'TRUE', 0, NULL, NULL, NULL, NULL, 0, 0),
-(68, '13-037-064', 'e2c6b9720cb29fb4245b6bfc19c50884e0f02de6a7a6b9e9cbd4e2809fb537c61afe2b8ec6fccf0cbc5ca928d2b9152fd681c975819d02f983432c5bcaedef5bzT0F6xt51yU1TNLQHrp6MCiGrFincYLc', 'Payroll Clerk', 3, 1, 2000, 'Dayaon', 'Froinand', 'Bugaiosan', 'Imus, Cavite', 'Divorced', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', '2017-06-06', '159753468-2468', '159753456-8546', '123466545-6432', 0.25, 1.25, 'http://[::1]/payroll//uploads/170224-0730AM(13-037-064).jpg', '', 0, 'TRUE', 0, NULL, NULL, NULL, NULL, 0, 0),
-(69, '13-037-060', '523a41e5d255f33baa5caffebf1ad39c1eb8381e595fc665caa44ab31618b552366cf16c47bc840a78c5f265d571f636ab07a05be934f950b5357e17942b8a39qUWoWHORBLF3WL++qEZBtlBfT9y2T6sz', 'Employee', 1, 3, 2000, 'Gozar', 'Zyrus Van Eyeck', 'Salazar', 'Alfonso, Cavite', 'Married', 2, 'zyrusvaneyeck@gmail.com', '1997-12-10', '0936-312-9137', 'Male', '2017-06-06', '156753468-2135', '132164651-2313', '165456153-5464', 0.25, 1.25, 'http://[::1]/payroll//uploads/WIN_20170130_10_08_56_Pro.jpg', '/TrainedFaces/face3.bmp', 3, 'TRUE', 0, NULL, NULL, NULL, NULL, 0, 0),
-(70, '13-037-058', 'da6818be28fd692839855a0509fa03bec170dc38e7f350cc373917c55ed49f3876c4399af39d131db76d9624d72428036c4f502b93308f94e32ac2f450d15b82Gs2aez1yZTiQ4LDtNC8wKPKHctyNmBQw', 'Employee', 2, 1, 2000, 'Micoleta', 'Theresa', 'Zamudio', 'Imus, Cavite', 'Married', 4, 'theresamicoleta00@gmail.com', '1997-02-22', '0936-312-9137', 'Male', '2017-06-06', '156453486-4351', '513165416-5123', '321351351-3215', 1.25, 1.25, 'http://[::1]/payroll//uploads/Screenshot_(154).png', '', 0, 'TRUE', 0, NULL, NULL, NULL, NULL, 0, 0);
+(67, '13-037-048', 'e118d11a9906a3ae654cd3678385a588b90e4dc90764f3f301a03f08dea285d472cb597972b44ab0c0798b8b3ad3a4ac62d079d5ea73599b22eb90bb11df999egn9bN9BsX28u8BzdlBog/2HIPLVNCUGP', 'HR', 1, 1, 2000, 'Zorrilla', 'Chris Lorenz', 'Salac', 'Cubao, Quezon City', 'Married', 1, 'christianlorenz.zorrilla@tup.edu.ph', '1995-12-28', '0936-312-9137', 'Male', '2017-06-06', '465465465-4878', '123134649-1354', '112324445-4687', 0.25, 1.25, 'http://[::1]/payroll//uploads/IanPassportPic1.png', '/TrainedFaces/face1.bmp', 1, 'TRUE', 0, '19', '2017-02-01 00:00:00', '2017-02-28 00:00:00', 1, 0, 0),
+(68, '13-037-064', 'e2c6b9720cb29fb4245b6bfc19c50884e0f02de6a7a6b9e9cbd4e2809fb537c61afe2b8ec6fccf0cbc5ca928d2b9152fd681c975819d02f983432c5bcaedef5bzT0F6xt51yU1TNLQHrp6MCiGrFincYLc', 'Payroll Clerk', 3, 1, 2000, 'Dayaon', 'Froinand', 'Bugaiosan', 'Imus, Cavite', 'Divorced', 4, 'fbdayaon@gmail.com', '1997-10-19', '0936-312-9137', 'Male', '2017-06-06', '159753468-2468', '159753456-8546', '123466545-6432', 0.25, 1.25, 'http://[::1]/payroll//uploads/170224-0730AM(13-037-064).jpg', '/TrainedFaces/face4.bmp', 1, 'TRUE', 0, '20', '2017-02-01 00:00:00', '2017-02-28 00:00:00', 0, 0, 0),
+(69, '13-037-060', '523a41e5d255f33baa5caffebf1ad39c1eb8381e595fc665caa44ab31618b552366cf16c47bc840a78c5f265d571f636ab07a05be934f950b5357e17942b8a39qUWoWHORBLF3WL++qEZBtlBfT9y2T6sz', 'Employee', 1, 3, 2000, 'Gozar', 'Zyrus Van Eyeck', 'Salazar', 'Alfonso, Cavite', 'Married', 2, 'zyrusvaneyeck@gmail.com', '1997-12-10', '0936-312-9137', 'Male', '2017-06-06', '156753468-2135', '132164651-2313', '165456153-5464', 0.25, 1.25, 'http://[::1]/payroll//uploads/WIN_20170130_10_08_56_Pro.jpg', '/TrainedFaces/face3.bmp', 1, 'TRUE', 0, '20', '2017-02-01 00:00:00', '2017-02-28 00:00:00', 0, 0, 0),
+(70, '13-037-058', 'da6818be28fd692839855a0509fa03bec170dc38e7f350cc373917c55ed49f3876c4399af39d131db76d9624d72428036c4f502b93308f94e32ac2f450d15b82Gs2aez1yZTiQ4LDtNC8wKPKHctyNmBQw', 'Employee', 2, 1, 2000, 'Micoleta', 'Theresa', 'Zamudio', 'Imus, Cavite', 'Married', 4, 'theresamicoleta00@gmail.com', '1997-02-22', '0936-312-9137', 'Male', '2017-06-06', '156453486-4351', '513165416-5123', '321351351-3215', 0.25, 1.25, 'http://[::1]/payroll//uploads/Screenshot_(154).png', '/TrainedFaces/face2.bmp', 1, 'TRUE', 0, '20', '2017-02-01 00:00:00', '2017-02-28 00:00:00', 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -340,7 +341,14 @@ CREATE TABLE IF NOT EXISTS `payslip` (
   `Month` varchar(20) NOT NULL,
   `Year` varchar(20) NOT NULL,
   PRIMARY KEY (`payslipNo`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+
+--
+-- Dumping data for table `payslip`
+--
+
+INSERT INTO `payslip` (`payslipNo`, `empID`, `basicpay`, `pera`, `grosspay`, `philhealth`, `pagibig`, `gsis`, `tax`, `netpay`, `absences`, `noOfLates`, `daysWorked`, `hoursWorked`, `VL`, `SL`, `firstHalf`, `secondHalf`, `Month`, `Year`) VALUES
+(3, '13-037-048', '24141.0', '272.71', '3496.04', '50.00', '100', '314.64', '0', '3031.4', 19, '0', '1', '7.5 Hours', '0.25', '1.25', '1515.7', '1515.7', 'Mar', '2017');
 
 -- --------------------------------------------------------
 
@@ -380,7 +388,7 @@ CREATE TABLE IF NOT EXISTS `philhealth` (
 --
 
 INSERT INTO `philhealth` (`monthlySalaryBracket`, `startRange`, `endRange`, `totalMonthlyContribution`, `employeeShare`, `employerShare`) VALUES
-(1, 0, 5000, 100.00, 50.00, 50.00),
+(1, 0, 4999.99, 100.00, 50.00, 50.00),
 (2, 5000, 5999.99, 125.00, 62.50, 62.50),
 (3, 6000, 6999.99, 150.00, 75.00, 75.00),
 (4, 7000, 7999.99, 175.00, 87.50, 87.50),
@@ -501,7 +509,15 @@ CREATE TABLE IF NOT EXISTS `timelog` (
   `timeOut` varchar(10) NOT NULL,
   `countInOut` int(11) NOT NULL,
   PRIMARY KEY (`logno`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `timelog`
+--
+
+INSERT INTO `timelog` (`logno`, `empID`, `logdate`, `timeIn`, `amOut`, `pmIn`, `timeOut`, `countInOut`) VALUES
+(1, '13-037-048', '2017-02-15', '07:00', '12:00', '13:30', '17:00', 4),
+(5, '', '2017-03-08', '06:29 AM', '', '', '', 1);
 
 -- --------------------------------------------------------
 
